@@ -15,7 +15,7 @@
                 @if (auth()->id() === $blog->user_id)
                     <div class="flex flex-col items-start space-y-4 mt-6 ml-6">
                         <a href="{{ route('blog.edit', $blog) }}"
-                            class="px-4 py-2 bg-blue-600 text-white text-sm font-semibold rounded-lg shadow-md hover:bg-blue-700 transition">
+                            class="px-4 py-2 bg-black text-white text-sm font-semibold rounded-lg shadow-md hover:bg-blue-700 transition">
                             <i class="fa-solid fa-pen-to-square"></i> Edit Blog
                         </a>
 
@@ -24,7 +24,7 @@
                             @csrf
                             @method('DELETE')
                             <button type="submit"
-                                class="px-4 py-2 bg-red-600 text-white text-sm font-semibold rounded-lg shadow-md hover:bg-red-700 transition">
+                                class="px-4 py-2 bg-black text-white text-sm font-semibold rounded-lg shadow-md hover:bg-red-700 transition">
                                 <i class="fa-solid fa-trash"></i> Delete
                             </button>
                         </form>
@@ -35,15 +35,16 @@
 
             <!-- Blog Details Card -->
             <div class="bg-white shadow-lg rounded-lg p-6 max-w-2xl mx-auto">
-
+                <a href=""><i class="fa-solid fa-user"></i> {{ $blog->user->name }}</a>
                 <h2 class="text-gray-900">{{ $blog->title }}</h2>
-                <p class="text-sm ml-3">{{ $blog->created_at->format('d M, Y') }}</p>
+                <p class="text-xs ">{{ $blog->created_at->format('d M, Y') }}</p>
+                <p class="break-words">{{ $blog->description }}</p>
                 <!-- Banner Image -->
-                <div class="mb-6 bg-black rounded-lg">
+                <div class="mb-6 bg-black rounded-lg min-w-[600px]">
                     <img src="{{ asset('storage/' . $blog->banner_image) }}" alt="Banner Image"
                         class="w-full h-60 object-contain rounded-lg shadow-md">
                 </div>
-                <p class="break-words">{{ $blog->description }}</p>
+
                 <hr class="my-4 border-gray-300">
                 <form method="POST" action="{{ route('blog.favorite', $blog->id) }}">
                     @csrf
@@ -58,10 +59,9 @@
                         <p class="m-0">Số người yêu thích: {{ $blog->favoritesCount() }}</p>
                     </div>
                 </form>
-                {{-- <form action="{{ route('blog.share', $blog->id) }}" method="POST">
-                    @csrf
-                    <button type="submit" class="btn btn-primary">Chia sẻ lên Facebook</button>
-                </form> --}}
+                {{-- <div class="fb-share-button" data-href="{{ url()->route('blog.show', $blog->id) }}"
+                    data-layout="button_count" data-size="small">
+                </div> --}}
                 {{-- 💬 Danh sách bình luận --}}
                 <div class="max-w-2xl mx-auto mt-6">
                     <h3 class="text-lg font-semibold text-gray-800">Bình luận ({{ $blog->comments->count() }})</h3>
@@ -152,7 +152,8 @@
                             @csrf
                             <textarea name="content" class="w-full p-2 border rounded-lg"
                                 placeholder="Nhập bình luận dưới tên {{ auth()->user()->name }}" required></textarea>
-                            <button type="submit"  class="px-2 py-1 bg-transparent text-black hover:underline">Gửi</button>
+                            <button type="submit" class="px-2 py-1 bg-transparent text-black hover:underline">Bình
+                                luận</button>
                         </form>
                     </div>
                 @else

@@ -13,18 +13,19 @@ class BlogController extends Controller
      */
     public function index_dashboard()
     {
-        // Lấy 3 bài viết có trạng thái public, sắp xếp theo ID giảm dần
-        $blogs = Blog::where("status", "public")
+        // Lấy 3 bài viết có trạng thái public hoặc must paid, sắp xếp theo ID giảm dần
+        $blogs = Blog::whereIn('status', ['public'])
             ->latest('id')
             ->paginate(3);
-        // Lấy 3 bài viết mới update
-        $recentBlogs = Blog::where('status', 'public')
+
+        // Lấy 3 bài viết mới update có trạng thái public hoặc must paid
+        $recentBlogs = Blog::whereIn('status', ['public'])
             ->orderByDesc('updated_at')
             ->limit(3)
             ->get();
 
-        // Lấy 3 bài viết có nhiều lượt yêu thích nhất, chỉ lấy bài viết public
-        $topFavoritedBlogs = Blog::where("status", "public")
+        // Lấy 3 bài viết có nhiều lượt yêu thích nhất, chỉ lấy bài viết public hoặc must paid
+        $topFavoritedBlogs = Blog::whereIn('status', ['public'])
             ->withCount('favoritedByUsers')
             ->orderByDesc('favorited_by_users_count')
             ->orderByDesc('id')

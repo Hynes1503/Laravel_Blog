@@ -1,15 +1,22 @@
 <x-app-layout>
+    <div class="container mx-auto px-4">
+        <!-- Create Blog Button -->
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-2xl font-bold text-gray-800"><i class="fa-solid fa-user"></i> Profile</h2>
+        </div>
+        
+    </div>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('My Blog') }}
+            {{ __('Profile') }}
         </h2>
     </x-slot>
     <div class="container mx-auto px-4">
         <!-- Create Blog Button -->
         <div class="flex justify-between items-center mb-6">
-            <h2 class="text-2xl font-bold text-gray-800">📜 Blog Posts</h2>
+            <h2 class="text-2xl font-bold text-gray-800"><i class="fa-solid fa-blog"></i> Blog Posts</h2>
             <a href="{{ route('blog.create') }}"
-                class="px-4 py-2 bg-blue-600 text-white text-sm font-semibold rounded-lg shadow-md hover:bg-blue-700 transition">
+                class="px-4 py-2 bg-blue-600 text-white text-sm font-semibold rounded-lg shadow-md hover:bg-blue-700 transition bg-black">
                 <i class="fa-solid fa-plus"></i> Create New Blog
             </a>
         </div>
@@ -40,7 +47,8 @@
                     <!-- Thêm các nút thao tác -->
                     <div class="flex justify-center items-center space-x-2 bg-black p-2">
                         <!-- Nút Edit -->
-                        <a href="{{ route('blog.edit', $blog) }}" class="px-3 py-1 text-white rounded-md item">✏️
+                        <a href="{{ route('blog.edit', $blog) }}" class="px-3 py-1 text-white rounded-md item">
+                            <i class="fa-solid fa-pen-to-square"></i>
                             Edit</a>
 
                         <!-- Nút Delete -->
@@ -49,7 +57,7 @@
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="px-3 py-1 bg-transparent text-white rounded-md item">
-                                🗑 Delete
+                                <i class="fa-solid fa-trash"></i> Delete
                             </button>
                         </form>
                     </div>
@@ -60,5 +68,5 @@
         <div class="mt-4">
             {{ $blogs->links() }}
         </div>
-
+    </div>
 </x-app-layout>

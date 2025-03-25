@@ -49,13 +49,14 @@
                         class="mt-1 p-3 w-full border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-200">
                         <option value="public">Public</option>
                         <option value="private">Private</option>
+                        {{-- <option value="must-paid">Must Paid</option> --}}
                     </select>
                 </div>
                 <!-- Submit Button -->
                 <div class="mt-6">
                     <button type="submit"
-                        class="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold shadow-md hover:bg-blue-700 transition">
-                        🚀 Create Blog
+                        class="w-full bg-black text-white py-3 rounded-lg font-semibold shadow-md hover:bg-blue-700 transition">
+                        <i class="fa-solid fa-plus"></i> Create Blog
                     </button>
                 </div>
 

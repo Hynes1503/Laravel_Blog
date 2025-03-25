@@ -53,4 +53,14 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Blog::class, 'favorites')->withTimestamps();
     }
+
+    public function purchases()
+    {
+        return $this->hasMany(Purchase::class);
+    }
+
+    public function hasPurchased($blog)
+    {
+        return $this->purchases()->where('blog_id', $blog->id)->where('is_paid', true)->exists();
+    }
 }

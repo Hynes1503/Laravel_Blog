@@ -7,7 +7,7 @@
     <div class="container mx-auto px-4 py-8">
         <!-- Page Heading -->
         <div class="flex justify-between items-center mb-6">
-            <h2 class="text-2xl font-bold text-gray-800">✏️ Update Blog</h2>
+            <h2 class="text-2xl font-bold text-gray-800"><i class="fa-solid fa-pen-to-square"></i> Update Blog</h2>
             <a href="{{ route('blog.index') }}"
                 class="px-4 py-2 bg-gray-600 text-white text-sm font-semibold rounded-lg shadow-md hover:bg-gray-700 transition">
                 ← Back to Blogs
@@ -42,12 +42,12 @@
                 </div>
 
                 <!-- Banner Image Preview -->
-                <div class="mb-4">
-                    <label class="block text-sm font-medium text-gray-700">Current Banner Image:</label>
-                    <img src="{{ asset('storage/' . $blog->banner_image) }}" alt="Banner Image"
-                        class="w-full h-48 object-cover rounded-lg shadow-md">
-                </div>
+                <label class="block text-sm font-medium text-gray-700">Current Banner Image:</label>
+                <div class="mb-6 bg-black rounded-lg min-w-[600px]">
 
+                    <img src="{{ asset('storage/' . $blog->banner_image) }}" alt="Banner Image"
+                        class="w-full h-60 object-contain rounded-lg shadow-md">
+                </div>
                 <!-- Banner Image Upload -->
                 <div class="mb-4">
                     <label for="banner_image" class="block text-sm font-medium text-gray-700">Upload New Banner
@@ -59,15 +59,16 @@
                     <label for="status" class="block text-sm font-medium text-gray-700">Status:</label>
                     <select id="status" name="status"
                         class="mt-1 p-3 w-full border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-200">
-                        <option value="public">Public</option>
-                        <option value="private">Private</option>
+                        <option value="public" {{ $blog->status === 'public' ? 'selected' : '' }}>Public</option>
+                        <option value="private" {{ $blog->status === 'private' ? 'selected' : '' }}>Private</option>
+                        {{-- <option value="must-paid" {{ $blog->status === 'must-paid' ? 'selected' : '' }}>Must Paid</option> --}}
                     </select>
                 </div>
                 <!-- Submit Button -->
                 <div class="mt-6">
                     <button type="submit"
-                        class="w-full bg-green-600 text-white py-3 rounded-lg font-semibold shadow-md hover:bg-green-700 transition">
-                        ✅ Update Blog
+                        class="w-full bg-black text-white py-3 rounded-lg font-semibold shadow-md hover:bg-green-700 transition">
+                        <i class="fa-solid fa-check"></i> Update Blog
                     </button>
                 </div>
             </form>

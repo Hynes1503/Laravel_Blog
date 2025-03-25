@@ -78,20 +78,21 @@ class SocialAuthController extends Controller
         }
     }
 
-    public function shareOnFacebook(Blog $blog)
-    {
-        $pageAccessToken = '634977539400958|44fvGJngHDFEsm9rtHoOhYlwcbA';
-        $message = "Bài viết mới: " . $blog->title . "\n" . route('blog.show', $blog);
+    // public function shareOnFacebook(Blog $blog)
+    // {
+    //     $pageAccessToken = '634977539400958|44fvGJngHDFEsm9rtHoOhYlwcbA';
+    //     $message = "Bài viết mới: " . $blog->title . "\n" . route('blog.show', $blog);
 
-        $response = Http::timeout(60)->post("https://graph.facebook.com/v17.0/YOUR_PAGE_ID/feed", [
-            'message' => $message,
-            'access_token' => $pageAccessToken
-        ]);
+    //     $response = Http::timeout(60)->post("https://graph.facebook.com/v17.0/YOUR_PAGE_ID/feed", [
+    //         'message' => $message,
+    //         'access_token' => $pageAccessToken
+    //     ]);
 
-        if ($response->successful()) {
-            return back()->with('success', 'Đã chia sẻ lên Facebook!');
-        } else {
-            return back()->with('error', 'Lỗi chia sẻ!');
-        }
-    }
+    //     if ($response->successful()) {
+    //         return back()->with('success', 'Đã chia sẻ lên Facebook!');
+    //     } else {
+    //         return back()->with('error', 'Lỗi chia sẻ!');
+    //     }
+    // }
+    
 }
