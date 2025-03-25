@@ -25,7 +25,7 @@
                         class="mt-1 p-3 w-full border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-200"
                         placeholder="Enter title">
                 </div>
-                @error("title")
+                @error('title')
                     <div class="error">{{ $message }}</div>
                 @enderror
                 <!-- Description Field -->
@@ -42,7 +42,15 @@
                     <input type="file" id="banner_image" name="banner_image"
                         class="mt-1 p-2 w-full border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-200">
                 </div>
-
+                <!-- Status Field -->
+                <div class="mb-4">
+                    <label for="status" class="block text-sm font-medium text-gray-700">Status:</label>
+                    <select id="status" name="status"
+                        class="mt-1 p-3 w-full border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-200">
+                        <option value="public">Public</option>
+                        <option value="private">Private</option>
+                    </select>
+                </div>
                 <!-- Submit Button -->
                 <div class="mt-6">
                     <button type="submit"
@@ -50,6 +58,7 @@
                         🚀 Create Blog
                     </button>
                 </div>
+
             </form>
         </div>
     </div>

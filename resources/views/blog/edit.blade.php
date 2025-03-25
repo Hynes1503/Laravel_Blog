@@ -18,7 +18,7 @@
         <div class="bg-white shadow-lg rounded-lg p-6 max-w-2xl mx-auto">
             <form action="{{ route('blog.update', $blog) }}" method="post" enctype="multipart/form-data">
                 @csrf
-                @method("patch")
+                @method('patch')
                 <!-- Title Field -->
                 <div class="mb-4">
                     <label for="title" class="block text-sm font-medium text-gray-700">Title:</label>
@@ -55,7 +55,14 @@
                     <input type="file" id="banner_image" name="banner_image"
                         class="mt-1 p-2 w-full border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-200">
                 </div>
-
+                <div class="mb-4">
+                    <label for="status" class="block text-sm font-medium text-gray-700">Status:</label>
+                    <select id="status" name="status"
+                        class="mt-1 p-3 w-full border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-200">
+                        <option value="public">Public</option>
+                        <option value="private">Private</option>
+                    </select>
+                </div>
                 <!-- Submit Button -->
                 <div class="mt-6">
                     <button type="submit"

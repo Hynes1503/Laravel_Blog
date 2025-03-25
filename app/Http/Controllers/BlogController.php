@@ -11,9 +11,32 @@ class BlogController extends Controller
     /**
      * Display a listing of the resource.
      */
+    public function index_dashboard()
+    {
+        // Lấy 3 bài viết có trạng thái public, sắp xếp theo ID giảm dần
+        $blogs = Blog::where("status", "public")
+            ->latest('id')
+            ->paginate(3);
+        // Lấy 3 bài viết mới update
+        $recentBlogs = Blog::where('status', 'public')
+            ->orderByDesc('updated_at')
+            ->limit(3)
+            ->get();
+
+        // Lấy 3 bài viết có nhiều lượt yêu thích nhất, chỉ lấy bài viết public
+        $topFavoritedBlogs = Blog::where("status", "public")
+            ->withCount('favoritedByUsers')
+            ->orderByDesc('favorited_by_users_count')
+            ->orderByDesc('id')
+            ->limit(3)
+            ->get();
+
+        return view('dashboard', compact('blogs', 'topFavoritedBlogs', 'recentBlogs'));
+    }
+
     public function index()
     {
-        $blogs = Blog::where("user_id", request()->user()->id)->orderby("id", "DESC")->paginate(5);
+        $blogs = Blog::where("user_id", request()->user()->id)->orderby("id", "DESC")->paginate(9);
         return view('blog.index', ["blogs" => $blogs]);
     }
 
@@ -31,16 +54,23 @@ class BlogController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            "title" => "required|string",
-            "description" => "required|string",
-            "banner_image" => "required|image"
+            "title" => "required|string|max:50",
+            "description" => "nullable|string",
+            "banner_image" => "required|image",
+            "status" => "required|in:public,private"
         ]);
 
+        // Gán user_id từ người dùng đăng nhập
         $data["user_id"] = $request->user()->id;
+
+        // Xử lý upload hình ảnh
         if ($request->hasFile("banner_image")) {
             $data["banner_image"] = $request->file("banner_image")->store("blog", "public");
         }
+
+        // Lưu vào database
         Blog::create($data);
+
         return to_route('blog.index')->with("success", "Blog created successfully");
     }
 
@@ -67,7 +97,8 @@ class BlogController extends Controller
     {
         $data = $request->validate([
             "title" => "required|string",
-            "description" => "required|string"
+            "description" => "required|string",
+            "status" => "required|in:public,private"
         ]);
 
         if ($request->hasFile("banner_image")) {
@@ -76,7 +107,9 @@ class BlogController extends Controller
             }
             $data["banner_image"] = $request->file("banner_image")->store("blogs", "public");
         }
+
         $blog->update($data);
+
         return to_route("blog.show", $blog)->with("success", "Update successfully");
     }
 
@@ -85,10 +118,10 @@ class BlogController extends Controller
      */
     public function destroy(Blog $blog)
     {
-        if($blog->banner_image){
+        if ($blog->banner_image) {
             Storage::disk("public")->delete($blog->banner_image);
         }
         $blog->delete();
-        return to_route('blog.index')->with("success","deleted successfully");
+        return to_route('blog.index')->with("success", "deleted successfully");
     }
 }
