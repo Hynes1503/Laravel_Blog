@@ -11,6 +11,7 @@ use App\Http\Controllers\FavoriteController;
 use Illuminate\Http\Request;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\PaymentController;
 
 Route::middleware([AdminMiddleware::class])->group(function () {
@@ -40,6 +41,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/comment/{comment}', [CommentController::class, 'destroy'])->name('comment.destroy');
     Route::post('/blog/{blog}/favorite', [FavoriteController::class, 'toggleFavorite'])->name('blog.favorite');
     Route::post('/blog/{blog}/share', [SocialAuthController::class, 'shareOnFacebook'])->name('blog.share');
+
+    Route::get('/profile/{user_id}', [AuthorController::class, 'index'])->name('author.index');
 });
 
 Route::get('auth/google', [SocialAuthController::class, 'redirectToGoogle'])->name('auth.google');

@@ -24,6 +24,8 @@ class User extends Authenticatable
         'email',
         'password',
         'is_admin',
+        'facebook_id',
+        'facebook_access_token',
     ];
 
     /**
@@ -48,7 +50,7 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-    
+
     public function favorites()
     {
         return $this->belongsToMany(Blog::class, 'favorites')->withTimestamps();
@@ -62,5 +64,14 @@ class User extends Authenticatable
     public function hasPurchased($blog)
     {
         return $this->purchases()->where('blog_id', $blog->id)->where('is_paid', true)->exists();
+    }
+
+    public function publicBlogsCount()
+    {
+        return $this->hasMany(Blog::class)->where('status', 'public')->count();
+    }
+    public function BlogsCount()
+    {
+        return $this->hasMany(Blog::class)->count();
     }
 }
