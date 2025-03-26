@@ -15,8 +15,7 @@ class BlogController extends Controller
     {
         // Lấy 3 bài viết có trạng thái public hoặc must paid, sắp xếp theo ID giảm dần
         $blogs = Blog::whereIn('status', ['public'])
-            ->latest('id')
-            ->paginate(3);
+            ->paginate(6);
 
         // Lấy 3 bài viết mới update có trạng thái public hoặc must paid
         $recentBlogs = Blog::whereIn('status', ['public'])

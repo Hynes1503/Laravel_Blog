@@ -44,23 +44,6 @@
                                 alt="Blog Image">
                         </a>
                     @endif
-                    <!-- Thêm các nút thao tác -->
-                    <div class="flex justify-center items-center space-x-2 bg-black p-2">
-                        <!-- Nút Edit -->
-                        <a href="{{ route('blog.edit', $blog) }}" class="px-3 py-1 text-white rounded-md item">
-                            <i class="fa-solid fa-pen-to-square"></i>
-                            Edit</a>
-
-                        <!-- Nút Delete -->
-                        <form action="{{ route('blog.destroy', $blog) }}" method="POST"
-                            onsubmit="return confirm('Are you sure you want to delete this blog?');" class="flex">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="px-3 py-1 bg-transparent text-white rounded-md item">
-                                <i class="fa-solid fa-trash"></i> Delete
-                            </button>
-                        </form>
-                    </div>
 
                 </div>
             @endforeach

@@ -12,6 +12,7 @@ class Blog extends Model
         "banner_image",
         "user_id",
         "status",
+        "facebook_post_id",
     ];
 
     protected $withCount = ['favoritedByUsers']; // Tự động đếm số lượt thích

@@ -9,7 +9,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
 use App\Models\Blog;
-
+use Illuminate\Support\Facades\Log;
 class SocialAuthController extends Controller
 {
     // Chuyển hướng người dùng đến trang xác thực của Google
@@ -78,21 +78,25 @@ class SocialAuthController extends Controller
         }
     }
 
-    // public function shareOnFacebook(Blog $blog)
-    // {
-    //     $pageAccessToken = '634977539400958|44fvGJngHDFEsm9rtHoOhYlwcbA';
-    //     $message = "Bài viết mới: " . $blog->title . "\n" . route('blog.show', $blog);
+    private function postToFacebook($blog)
+    {
+        $pageId = config('services.facebook_post.page_id');
+        $accessToken = config('services.facebook_post.access_token');
 
-    //     $response = Http::timeout(60)->post("https://graph.facebook.com/v17.0/YOUR_PAGE_ID/feed", [
-    //         'message' => $message,
-    //         'access_token' => $pageAccessToken
-    //     ]);
+        $url = "https://graph.facebook.com/v20.0/{$pageId}/feed";
+        $message = "Bài viết mới: {$blog->title}\n{$blog->description}\nXem chi tiết: " . route('blog.show', $blog->id);
 
-    //     if ($response->successful()) {
-    //         return back()->with('success', 'Đã chia sẻ lên Facebook!');
-    //     } else {
-    //         return back()->with('error', 'Lỗi chia sẻ!');
-    //     }
-    // }
-    
+        $response = Http::post($url, [
+            'message' => $message,
+            'access_token' => $accessToken,
+        ]);
+
+        if ($response->successful()) {
+            // Lưu ID bài đăng trên Facebook vào database (nếu cần lấy thống kê sau này)
+            $blog->facebook_post_id = $response->json()['id'];
+            $blog->save();
+        } else {
+            Log::error('Failed to post to Facebook: ' . $response->body());
+        }
+    }
 }

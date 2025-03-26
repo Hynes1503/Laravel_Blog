@@ -1,4 +1,16 @@
 <x-app-layout>
+    @if (session('error'))
+        <div class="alert alert-danger" id="error-alert">
+            {{ session('error') }}
+        </div>
+
+        <script>
+            setTimeout(function() {
+                document.getElementById('error-alert').style.display = 'none';
+            }, 1500); // 2000ms = 2 giây
+        </script>
+    @endif
+
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Dashboard') }}
@@ -80,6 +92,47 @@
                                 @if ($recentBlog->banner_image)
                                     <a href="{{ route('blog.show', $recentBlog) }}"> <img
                                             src="{{ asset('storage/' . $recentBlog->banner_image) }}"
+                                            class="card-img-bottom h-48 w-full object-cover" alt="Blog Image"></a>
+                                @endif
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 text-gray-900">
+                    <div class="flex justify-between items-center">
+                        <h1 class="font-semibold text-3xl text-gray-800 leading-tight mb-3 text-right">
+                            {{ __('Discover') }}
+                        </h1>
+                        <a href="{{ route('discover.index') }}" class="text-left text-blue-500 hover:text-blue-700">
+                            View All <i class="fa-solid fa-right-long"></i>
+                        </a>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        @foreach ($blogs as $blog)
+                            <div class="card shadow-lg rounded-lg overflow-hidden">
+                                <div class="card-body">
+                                    <h5 class="card-title text-xl font-semibold text-gray-800">
+                                        <a href="{{ route('blog.show', $blog) }}"
+                                            class="hover:underline cursor-pointer">
+                                            {{ $blog->title }}
+                                        </a>
+                                    </h5>
+                                    <p class="card-text text-gray-500">
+                                        <small>Last updated {{ $blog->updated_at->diffForHumans() }}</small>
+                                    </p>
+                                    <p class="card-text text-gray-700">
+                                        {{ Str::limit($blog->description, 100) }}
+                                    </p>
+                                </div>
+                                @if ($blog->banner_image)
+                                    <a href="{{ route('blog.show', $blog) }}"> <img
+                                            src="{{ asset('storage/' . $blog->banner_image) }}"
                                             class="card-img-bottom h-48 w-full object-cover" alt="Blog Image"></a>
                                 @endif
                             </div>

@@ -67,7 +67,7 @@
                 <!-- Submit Button -->
                 <div class="mt-6">
                     <button type="submit"
-                        class="w-full bg-black text-white py-3 rounded-lg font-semibold shadow-md hover:bg-green-700 transition">
+                        class="w-full border border-black text-black py-3 rounded-lg font-semibold shadow-md hover:bg-gray-300 hover:text-white transition bg-white">
                         <i class="fa-solid fa-check"></i> Update Blog
                     </button>
                 </div>

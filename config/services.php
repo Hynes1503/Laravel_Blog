@@ -45,4 +45,11 @@ return [
         'redirect' => env('FACEBOOK_REDIRECT_URI'),
         'scopes' => ['email', 'public_profile'],
     ],
+
+    'facebook_post' => [
+        'client_id' => env('FACEBOOK_POST_CLIENT_ID'),
+        'client_secret' => env('FACEBOOK_POST_CLIENT_SECRET'),
+        'access_token' => env('FACEBOOK_POST_ACCESS_TOKEN'),
+        'page_id' => env('FACEBOOK_PAGE_ID'),
+    ],
 ];

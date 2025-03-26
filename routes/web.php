@@ -12,12 +12,11 @@ use Illuminate\Http\Request;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthorController;
-use App\Http\Controllers\PaymentController;
+// use App\Http\Controllers\PaymentController;
 
-Route::middleware([AdminMiddleware::class])->group(function () {
-    Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/admin', [AdminController::class, 'index'])->name('admin.index')->middleware(AdminMiddleware::class);
 });
-Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource("blog", BlogController::class);

@@ -15,7 +15,7 @@
                 @if (auth()->id() === $blog->user_id)
                     <div class="flex flex-col items-start space-y-4 mt-6 ml-6">
                         <a href="{{ route('blog.edit', $blog) }}"
-                            class="px-4 py-2 bg-black text-white text-sm font-semibold rounded-lg shadow-md hover:bg-blue-700 transition">
+                            class="px-4 py-2 border border-black text-black text-sm font-semibold rounded-lg shadow-md hover:bg-gray-300 hover:text-white transition">
                             <i class="fa-solid fa-pen-to-square"></i> Edit Blog
                         </a>
 
@@ -24,7 +24,7 @@
                             @csrf
                             @method('DELETE')
                             <button type="submit"
-                                class="px-4 py-2 bg-black text-white text-sm font-semibold rounded-lg shadow-md hover:bg-red-700 transition">
+                                class="px-4 py-2 bg-red-600 text-white text-sm font-semibold rounded-lg shadow-md hover:bg-red-700 transition">
                                 <i class="fa-solid fa-trash"></i> Delete
                             </button>
                         </form>
@@ -35,7 +35,8 @@
 
             <!-- Blog Details Card -->
             <div class="bg-white shadow-lg rounded-lg p-6 max-w-2xl mx-auto">
-                <a href=""><i class="fa-solid fa-user"></i> {{ $blog->user->name }}</a>
+                <a href="{{ route('author.index', $blog->user->id) }}"><i class="fa-solid fa-user"></i>
+                    {{ $blog->user->name }}</a>
                 <h2 class="text-gray-900">{{ $blog->title }}</h2>
                 <p class="text-xs ">{{ $blog->created_at->format('d M, Y') }}</p>
                 <p class="break-words">{{ $blog->description }}</p>
@@ -152,8 +153,10 @@
                             @csrf
                             <textarea name="content" class="w-full p-2 border rounded-lg"
                                 placeholder="Nhập bình luận dưới tên {{ auth()->user()->name }}" required></textarea>
-                            <button type="submit" class="px-2 py-1 bg-transparent text-black hover:underline">Bình
-                                luận</button>
+                            <button type="submit"
+                                class="px-4 py-2 border border-black text-black text-sm font-semibold rounded-lg shadow-md hover:bg-transparent hover:text-black transition bg-white">
+                                Bình luận
+                            </button>
                         </form>
                     </div>
                 @else
