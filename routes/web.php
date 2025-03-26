@@ -8,15 +8,23 @@ use App\Http\Controllers\Auth\SocialAuthController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\FavoriteController;
+use App\Http\Controllers\Admin\StatisticalController;
+use App\Http\Controllers\Admin\BlogController as AdminBlogController;
 use Illuminate\Http\Request;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\BlogOwnerMiddleware;
-use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\AuthorController;
 // use App\Http\Controllers\PaymentController;
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/admin', [AdminController::class, 'index'])->name('admin.index')->middleware(AdminMiddleware::class);
+    Route::get('/admin', function () {
+        return redirect('/admin/dashboard');
+    });
+    Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard')->middleware(AdminMiddleware::class);
+    Route::get('/admin/statiscal', [StatisticalController::class, 'index'])->name('admin.statiscal.index');
+
+
     Route::get('/discover', [DiscoverController::class, 'index'])->name('discover.index');
     Route::get('/dashboard', [BlogController::class, 'index_dashboard'])->name('dashboard');
     Route::resource("blog", BlogController::class)/*->except(['edit'])*/;
