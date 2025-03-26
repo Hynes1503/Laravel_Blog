@@ -20,13 +20,14 @@ class BlogOwnerMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         $blog = $request->route('blog');
+        $user = Auth::user();
 
         if (!$blog) {
             return redirect()->back()->with('error', 'Bài viết không tồn tại!');
         }
 
-        if (Auth::id() !== $blog->user_id) {
-            return redirect()->back()->with('error', 'Hành động không được phép!');
+        if ($user->is_admin !== 1 && $user->id !== $blog->user_id) {
+            return redirect()->back()->with('error', 'Không đủ quyền!');
         }
 
         return $next($request);
