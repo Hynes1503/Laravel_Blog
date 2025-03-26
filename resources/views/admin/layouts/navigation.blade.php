@@ -6,7 +6,7 @@
         <script>
             setTimeout(function() {
                 document.getElementById('error-alert').style.display = 'none';
-            }, 1500); // 2000ms = 2 giây
+            }, 2000);
         </script>
     @endif
 

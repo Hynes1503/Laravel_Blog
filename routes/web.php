@@ -28,7 +28,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/discover', [DiscoverController::class, 'index'])->name('discover.index');
     Route::get('/dashboard', [BlogController::class, 'index_dashboard'])->name('dashboard');
     Route::resource("blog", BlogController::class)/*->except(['edit'])*/;
-    // Route::get('blog/{blog}/edit', [BlogController::class, 'edit'])->name('blog.edit')->middleware(BlogOwnerMiddleware::class);
+    Route::get('blog/{blog}/edit', [BlogController::class, 'edit'])->name('blog.edit')->middleware(BlogOwnerMiddleware::class);
 });
 
 
