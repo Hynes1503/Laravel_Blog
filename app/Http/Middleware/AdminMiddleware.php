@@ -19,6 +19,6 @@ class AdminMiddleware
             return $next($request);
         }
 
-        return redirect('/dashboard')->with('error', 'Bạn không có quyền truy cập trang này.');
+        return redirect()->back()->with('error', 'Hành động không được phép!');
     }
 }

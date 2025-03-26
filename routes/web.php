@@ -10,17 +10,17 @@ use App\Http\Controllers\SearchController;
 use App\Http\Controllers\FavoriteController;
 use Illuminate\Http\Request;
 use App\Http\Middleware\AdminMiddleware;
+use App\Http\Middleware\BlogOwnerMiddleware;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthorController;
 // use App\Http\Controllers\PaymentController;
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/admin', [AdminController::class, 'index'])->name('admin.index')->middleware(AdminMiddleware::class);
-});
-
-Route::middleware(['auth', 'verified'])->group(function () {
-    Route::resource("blog", BlogController::class);
     Route::get('/discover', [DiscoverController::class, 'index'])->name('discover.index');
+    Route::get('/dashboard', [BlogController::class, 'index_dashboard'])->name('dashboard');
+    Route::resource("blog", BlogController::class)/*->except(['edit'])*/;
+    // Route::get('blog/{blog}/edit', [BlogController::class, 'edit'])->name('blog.edit')->middleware(BlogOwnerMiddleware::class);
 });
 
 
@@ -28,7 +28,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', [BlogController::class, 'index_dashboard'])->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -42,6 +41,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/blog/{blog}/share', [SocialAuthController::class, 'shareOnFacebook'])->name('blog.share');
 
     Route::get('/profile/{user_id}', [AuthorController::class, 'index'])->name('author.index');
+
+    Route::get('/search', [SearchController::class, 'index'])->name('search');
 });
 
 Route::get('auth/google', [SocialAuthController::class, 'redirectToGoogle'])->name('auth.google');
@@ -51,7 +52,7 @@ Route::get('auth/facebook/callback', [SocialAuthController::class, 'handleFacebo
 
 Route::post('/blogs/{blog}/comments', [CommentController::class, 'store'])->name('comments.store')->middleware('auth');
 
-Route::get('/search', [SearchController::class, 'index'])->name('search');
+
 // Route::post('/notifications/read', function (Request $request) {
 //     $user = $request->user();
 //     if ($user) {

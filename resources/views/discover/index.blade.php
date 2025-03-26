@@ -30,8 +30,9 @@
 
                     </div>
                     @if ($blog->banner_image)
-                        <img src="{{ asset('storage/' . $blog->banner_image) }}"
-                            class="card-img-bottom h-48 w-full object-cover" alt="Blog Image">
+                        <a href="{{ route('blog.show', $blog) }}"> <img
+                                src="{{ asset('storage/' . $blog->banner_image) }}"
+                                class="card-img-bottom h-48 w-full object-cover" alt="Blog Image"></a>
                     @endif
                 </div>
             @endforeach

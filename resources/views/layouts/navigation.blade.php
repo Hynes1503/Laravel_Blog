@@ -1,4 +1,15 @@
 <nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
+    @if (session('error'))
+        <div class="alert alert-danger" id="error-alert">
+            {{ session('error') }}
+        </div>
+        <script>
+            setTimeout(function() {
+                document.getElementById('error-alert').style.display = 'none';
+            }, 1500); // 2000ms = 2 giây
+        </script>
+    @endif
+
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">

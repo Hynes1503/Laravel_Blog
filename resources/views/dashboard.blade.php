@@ -1,16 +1,4 @@
 <x-app-layout>
-    @if (session('error'))
-        <div class="alert alert-danger" id="error-alert">
-            {{ session('error') }}
-        </div>
-
-        <script>
-            setTimeout(function() {
-                document.getElementById('error-alert').style.display = 'none';
-            }, 1500); // 2000ms = 2 giây
-        </script>
-    @endif
-
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Dashboard') }}
