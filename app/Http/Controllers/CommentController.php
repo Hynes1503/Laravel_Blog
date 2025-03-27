@@ -46,8 +46,7 @@ class CommentController extends Controller
      */
     public function destroy(Request $request, Comment $comment)
     {
-        // Kiểm tra quyền sở hữu
-        if ($comment->user_id !== $request->user()->id) {
+        if ($comment->user_id !== $request->user()->id && $request->user()->is_admin !== 1) {
             return back()->with('error', 'Bạn không có quyền xóa bình luận này.');
         }
 

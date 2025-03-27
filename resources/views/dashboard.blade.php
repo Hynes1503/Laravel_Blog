@@ -32,7 +32,7 @@
                                     </a>
                                     <div class="carousel-caption d-none d-md-block">
                                         <h2>{{ $topFavoritedBlog->title }}</h2>
-                                        <p>{{ Str::limit($topFavoritedBlog->description, 100) }}</p>
+                                        <p>{{ Str::limit($topFavoritedBlog->description, 50) }}</p>
                                     </div>
                                 </div>
                             @endforeach
@@ -115,7 +115,7 @@
                                         <small>Last updated {{ $blog->updated_at->diffForHumans() }}</small>
                                     </p>
                                     <p class="card-text text-gray-700">
-                                        {{ Str::limit($blog->description, 100) }}
+                                        {{ Str::limit($blog->description, 50) }}
                                     </p>
                                 </div>
                                 @if ($blog->banner_image)

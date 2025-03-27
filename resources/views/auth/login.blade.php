@@ -31,13 +31,16 @@
                 <span class="ms-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
             </label>
         </div>
-        <a href="{{ route('auth.google') }}"
-            class="px-4 py-2 bg-red-500 text-white rounded-lg shadow-md hover:bg-red-600 transition">
-            Đăng nhập với Google
-        </a>
-        <a href="{{ url('auth/facebook') }}" class="btn btn-primary">
-            <i class="fab fa-facebook"></i> Đăng nhập với Facebook
-        </a>
+        <div class="flex flex-col items-center space-y-2 w-full mt-3">
+            <a href="{{ route('auth.google') }}"
+                class="border border-black w-full text-center px-4 py-2 bg-white-500 text-black rounded-full shadow-md hover:bg-red-600 transition">
+                <i class="fa-brands fa-google"></i> Đăng nhập với Google
+            </a>
+            <a href="{{ url('auth.facebook') }}"
+                class="border border-black w-full text-center px-4 py-2 bg-white-500 text-blue rounded-full shadow-md hover:bg-blue-600 transition">
+                <i class="fa-brands fa-facebook"></i> Đăng nhập với Facebook
+            </a>
+        </div>
 
         <div class="flex items-center justify-end mt-4">
             @if (Route::has('password.request'))

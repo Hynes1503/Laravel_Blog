@@ -8,9 +8,7 @@ use Illuminate\Support\Facades\Storage;
 
 class BlogController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index_dashboard()
     {
         // Lấy 3 bài viết có trạng thái public hoặc must paid, sắp xếp theo ID giảm dần

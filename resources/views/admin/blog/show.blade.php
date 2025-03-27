@@ -1,9 +1,20 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Blog') }}
-        </h2>
-    </x-slot>
+@extends('admin.layouts.app')
+@section('header')
+    <header class="bg-white shadow">
+        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between w-full">
+                <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                    {{ __('Blogs') }}
+                </h2>
+                <div class="hidden sm:flex sm:items-center mx-auto">
+                    <x-search-bar />
+                </div>
+            </div>
+        </div>
+    </header>
+@endsection
+
+@section('content')
     <div class="container mx-auto px-4 py-8">
         <!-- Page Heading -->
         <div class="flex justify-between mb-6">
@@ -12,24 +23,24 @@
                     <i class="fa-solid fa-blog"></i>
                     <span>Blog Details</span>
                 </h2>
-                @if (auth()->id() === $blog->user_id)
-                    <div class="flex flex-col items-start space-y-4 mt-6 ml-6">
-                        <a href="{{ route('blog.edit', $blog) }}"
-                            class="px-4 py-2 border border-black text-black text-sm font-semibold rounded-lg shadow-md hover:bg-gray-300 hover:text-white transition">
-                            <i class="fa-solid fa-pen-to-square"></i> Edit Blog
-                        </a>
 
-                        <form action="{{ route('blog.destroy', $blog) }}" method="POST"
-                            onsubmit="return confirm('Bạn có chắc muốn xóa bài viết này không?');">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit"
-                                class="px-4 py-2 bg-red-600 text-white text-sm font-semibold rounded-lg shadow-md hover:bg-red-700 transition">
-                                <i class="fa-solid fa-trash"></i> Delete
-                            </button>
-                        </form>
-                    </div>
-                @endif
+                <div class="flex flex-col items-start space-y-4 mt-6 ml-6">
+                    <a href="{{ route('admin.blog.edit', $blog) }}"
+                        class="px-4 py-2 border border-black text-black text-sm font-semibold rounded-lg shadow-md hover:bg-gray-300 hover:text-white transition">
+                        <i class="fa-solid fa-pen-to-square"></i> Edit Blog
+                    </a>
+
+                    <form action="{{ route('blog.destroy', $blog) }}" method="POST"
+                        onsubmit="return confirm('Bạn có chắc muốn xóa bài viết này không?');">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit"
+                            class="px-4 py-2 bg-red-600 text-white text-sm font-semibold rounded-lg shadow-md hover:bg-red-700 transition">
+                            <i class="fa-solid fa-trash"></i> Delete
+                        </button>
+                    </form>
+                </div>
+
             </div>
 
 
@@ -128,35 +139,34 @@
                                 <p class="text-sm text-gray-500 text-right">{{ $comment->created_at->diffForHumans() }}
                                 </p>
 
-                                @if (Auth::id() === $comment->user_id)
-                                    <div x-show="editMode !== {{ $comment->id }}">
-                                        <button @click="editMode = {{ $comment->id }}"
-                                            class="px-2 py-1 bg-transparent text-black text-xs hover:underline">Sửa</button>
-                                        <form action="{{ route('comment.destroy', $comment->id) }}" method="POST"
-                                            class="inline">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit"
-                                                onclick="return confirm('Bạn có chắc chắn muốn xóa không?')"
-                                                class="px-2 py-1 bg-transparent text-black text-xs hover:underline">Xóa</button>
-                                        </form>
-                                    </div>
 
-                                    <!-- Form chỉnh sửa bình luận -->
-                                    <form action="{{ route('comment.update', $comment->id) }}" method="POST"
-                                        x-show="editMode === {{ $comment->id }}" class="mt-2">
+                                <div x-show="editMode !== {{ $comment->id }}">
+                                    <button @click="editMode = {{ $comment->id }}"
+                                        class="px-2 py-1 bg-transparent text-black text-xs hover:underline">Sửa</button>
+                                    <form action="{{ route('comment.destroy', $comment->id) }}" method="POST"
+                                        class="inline">
                                         @csrf
-                                        @method('PUT')
-                                        <textarea name="content" class="w-full p-2 border rounded">{{ $comment->content }}</textarea>
-                                        <div class="mt-2">
-                                            <button type="submit"
-                                                class="px-2 py-1 bg-transparent text-black text-xs hover:underline">Cập
-                                                nhật</button>
-                                            <button type="button" @click="editMode = null"
-                                                class="px-2 py-1 bg-transparent text-black text-xs hover:underline">Hủy</button>
-                                        </div>
+                                        @method('DELETE')
+                                        <button type="submit" onclick="return confirm('Bạn có chắc chắn muốn xóa không?')"
+                                            class="px-2 py-1 bg-transparent text-black text-xs hover:underline">Xóa</button>
                                     </form>
-                                @endif
+                                </div>
+
+                                <!-- Form chỉnh sửa bình luận -->
+                                <form action="{{ route('comment.update', $comment->id) }}" method="POST"
+                                    x-show="editMode === {{ $comment->id }}" class="mt-2">
+                                    @csrf
+                                    @method('PUT')
+                                    <textarea name="content" class="w-full p-2 border rounded">{{ $comment->content }}</textarea>
+                                    <div class="mt-2">
+                                        <button type="submit"
+                                            class="px-2 py-1 bg-transparent text-black text-xs hover:underline">Cập
+                                            nhật</button>
+                                        <button type="button" @click="editMode = null"
+                                            class="px-2 py-1 bg-transparent text-black text-xs hover:underline">Hủy</button>
+                                    </div>
+                                </form>
+
                             </div>
                         @endforeach
                         <template x-if="showAll">
@@ -182,26 +192,9 @@
                     </div>
 
                 </div>
-                @auth
-                    <div class="max-w-2xl mx-auto mt-6 bg-white p-4 rounded-lg shadow">
-                        <form action="{{ route('comments.store', $blog) }}" method="POST">
-                            @csrf
-                            <textarea name="content" class="w-full p-2 border rounded-lg"
-                                placeholder="Nhập bình luận dưới tên {{ auth()->user()->name }}" required></textarea>
-                            <button type="submit"
-                                class="px-4 py-2 border border-black text-black text-sm font-semibold rounded-lg shadow-md hover:bg-transparent hover:text-black transition bg-white">
-                                Bình luận
-                            </button>
-                        </form>
-                    </div>
-                @else
-                    <p class="text-center text-gray-600 mt-4">Bạn cần <a href="{{ route('login') }}"
-                            class="text-blue-500">đăng
-                            nhập</a> để bình luận.</p>
-                @endauth
             </div>
             <div class="max-w-2xl mx-auto mt-4">
-                <a href="{{ url()->previous() }}"
+                <a href="{{ route('admin.blog.index') }}"
                     class="px-2 py-2 bg-gray-600 text-white text-sm font-semibold rounded-lg hover:bg-gray-700 transition">
                     <i class="fa-solid fa-arrow-left"></i> Back
                 </a>
@@ -210,5 +203,4 @@
 
 
     </div>
-
-</x-app-layout>
+@endsection

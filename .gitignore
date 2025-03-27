@@ -4,7 +4,10 @@
 /public/hot
 /public/storage
 /storage/*.key
+/storage/credentials.json  # File JSON của Google Analytics
 /storage/pail
+/storage/logs/*.log       # Thêm log files
+/bootstrap/cache/*        # Cache của Laravel
 /vendor
 .env
 .env.backup

@@ -9,6 +9,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\Admin\StatisticalController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\BlogController as AdminBlogController;
 use Illuminate\Http\Request;
 use App\Http\Middleware\AdminMiddleware;
@@ -17,21 +18,28 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\AuthorController;
 // use App\Http\Controllers\PaymentController;
 
-Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/admin', function () {
+
+Route::middleware(['auth', 'verified', AdminMiddleware::class])->prefix('admin')->group(function () {
+    Route::get('/', function () {
         return redirect('/admin/dashboard');
     });
-    Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard')->middleware(AdminMiddleware::class);
-    Route::get('/admin/statiscal', [StatisticalController::class, 'index'])->name('admin.statiscal.index');
+
+    Route::get('/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+    Route::get('/statiscal', [StatisticalController::class, 'index'])->name('admin.statiscal.index');
+    Route::resource('blog', AdminBlogController::class)->names('admin.blog');
+    Route::get('/user', [UserController::class, 'index'])->name('admin.user.index');
+    Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('admin.user.destroy');
+    Route::get('/user/{user_id}', [UserController::class, 'index_author'])->name('admin.user.show');
+});
 
 
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/discover', [DiscoverController::class, 'index'])->name('discover.index');
     Route::get('/dashboard', [BlogController::class, 'index_dashboard'])->name('dashboard');
     Route::resource("blog", BlogController::class)/*->except(['edit'])*/;
     Route::get('blog/{blog}/edit', [BlogController::class, 'edit'])->name('blog.edit')->middleware(BlogOwnerMiddleware::class);
     Route::put('blog/{blog}', [BlogController::class, 'update'])->name('blog.update')->middleware(BlogOwnerMiddleware::class);
     Route::delete('blog/{blog}', [BlogController::class, 'destroy'])->name('blog.destroy')->middleware(BlogOwnerMiddleware::class);
-
 });
 
 
@@ -54,6 +62,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile/{user_id}', [AuthorController::class, 'index'])->name('author.index');
 
     Route::get('/search', [SearchController::class, 'index'])->name('search');
+    // Route::get('/search', [SearchController::class, 'admin_index'])->name('admin.search');
 });
 
 Route::get('auth/google', [SocialAuthController::class, 'redirectToGoogle'])->name('auth.google');
@@ -62,15 +71,6 @@ Route::get('auth/facebook', [SocialAuthController::class, 'redirectToFacebook'])
 Route::get('auth/facebook/callback', [SocialAuthController::class, 'handleFacebookCallback']);
 
 Route::post('/blogs/{blog}/comments', [CommentController::class, 'store'])->name('comments.store')->middleware('auth');
-
-
-// Route::post('/notifications/read', function (Request $request) {
-//     $user = $request->user();
-//     if ($user) {
-//         $user->unreadNotifications->markAsRead();
-//     }
-//     return back();
-// })->name('notifications.read');
 
 Route::get('/home', function () {
     return view('home');
