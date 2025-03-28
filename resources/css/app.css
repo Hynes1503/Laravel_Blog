@@ -331,12 +331,6 @@ div.error {
     transform: translate(-50%, -50%); /* Căn giữa màn hình */
 }
 
-.container-2 {
-    border: 5px solid; /* Độ dày viền */
-    border-image: linear-gradient(135deg, #800080, #0080ff) 1; /* Viền gradient tím - xanh */
-    border-radius: 20px; /* Bo góc */
-}
-
 .hynesblog {
     font-family: 'UTM Akashi', sans-serif;
     font-size: 60px;

@@ -60,7 +60,7 @@
                     @if (strlen($blog->description) > 140)
                         <button
                             class="toggle-btn text-black text-sm mt-2 bg-transparent border-none outline-none underline"><span
-                                x-show="!expanded">Xem thêm</span>
+                                x-show="!expanded">View more</span>
                         </button>
                     @endif
                 </p>
@@ -75,11 +75,11 @@
                                 if (shortText.classList.contains("hidden")) {
                                     shortText.classList.remove("hidden");
                                     fullText.classList.add("hidden");
-                                    this.textContent = "Xem thêm";
+                                    this.textContent = "View more";
                                 } else {
                                     shortText.classList.add("hidden");
                                     fullText.classList.remove("hidden");
-                                    this.textContent = "Thu gọn";
+                                    this.textContent = "Collapse";
                                 }
                             });
                         });
@@ -98,12 +98,12 @@
                     <div class="flex items-center space-x-4">
                         <button type="submit" class="px-2 py-1 bg-transparent text-black hover:underline">
                             @if ($blog->isFavoritedBy(auth()->user()))
-                                <i class="fa-solid fa-heart"></i> Bỏ yêu thích
+                                <i class="fa-solid fa-heart"></i> Dislike
                             @else
-                                <i class="fa-regular fa-heart"></i> Yêu thích
+                                <i class="fa-regular fa-heart"></i> Likes
                             @endif
                         </button>
-                        <p class="m-0">Số người yêu thích: {{ $blog->favoritesCount() }}</p>
+                        <p class="m-0">{{ $blog->favoritesCount() }}</p>
                     </div>
                 </form>
                 {{-- <div class="fb-share-button" data-href="{{ url()->route('blog.show', $blog->id) }}"
@@ -111,7 +111,7 @@
                 </div> --}}
                 {{-- 💬 Danh sách bình luận --}}
                 <div class="max-w-2xl mx-auto mt-6">
-                    <h3 class="text-lg font-semibold text-gray-800">Bình luận ({{ $blog->comments->count() }})</h3>
+                    <h3 class="text-lg font-semibold text-gray-800">Comments ({{ $blog->comments->count() }})</h3>
 
                     <div x-data="{ showAll: false }">
                         @foreach ($blog->comments->take(2) as $comment)
@@ -129,8 +129,8 @@
                                         @if (Str::length($comment->content) > 100)
                                             <button @click="expanded = !expanded"
                                                 class="text-black text-sm mt-2 bg-transparent border-none outline-none">
-                                                <span x-show="!expanded">Xem thêm</span>
-                                                <span x-show="expanded">Thu gọn</span>
+                                                <span x-show="!expanded">View more</span>
+                                                <span x-show="expanded">Collapse</span>
                                             </button>
                                         @endif
                                     </span>
@@ -142,13 +142,13 @@
 
                                 <div x-show="editMode !== {{ $comment->id }}">
                                     <button @click="editMode = {{ $comment->id }}"
-                                        class="px-2 py-1 bg-transparent text-black text-xs hover:underline">Sửa</button>
+                                        class="px-2 py-1 bg-transparent text-black text-xs hover:underline">Edit</button>
                                     <form action="{{ route('comment.destroy', $comment->id) }}" method="POST"
                                         class="inline">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" onclick="return confirm('Bạn có chắc chắn muốn xóa không?')"
-                                            class="px-2 py-1 bg-transparent text-black text-xs hover:underline">Xóa</button>
+                                            class="px-2 py-1 bg-transparent text-black text-xs hover:underline">Delete</button>
                                     </form>
                                 </div>
 
@@ -160,10 +160,9 @@
                                     <textarea name="content" class="w-full p-2 border rounded">{{ $comment->content }}</textarea>
                                     <div class="mt-2">
                                         <button type="submit"
-                                            class="px-2 py-1 bg-transparent text-black text-xs hover:underline">Cập
-                                            nhật</button>
+                                            class="px-2 py-1 bg-transparent text-black text-xs hover:underline">Update</button>
                                         <button type="button" @click="editMode = null"
-                                            class="px-2 py-1 bg-transparent text-black text-xs hover:underline">Hủy</button>
+                                            class="px-2 py-1 bg-transparent text-black text-xs hover:underline">Cancel</button>
                                     </div>
                                 </form>
 
@@ -185,8 +184,8 @@
                         @if ($blog->comments->count() > 2)
                             <button @click="showAll = !showAll"
                                 class="text-black text-sm mt-2 bg-transparent border-none outline-none">
-                                <span x-show="!showAll">Xem thêm bình luận</span>
-                                <span x-show="showAll">Thu gọn</span>
+                                <span x-show="!showAll">Viewmore<span>
+                                <span x-show="showAll">Collapse</span>
                             </button>
                         @endif
                     </div>

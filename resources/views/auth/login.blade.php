@@ -2,7 +2,7 @@
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
-    <form method="POST" action="{{ route('login') }}" >
+    <form method="POST" action="{{ route('login') }}">
         @csrf
 
         <!-- Email Address -->
@@ -34,25 +34,57 @@
         <div class="flex flex-col items-center space-y-2 w-full mt-3">
             <a href="{{ route('auth.google') }}"
                 class="border border-black w-full text-center px-4 py-2 bg-white-500 text-black rounded-full shadow-md hover:bg-red-600 transition">
-                <i class="fa-brands fa-google"></i> Đăng nhập với Google
+                <i class="fa-brands fa-google"></i> Login with Goolge
             </a>
-            <a href="{{ url('auth.facebook') }}"
+            <a href="{{ route('auth.facebook') }}"
                 class="border border-black w-full text-center px-4 py-2 bg-white-500 text-blue rounded-full shadow-md hover:bg-blue-600 transition">
-                <i class="fa-brands fa-facebook"></i> Đăng nhập với Facebook
+                <i class="fa-brands fa-facebook"></i> Login with Facebook
             </a>
         </div>
 
-        <div class="flex items-center justify-end mt-4">
+        <div class="flex items-center justify-between mt-4">
+            <!-- Nút Đăng nhập -->
+            <div class="w-1/3 flex justify-start">
+                <x-primary-button class="">
+                    {{ __('Log in') }}
+                </x-primary-button>
+            </div>
+
+            <!-- Quên mật khẩu -->
+            <div class="w-1/3 flex justify-center">
+                @if (Route::has('password.request'))
+                    <a class="ms-4 underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                        href="{{ route('password.request') }}">
+                        {{ __('Forgot your password?') }}
+                    </a>
+                @endif
+            </div>
+
+            <!-- Đăng ký -->
+            <div class="w-1/3 flex justify-end">
+                <a class="ms-4 underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    href="{{ route('register') }}">
+                    {{ __("Don't have an account?") }}
+                </a>
+            </div>
+        </div>
+
+
+        {{-- <div class="flex items-center justify-end mt-4">
+
             @if (Route::has('password.request'))
                 <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                    href="{{ route('password.request') }}">
-                    {{ __('Forgot your password?') }}
+                    href="{{ route('register') }}">
+                    {{ __("Don't have an account?") }}
                 </a>
             @endif
 
-            <x-primary-button class="ms-3">
-                {{ __('Log in') }}
-            </x-primary-button>
-        </div>
+            <a href="{{ route('register') }}"
+                class="ms-3 inline-flex items-center px-4 py-2 bg-white-800 border border-black rounded-md font-semibold text-xs text-black uppercase tracking-widest hover:bg-gray-200 focus:bg-gray-300 active:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
+                {{ __('Register') }}
+            </a>
+
+        </div> --}}
+
     </form>
 </x-guest-layout>

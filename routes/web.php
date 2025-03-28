@@ -47,7 +47,6 @@ Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
 
-
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -67,7 +66,7 @@ Route::middleware('auth')->group(function () {
 
 Route::get('auth/google', [SocialAuthController::class, 'redirectToGoogle'])->name('auth.google');
 Route::get('auth/google/callback', [SocialAuthController::class, 'handleGoogleCallback']);
-Route::get('auth/facebook', [SocialAuthController::class, 'redirectToFacebook'])->name('redirect.facebook');
+Route::get('auth/facebook', [SocialAuthController::class, 'redirectToFacebook'])->name('auth.facebook');
 Route::get('auth/facebook/callback', [SocialAuthController::class, 'handleFacebookCallback']);
 
 Route::post('/blogs/{blog}/comments', [CommentController::class, 'store'])->name('comments.store')->middleware('auth');

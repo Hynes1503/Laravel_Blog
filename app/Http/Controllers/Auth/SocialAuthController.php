@@ -78,25 +78,25 @@ class SocialAuthController extends Controller
         }
     }
 
-    private function postToFacebook($blog)
-    {
-        $pageId = config('services.facebook_post.page_id');
-        $accessToken = config('services.facebook_post.access_token');
+    // private function postToFacebook($blog)
+    // {
+    //     $pageId = config('services.facebook_post.page_id');
+    //     $accessToken = config('services.facebook_post.access_token');
 
-        $url = "https://graph.facebook.com/v20.0/{$pageId}/feed";
-        $message = "Bài viết mới: {$blog->title}\n{$blog->description}\nXem chi tiết: " . route('blog.show', $blog->id);
+    //     $url = "https://graph.facebook.com/v20.0/{$pageId}/feed";
+    //     $message = "Bài viết mới: {$blog->title}\n{$blog->description}\nXem chi tiết: " . route('blog.show', $blog->id);
 
-        $response = Http::post($url, [
-            'message' => $message,
-            'access_token' => $accessToken,
-        ]);
+    //     $response = Http::post($url, [
+    //         'message' => $message,
+    //         'access_token' => $accessToken,
+    //     ]);
 
-        if ($response->successful()) {
-            // Lưu ID bài đăng trên Facebook vào database (nếu cần lấy thống kê sau này)
-            $blog->facebook_post_id = $response->json()['id'];
-            $blog->save();
-        } else {
-            Log::error('Failed to post to Facebook: ' . $response->body());
-        }
-    }
+    //     if ($response->successful()) {
+    //         // Lưu ID bài đăng trên Facebook vào database (nếu cần lấy thống kê sau này)
+    //         $blog->facebook_post_id = $response->json()['id'];
+    //         $blog->save();
+    //     } else {
+    //         Log::error('Failed to post to Facebook: ' . $response->body());
+    //     }
+    // }
 }
