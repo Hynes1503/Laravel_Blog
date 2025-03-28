@@ -34,6 +34,25 @@
                                 src="{{ asset('storage/' . $blog->banner_image) }}"
                                 class="card-img-bottom h-48 w-full object-cover" alt="Blog Image"></a>
                     @endif
+                    <div class="flex justify-center items-center space-x-2 bg-black p-2">
+                        <!-- Nút tim // đang lỗi-->
+                        <form method="POST" action="{{ route('blog.favorite', $blog->id) }}">
+                            @csrf
+                            <div class="flex items-center space-x-4">
+                                <button type="submit" class="px-3 py-1 text-white rounded-md item bg-transparent">
+                                    @if ($blog->isFavoritedBy(auth()->user()))
+                                        <i class="fa-solid fa-heart"></i> {{ $blog->favoritesCount() }}
+                                    @else
+                                        <i class="fa-regular fa-heart"></i> {{ $blog->favoritesCount() }}
+                                    @endif
+                                </button>
+                            </div>
+                        </form>
+                        <!-- Nút cmt -->
+                        <a href="{{ route('blog.show', $blog) }}" class="px-3 py-1 text-white rounded-md item">
+                            <i class="fa-regular fa-comment"></i> {{ $blog->comments->count() }}
+                        </a>
+                    </div>
                 </div>
             @endforeach
         </div>

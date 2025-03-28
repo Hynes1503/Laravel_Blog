@@ -23,10 +23,10 @@ class FavoriteController extends Controller
 
         if ($blog->favoritedByUsers()->where('user_id', $user->id)->exists()) {
             $blog->favoritedByUsers()->detach($user->id);
-            return redirect()->route('blog.show', $blog->id)->with('success', 'Đã bỏ yêu thích');
+            return back()->with('success', 'Đã bỏ yêu thích');
         } else {
             $blog->favoritedByUsers()->attach($user->id);
-            return redirect()->route('blog.show', $blog->id)->with('success', 'Đã thêm vào yêu thích');
+            return back()->with('success', 'Đã thêm vào yêu thích');
         }
     }
 }

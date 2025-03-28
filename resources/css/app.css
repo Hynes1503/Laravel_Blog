@@ -314,3 +314,34 @@ div.error {
 .carousel-item a:hover img {
     transform: scale(1.1);
 }
+
+.container-1 {
+    width: 60vw; /* 60% chiều rộng màn hình */
+    height: 400px; /* Chiều cao cố định */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: transparent; /* Nền trong suốt */
+    border: 5px solid; /* Độ dày viền */
+    border-image: linear-gradient(135deg, #800080, #0080ff) 1; /* Viền gradient tím - xanh */
+    border-radius: 20px; /* Bo góc */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Căn giữa màn hình */
+}
+
+.container-2 {
+    border: 5px solid; /* Độ dày viền */
+    border-image: linear-gradient(135deg, #800080, #0080ff) 1; /* Viền gradient tím - xanh */
+    border-radius: 20px; /* Bo góc */
+}
+
+.hynesblog {
+    font-family: 'UTM Akashi', sans-serif;
+    font-size: 60px;
+    text-align: center;
+    background: linear-gradient(135deg, #800080, #0080ff); /* Gradient tím - xanh */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
