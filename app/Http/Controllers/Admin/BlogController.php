@@ -12,8 +12,14 @@ class BlogController extends Controller
 {
     public function index()
     {
-        $blogs = Blog::orderBy('id', 'DESC')->paginate(10);
-        return view('admin.blog.index', ['blogs' => $blogs]);
+        try {
+            $blogs = Blog::orderBy('id', 'DESC')->paginate(10);
+            $totalBlogs = Blog::countAllBlogs(); // Gọi hàm đếm tổng số blog
+
+            return view('admin.blog.index', compact('blogs', 'totalBlogs'));
+        } catch (\Exception $e) {
+            return back()->with('error', 'Lỗi khi tải danh sách blog: ' . $e->getMessage());
+        }
     }
 
     /**

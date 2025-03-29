@@ -19,6 +19,6 @@ class AdminMiddleware
             return $next($request);
         }
 
-        return redirect()->back()->with('error', 'Hành động không được phép!');
+        return redirect()->back()->with('error', 'This action is not allowed.');
     }
 }

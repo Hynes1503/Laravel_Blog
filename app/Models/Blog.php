@@ -46,4 +46,9 @@ class Blog extends Model
     {
         return $query->where('status', 'public');
     }
+
+    public static function countAllBlogs()
+    {
+        return self::count();
+    }
 }

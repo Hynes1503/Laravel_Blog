@@ -23,11 +23,11 @@ class BlogOwnerMiddleware
         $user = Auth::user();
 
         if (!$blog) {
-            return redirect()->back()->with('error', 'Bài viết không tồn tại!');
+            return redirect()->back()->with('error', 'This Blog does not exist');
         }
 
         if ($user->is_admin !== 1 && $user->id !== $blog->user_id) {
-            return redirect()->back()->with('error', 'Không đủ quyền!');
+            return redirect()->back()->with('error', 'Not authorized!');
         }
 
         return $next($request);

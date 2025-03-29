@@ -19,7 +19,7 @@
     <div class="container mx-auto px-4">
         <!-- Create Blog Button -->
         <div class="flex justify-between items-center mb-6">
-            <h2 class="text-2xl font-bold text-gray-800"><i class="fa-solid fa-blog"></i> All Blog Posts</h2>
+            <h2 class="text-2xl font-bold text-gray-800"><i class="fa-solid fa-blog"></i> All Blog Posts: {{ $totalBlogs }} Blogs</h2>
             {{-- <a href="{{ route('blog.create') }}"
                 class="px-4 py-2 bg-blue-600 text-white text-sm font-semibold rounded-lg shadow-md hover:bg-blue-700 transition bg-black">
                 <i class="fa-solid fa-plus"></i> Create New Blog

@@ -15,7 +15,7 @@
 @section('content')
     <div class="container mx-auto px-4">
         <div class="flex justify-between items-center mb-6">
-            <h2 class="text-2xl font-bold text-gray-800"><i class="fa-solid fa-blog"></i> All Blog Posts</h2>
+            <h2 class="text-2xl font-bold text-gray-800"><i class="fa-solid fa-blog"></i> All Users</h2>
         </div>
         <table class="table">
             <thead class="thead-dark">
