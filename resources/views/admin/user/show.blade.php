@@ -47,7 +47,7 @@
                         </p>
                     </div>
                     @if ($blog->banner_image)
-                        <a href="{{ route('blog.show', $blog) }}">
+                        <a href="{{ route('admin.blog.show', $blog) }}">
                             <img src="{{ asset('storage/' . $blog->banner_image) }}"
                                 class="card-img-bottom h-48 w-full object-cover rounded-lg cursor-pointer" alt="Blog Image">
                         </a>

@@ -6,9 +6,9 @@
                 <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                     {{ __('Blogs') }}
                 </h2>
-                <div class="hidden sm:flex sm:items-center mx-auto">
+                {{-- <div class="hidden sm:flex sm:items-center mx-auto">
                     <x-search-bar />
-                </div>
+                </div> --}}
             </div>
         </div>
     </header>

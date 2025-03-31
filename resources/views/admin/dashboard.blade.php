@@ -24,41 +24,38 @@
 @endsection
 
 @section('content')
-    <div class="container mx-auto px-4 py-8">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <a href="{{ route('admin.user.index') }}" class="block">
-                <div class="card shadow-lg rounded-lg overflow-hidden"
-                    style="background-image: url('{{ asset('image/User_Icon.png') }}'); background-size: cover; background-position: center; width: 300px; height: 300px;">
-                    <div class="card-body bg-white bg-opacity-75 p-4 rounded h-full">
+        <div class=" container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 ">
+            <a href="{{ route('admin.user.index') }}" class="block h-[300px]">
+                <div class="card shadow-lg rounded-lg overflow-hidden w-full h-full"
+                    style="background-image: url('{{ asset('image/User_Icon.png') }}'); background-size: cover; background-position: center;">
+                    <div class="card-body bg-white bg-opacity-75 p-4 rounded h-full flex items-center justify-center">
                         <h5 class="card-title text-xl font-semibold text-gray-800">
-                            <i class="fa-solid fa-circle-user"></i> Users
+                            <i class="fa-solid fa-circle-user"></i> User
                         </h5>
                     </div>
                 </div>
             </a>
-
+            
             <a href="{{ route('admin.blog.index') }}" class="block">
-                <div class="card shadow-lg rounded-lg overflow-hidden"
-                    style="background-image: url('{{ asset('image/Blog_Icon.png') }}'); background-size: cover; background-position: center; width: 300px; height: 300px;">
-                    <div class="card-body bg-white bg-opacity-75 p-4 rounded h-full">
+                <div class="card shadow-lg rounded-lg overflow-hidden w-full h-full"
+                    style="background-image: url('{{ asset('image/Blog_Icon.png') }}'); background-size: cover; background-position: center;">
+                    <div class="card-body bg-white bg-opacity-75 p-4 rounded h-full flex items-center justify-center">
                         <h5 class="card-title text-xl font-semibold text-gray-800">
                             <i class="fa-solid fa-circle-user"></i> Blogs
                         </h5>
                     </div>
                 </div>
             </a>
-            
+
             <a href="{{ route('categories.index') }}" class="block">
-                <div class="card shadow-lg rounded-lg overflow-hidden"
-                    style="background-image: url('{{ asset('image/category_icon.png') }}'); background-size: cover; background-position: center; width: 300px; height: 300px;">
-                    <div class="card-body bg-white bg-opacity-75 p-4 rounded h-full">
+                <div class="card shadow-lg rounded-lg overflow-hidden w-full h-full"
+                    style="background-image: url('{{ asset('image/category_icon.png') }}'); background-size: cover; background-position: center;">
+                    <div class="card-body bg-white bg-opacity-75 p-4 rounded h-full flex items-center justify-center">
                         <h5 class="card-title text-xl font-semibold text-gray-800">
                             <i class="fa-solid fa-circle-user"></i> Categories
                         </h5>
                     </div>
                 </div>
             </a>
-            
         </div>
-    </div>
 @endsection
