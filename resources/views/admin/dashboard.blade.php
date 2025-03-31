@@ -48,12 +48,12 @@
                 </div>
             </a>
             
-            <a href="{{ route('admin.statiscal.index') }}" class="block">
+            <a href="{{ route('categories.index') }}" class="block">
                 <div class="card shadow-lg rounded-lg overflow-hidden"
-                    style="background-image: url('{{ asset('image/Statistical_Icon.png') }}'); background-size: cover; background-position: center; width: 300px; height: 300px;">
+                    style="background-image: url('{{ asset('category_icon.png') }}'); background-size: cover; background-position: center; width: 300px; height: 300px;">
                     <div class="card-body bg-white bg-opacity-75 p-4 rounded h-full">
                         <h5 class="card-title text-xl font-semibold text-gray-800">
-                            <i class="fa-solid fa-circle-user"></i> Statistical
+                            <i class="fa-solid fa-circle-user"></i> Categories
                         </h5>
                     </div>
                 </div>
