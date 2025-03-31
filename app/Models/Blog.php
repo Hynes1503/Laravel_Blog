@@ -14,6 +14,7 @@ class Blog extends Model
         "status",
         "facebook_post_id",
         "category_id",
+        "view_time",
     ];
 
     protected $withCount = ['favoritedByUsers']; // Tự động đếm số lượt thích
@@ -56,5 +57,22 @@ class Blog extends Model
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public static function getViewTimeByCategory()
+    {
+        return self::select('category_id')
+            ->selectRaw('SUM(view_time) as total_view_time')
+            ->groupBy('category_id')
+            ->with('category')
+            ->get();
+    }
+    
+    // Tìm các blog có view_time cao nhất
+    public static function getTopViewTimeBlogs($limit = 10)
+    {
+        return self::orderBy('view_time', 'desc')
+            ->limit($limit)
+            ->get();
     }
 }

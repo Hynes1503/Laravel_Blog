@@ -32,7 +32,7 @@ class BlogController extends Controller
             ->limit(3)
             ->get();
 
-        return view('dashboard', compact('blogs', 'topFavoritedBlogs', 'recentBlogs','categories'));
+        return view('dashboard', compact('blogs', 'topFavoritedBlogs', 'recentBlogs', 'categories'));
     }
 
     public function index()
@@ -84,7 +84,7 @@ class BlogController extends Controller
     public function show(Blog $blog)
     {
         $blog->load('category'); // Nạp quan hệ category
-
+        session(['blog_view_start_time_' . $blog->id => now()->timestamp]);
         return view('blog.show', [
             "blog" => $blog,
             "category" => $blog->category
@@ -132,5 +132,23 @@ class BlogController extends Controller
         }
         $blog->delete();
         return to_route('blog.index')->with("success", "deleted successfully");
+    }
+
+    public function trackViewTime(Request $request, Blog $blog)
+    {
+        // Lấy thời gian bắt đầu từ session
+        $startTime = session('blog_view_start_time_' . $blog->id);
+        if ($startTime) {
+            $endTime = now()->timestamp;
+            $timeSpent = $endTime - $startTime; // Thời gian đọc (giây)
+
+            // Cộng dồn thời gian vào view_time
+            $blog->increment('view_time', $timeSpent);
+
+            // Xóa session sau khi lưu
+            $request->session()->forget('blog_view_start_time_' . $blog->id);
+        }
+
+        return response()->json(['success' => true]);
     }
 }

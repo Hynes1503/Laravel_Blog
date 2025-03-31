@@ -212,5 +212,18 @@
 
 
     </div>
-
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Khi người dùng rời khỏi trang
+            window.onbeforeunload = function() {
+                fetch('/laravel/demo/public/blogs/{{ $blog->id }}/track-view-time', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Content-Type': 'application/json',
+                    },
+                });
+            };
+        });
+    </script>
 </x-app-layout>

@@ -44,6 +44,7 @@
             transform: translateX(-100%);
         }
     </style>
+    @yield('scripts')
 </head>
 
 <body class="bg-gray-100 font-sans">

@@ -5,7 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Blog;
-class StatisticalController extends Controller
+
+class AdminBlogStatsController extends Controller
 {
     public function index()
     {
@@ -21,7 +22,7 @@ class StatisticalController extends Controller
         $topBlogTitles = $topBlogs->pluck('title')->toArray();
         $topBlogViewTimes = $topBlogs->pluck('view_time')->toArray();
 
-        return view('admin.statiscal.index', compact(
+        return view('admin.blog-stats', compact(
             'totalViewTime',
             'viewTimeByCategory',
             'topBlogs',

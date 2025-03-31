@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>@yield('tilte', 'HynesBlog')</title>
+    <title>@yield('tilte','HynesBlog')</title>
     <link rel="icon" type="image/x-icon" href="{{ asset('image/favicon.ico') }}">
 
     <!-- Fonts -->
@@ -22,7 +22,7 @@
     </script>
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-
+    
 </head>
 
 <body class="font-sans antialiased">
@@ -47,8 +47,6 @@
             {{ $slot }}
         </main>
     </div>
-    <!-- Footer -->
-    @include('layouts.footer')
 </body>
 
 </html>

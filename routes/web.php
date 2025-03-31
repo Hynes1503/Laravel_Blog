@@ -18,15 +18,17 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\Admin\AdminCategoryController;
 use App\Http\Controllers\CategoryController;
-use App\Models\Category;
+use App\Http\Controllers\Admin\AdminBlogStatsController;
 
 Route::middleware(['auth', 'verified', AdminMiddleware::class])->prefix('admin')->group(function () {
     Route::get('/', function () {
         return redirect('/admin/dashboard');
     });
+    Route::get('/statiscal', [StatisticalController::class, 'index'])->name('admin.blog-stats');
+    // Route::get('/statiscal', [StatisticalController::class, 'index'])->name('admin.statiscal.index');
+    Route::get('/blog-stats', [AdminBlogStatsController::class, 'index'])->name('blog-stats');
     Route::resource('categories', AdminCategoryController::class);
     Route::get('/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
-    Route::get('/statiscal', [StatisticalController::class, 'index'])->name('admin.statiscal.index');
     Route::resource('blog', AdminBlogController::class)->names('admin.blog');
     Route::get('/user', [UserController::class, 'index'])->name('admin.user.index');
     Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('admin.user.destroy');
@@ -76,6 +78,7 @@ Route::get('auth/facebook', [SocialAuthController::class, 'redirectToFacebook'])
 Route::get('auth/facebook/callback', [SocialAuthController::class, 'handleFacebookCallback']);
 
 Route::post('/blogs/{blog}/comments', [CommentController::class, 'store'])->name('comments.store')->middleware('auth');
+Route::post('/blogs/{blog}/track-view-time', [BlogController::class, 'trackViewTime'])->name('blogs.track-view-time');
 
 Route::get('/home', function () {
     return view('home');
