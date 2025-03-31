@@ -44,7 +44,7 @@
             @section('success')
                 <div class="success-message">{{ session('success') }}</div>
             @endsection
-            {{ $slot }}
+            @yield('content')
         </main>
     </div>
     <!-- Footer -->

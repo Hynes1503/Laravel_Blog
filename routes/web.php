@@ -17,13 +17,13 @@ use App\Http\Middleware\BlogOwnerMiddleware;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\AuthorController;
 // use App\Http\Controllers\PaymentController;
-
+use App\Http\Controllers\Admin\CategoryController;
 
 Route::middleware(['auth', 'verified', AdminMiddleware::class])->prefix('admin')->group(function () {
     Route::get('/', function () {
         return redirect('/admin/dashboard');
     });
-
+    Route::resource('categories', CategoryController::class);
     Route::get('/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
     Route::get('/statiscal', [StatisticalController::class, 'index'])->name('admin.statiscal.index');
     Route::resource('blog', AdminBlogController::class)->names('admin.blog');
@@ -62,6 +62,10 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/search', [SearchController::class, 'index'])->name('search');
     // Route::get('/search', [SearchController::class, 'admin_index'])->name('admin.search');
+
+    Route::view('/about', 'footer.about')->name('about');
+    Route::view('/contact', 'footer.contact')->name('contact');
+    Route::view('/privacy', 'footer.privacy')->name('privacy');
 });
 
 Route::get('auth/google', [SocialAuthController::class, 'redirectToGoogle'])->name('auth.google');

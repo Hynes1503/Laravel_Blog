@@ -11,9 +11,10 @@ class BlogController extends Controller
 
     public function index_dashboard()
     {
-        // Lấy 3 bài viết có trạng thái public hoặc must paid, sắp xếp theo ID giảm dần
         $blogs = Blog::whereIn('status', ['public'])
+            ->inRandomOrder()
             ->paginate(6);
+
 
         // Lấy 3 bài viết mới update có trạng thái public hoặc must paid
         $recentBlogs = Blog::whereIn('status', ['public'])

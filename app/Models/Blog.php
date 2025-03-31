@@ -51,4 +51,9 @@ class Blog extends Model
     {
         return self::count();
     }
+    
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class, 'blog_category')->withTimestamps();
+    }
 }
