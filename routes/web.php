@@ -16,14 +16,15 @@ use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\BlogOwnerMiddleware;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\AuthorController;
-// use App\Http\Controllers\PaymentController;
-use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\AdminCategoryController;
+use App\Http\Controllers\CategoryController;
+use App\Models\Category;
 
 Route::middleware(['auth', 'verified', AdminMiddleware::class])->prefix('admin')->group(function () {
     Route::get('/', function () {
         return redirect('/admin/dashboard');
     });
-    Route::resource('categories', CategoryController::class);
+    Route::resource('categories', AdminCategoryController::class);
     Route::get('/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
     Route::get('/statiscal', [StatisticalController::class, 'index'])->name('admin.statiscal.index');
     Route::resource('blog', AdminBlogController::class)->names('admin.blog');
@@ -34,6 +35,7 @@ Route::middleware(['auth', 'verified', AdminMiddleware::class])->prefix('admin')
 
 
 Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/category/{id}', [CategoryController::class, 'index'])->name('user.category.index');
     Route::get('/discover', [DiscoverController::class, 'index'])->name('discover.index');
     Route::get('/dashboard', [BlogController::class, 'index_dashboard'])->name('dashboard');
     Route::resource("blog", BlogController::class)/*->except(['edit'])*/;

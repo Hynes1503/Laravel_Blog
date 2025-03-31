@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Blog;
 use Illuminate\Support\Facades\Storage;
-
+use App\Models\Category;
 
 class BlogController extends Controller
 {
@@ -27,7 +27,8 @@ class BlogController extends Controller
      */
     public function create()
     {
-        return view('blog.create');
+        $categories = Category::all();
+        return view('blog.create', compact('categories'));
     }
 
     /**
@@ -39,7 +40,9 @@ class BlogController extends Controller
             "title" => "required|string|max:50",
             "description" => "nullable|string",
             "banner_image" => "required|image",
-            "status" => "required|in:public,private"
+            "status" => "required|in:public,private",
+            "category_ids" => "required|array", // Nhận mảng ID danh mục
+            "category_ids.*" => "exists:categories,id" // Mỗi ID phải tồn tại trong bảng categories
         ]);
 
         // Gán user_id từ người dùng đăng nhập
@@ -50,8 +53,11 @@ class BlogController extends Controller
             $data["banner_image"] = $request->file("banner_image")->store("blog", "public");
         }
 
-        // Lưu vào database
-        Blog::create($data);
+        // Tạo blog
+        $blog = Blog::create($data);
+
+        // Gán danh mục cho blog
+        $blog->categories()->attach($data["category_ids"]);
 
         return to_route('blog.index')->with("success", "Blog created successfully");
     }

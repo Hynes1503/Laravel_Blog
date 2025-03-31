@@ -58,6 +58,26 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     <h1 class="font-semibold text-3xl text-gray-800 leading-tight mb-3">
+                        {{ __('Categories') }}
+                    </h1>
+                    <div class="flex gap-2">
+                        @foreach ($categories as $category)
+                            <a href="{{ route('user.category.index', $category->id) }}"
+                                class="w-1/5 bg-black text-white text-center py-2 rounded-full">
+                                {{ $category->name }}
+                            </a>
+                        @endforeach
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 text-gray-900">
+                    <h1 class="font-semibold text-3xl text-gray-800 leading-tight mb-3">
                         {{ __('Recently Updated') }}
                     </h1>
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -112,7 +132,7 @@
             </div>
         </div>
     </div>
-    <div class="py-12">
+    <div>
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">

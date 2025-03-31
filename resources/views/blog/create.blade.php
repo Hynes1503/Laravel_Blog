@@ -26,8 +26,9 @@
                         placeholder="Enter title">
                 </div>
                 @error('title')
-                    <div class="error">{{ $message }}</div>
+                    <div class="error text-red-500">{{ $message }}</div>
                 @enderror
+
                 <!-- Description Field -->
                 <div class="mb-4">
                     <label for="description" class="block text-sm font-medium text-gray-700">Description:</label>
@@ -42,6 +43,22 @@
                     <input type="file" id="banner_image" name="banner_image"
                         class="mt-1 p-2 w-full border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-200">
                 </div>
+
+                <!-- Category Field -->
+                <div class="mb-4">
+                    <label for="category_id" class="block text-sm font-medium text-gray-700">Category:</label>
+                    <select id="category_id" name="category_id"
+                        class="mt-1 p-3 w-full border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-200">
+                        <option value="">Select Category</option>
+                        @foreach ($categories as $category)
+                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                @error('category_id')
+                    <div class="error text-red-500">{{ $message }}</div>
+                @enderror
+
                 <!-- Status Field -->
                 <div class="mb-4">
                     <label for="status" class="block text-sm font-medium text-gray-700">Status:</label>
@@ -49,9 +66,9 @@
                         class="mt-1 p-3 w-full border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-200">
                         <option value="public">Public</option>
                         <option value="private">Private</option>
-                        {{-- <option value="must-paid">Must Paid</option> --}}
                     </select>
                 </div>
+
                 <!-- Submit Button -->
                 <div class="mt-6">
                     <button type="submit"

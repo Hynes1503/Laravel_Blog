@@ -5,16 +5,18 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Blog;
 use Illuminate\Support\Facades\Storage;
+use App\Models\Category;
 
 class BlogController extends Controller
 {
 
     public function index_dashboard()
     {
-        $blogs = Blog::whereIn('status', ['public'])
-            ->inRandomOrder()
-            ->paginate(6);
+        $categories = Category::all();
 
+        // Lấy 3 bài viết có trạng thái public hoặc must paid, sắp xếp theo ID giảm dần
+        $blogs = Blog::whereIn('status', ['public'])
+            ->paginate(6);
 
         // Lấy 3 bài viết mới update có trạng thái public hoặc must paid
         $recentBlogs = Blog::whereIn('status', ['public'])
@@ -30,7 +32,7 @@ class BlogController extends Controller
             ->limit(3)
             ->get();
 
-        return view('dashboard', compact('blogs', 'topFavoritedBlogs', 'recentBlogs'));
+        return view('dashboard', compact('blogs', 'topFavoritedBlogs', 'recentBlogs','categories'));
     }
 
     public function index()
@@ -44,7 +46,8 @@ class BlogController extends Controller
      */
     public function create()
     {
-        return view('blog.create');
+        $categories = Category::all();
+        return view('blog.create', compact('categories'));
     }
 
     /**
@@ -56,7 +59,8 @@ class BlogController extends Controller
             "title" => "required|string|max:50",
             "description" => "nullable|string",
             "banner_image" => "required|image",
-            "status" => "required|in:public,private"
+            "status" => "required|in:public,private",
+            "category_id" => "required|exists:categories,id" // Đảm bảo category_id tồn tại
         ]);
 
         // Gán user_id từ người dùng đăng nhập
@@ -67,18 +71,24 @@ class BlogController extends Controller
             $data["banner_image"] = $request->file("banner_image")->store("blog", "public");
         }
 
-        // Lưu vào database
+        // Tạo blog với category_id
         Blog::create($data);
 
         return to_route('blog.index')->with("success", "Blog created successfully");
     }
+
 
     /**
      * Display the specified resource.
      */
     public function show(Blog $blog)
     {
-        return view('blog.show', ["blog" => $blog]);
+        $blog->load('category'); // Nạp quan hệ category
+
+        return view('blog.show', [
+            "blog" => $blog,
+            "category" => $blog->category
+        ]);
     }
 
     /**

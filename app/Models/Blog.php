@@ -13,6 +13,7 @@ class Blog extends Model
         "user_id",
         "status",
         "facebook_post_id",
+        "category_id",
     ];
 
     protected $withCount = ['favoritedByUsers']; // Tự động đếm số lượt thích
@@ -51,9 +52,9 @@ class Blog extends Model
     {
         return self::count();
     }
-    
-    public function categories()
+
+    public function category()
     {
-        return $this->belongsToMany(Category::class, 'blog_category')->withTimestamps();
+        return $this->belongsTo(Category::class);
     }
 }

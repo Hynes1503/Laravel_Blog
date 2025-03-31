@@ -80,7 +80,11 @@
                     <img src="{{ asset('storage/' . $blog->banner_image) }}" alt="Banner Image"
                         class="w-full h-60 object-contain rounded-lg shadow-md">
                 </div>
-
+                @if (!empty($category))
+                    <a href="{{ route('user.category.index', $category->id) }}">
+                        <i class="fa-solid fa-tag"></i> {{ $category->name }}
+                    </a>
+                @endif
                 <hr class="my-4 border-gray-300">
                 <form method="POST" action="{{ route('blog.favorite', $blog->id) }}">
                     @csrf
@@ -188,8 +192,8 @@
                     <div class="max-w-2xl mx-auto mt-6 bg-white p-4 rounded-lg shadow">
                         <form action="{{ route('comments.store', $blog) }}" method="POST">
                             @csrf
-                            <textarea name="content" class="w-full p-2 border rounded-lg"
-                                placeholder="Comment as user {{ auth()->user()->name }}" required></textarea>
+                            <textarea name="content" class="w-full p-2 border rounded-lg" placeholder="Comment as user {{ auth()->user()->name }}"
+                                required></textarea>
                             <button type="submit"
                                 class="px-4 py-2 border border-black text-black text-sm font-semibold rounded-lg shadow-md hover:bg-transparent hover:text-black transition bg-white">
                                 Comment

@@ -41,8 +41,8 @@
                     <x-nav-link :href="route('admin.blog.index')" :active="request()->routeIs('admin.blog.index')" class="text-white">
                         {{ __('Blogs') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('admin.statiscal.index')" :active="request()->routeIs('admin.statiscal.index')" class="text-white">
-                        {{ __('Statistical') }}
+                    <x-nav-link :href="route('categories.index')" :active="request()->routeIs('categories.index')" class="text-white">
+                        {{ __('Categories') }}
                     </x-nav-link>
                 </div>
 
