@@ -5,21 +5,25 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Blog;
+
 class StatisticalController extends Controller
 {
     public function index()
     {
         $totalViewTime = Blog::sum('view_time');
         $viewTimeByCategory = Blog::getViewTimeByCategory();
-        $topBlogs = Blog::getTopViewTimeBlogs(10);
+        $topBlogs = Blog::withCount('favoritedByUsers')
+            ->orderBy('view_time', 'desc')
+            ->limit(10)
+            ->get();
         $commonTraits = $this->analyzeCommonTraits($topBlogs);
 
-        // Chuẩn bị dữ liệu cho biểu đồ
         $categoryLabels = $viewTimeByCategory->pluck('category.name')->toArray();
         $categoryData = $viewTimeByCategory->pluck('total_view_time')->toArray();
 
         $topBlogTitles = $topBlogs->pluck('title')->toArray();
         $topBlogViewTimes = $topBlogs->pluck('view_time')->toArray();
+        $topBlogLikes = $topBlogs->pluck('favorited_by_users_count')->toArray();
 
         return view('admin.statiscal.index', compact(
             'totalViewTime',
@@ -29,7 +33,8 @@ class StatisticalController extends Controller
             'categoryLabels',
             'categoryData',
             'topBlogTitles',
-            'topBlogViewTimes'
+            'topBlogViewTimes',
+            'topBlogLikes'
         ));
     }
 

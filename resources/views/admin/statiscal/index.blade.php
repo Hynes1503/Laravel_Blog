@@ -5,7 +5,7 @@
         <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between w-full">
                 <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                    {{ __('Dashboard') }}
+                    {{ __('Statistical') }}
                 </h2>
             </div>
         </div>
@@ -17,29 +17,26 @@
         <!-- Tổng thời gian xem -->
         <div class="card mb-4">
             <div class="card-body">
-                <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                <h3 class="font-semibold text-xl text-gray-800 leading-tight">
                     Tổng thời gian xem tất cả blog: {{ number_format($totalViewTime) }} giây
-                </h2>
+                </h3>
+
             </div>
         </div>
 
-        <!-- Biểu đồ View Time theo Danh mục -->
+        <!-- View Time theo Danh mục -->
         <div class="card mb-4">
             <div class="card-body">
-                <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                    {{ __('View time  theo danh mục') }}
-                </h2>
-                <canvas id="categoryChart" height="100"></canvas>
+                <h3 class="font-semibold text-xl text-gray-800 leading-tight">View Time theo Danh mục</h3>
+                <canvas id="categoryChart" width="600" height="400"></canvas>
             </div>
         </div>
 
-        <!-- Biểu đồ Top 10 Blog -->
+        <!-- Top 10 Blog (kết hợp đường và cột) -->
         <div class="card mb-4">
             <div class="card-body">
-                <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                    {{ __('Top 10 Blog có view cao nhất') }}
-                </h2>
-                <canvas id="topBlogsChart" height="100"></canvas>
+                <h3 class="font-semibold text-xl text-gray-800 leading-tight">Top 10 Blog: View Time (Đường) và Lượt Thích (Cột)</h3>
+                <canvas id="topBlogsChart" width="600" height="400"></canvas>
             </div>
         </div>
 
@@ -48,11 +45,13 @@
             <div class="card-body">
                 <h3 class="font-semibold text-xl text-gray-800 leading-tight">Điểm chung của các Blog có View Time cao</h3>
                 <ul>
-                    <li>- Độ dài tiêu đề trung bình: {{ $commonTraits['avg_title_length'] }} ký tự</li>
-                    <li>- Các danh mục phổ biến:
+                    <li class="ml-2">- Độ dài tiêu đề trung bình: {{ $commonTraits['avg_title_length'] }} ký tự</li>
+                    <li class="ml-2">- Tỷ lệ blog có hình ảnh: {{ $commonTraits['has_image_percentage'] }}%</li>
+                    <li class="ml-2">- Các danh mục phổ biến:
                         <ul>
                             @foreach ($commonTraits['popular_categories'] as $catId => $count)
-                                <li class="ml-4">+ {{ \App\Models\Category::find($catId)->name ?? 'Không xác định' }}: {{ $count }} blog</li>
+                                <li class="ml-6">+ {{ \App\Models\Category::find($catId)->name ?? 'Không xác định' }}: {{ $count }}
+                                    blog</li>
                             @endforeach
                         </ul>
                     </li>
@@ -63,69 +62,85 @@
 @endsection
 
 @section('scripts')
-    <!-- Thêm Chart.js từ CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Biểu đồ View Time theo Danh mục (Line Chart)
-            const categoryCtx = document.getElementById('categoryChart').getContext('2d');
-            new Chart(categoryCtx, {
-                type: 'line', // Sử dụng biểu đồ đường
+        // Biến toàn cục để lưu các biểu đồ
+        const charts = {};
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Category Chart
+            charts['categoryChart'] = new Chart(document.getElementById('categoryChart').getContext('2d'), {
+                type: 'line',
                 data: {
                     labels: @json($categoryLabels),
                     datasets: [{
-                        label: 'Tổng View Time (giây)',
+                        label: 'View Time',
                         data: @json($categoryData),
-                        fill: false,
                         borderColor: 'rgba(54, 162, 235, 1)',
+                        fill: false,
                         tension: 0.1
                     }]
                 },
                 options: {
                     scales: {
                         y: {
-                            beginAtZero: true,
-                            title: {
-                                display: true,
-                                text: 'Thời gian xem (giây)'
-                            }
-                        },
-                        x: {
-                            title: {
-                                display: true,
-                                text: 'Danh mục'
-                            }
+                            beginAtZero: true
                         }
                     }
                 }
             });
 
-            // Biểu đồ Top 10 Blog (Line Chart)
-            const topBlogsCtx = document.getElementById('topBlogsChart').getContext('2d');
-            new Chart(topBlogsCtx, {
-                type: 'line', // Sử dụng biểu đồ đường
+            // Top Blogs Chart (Kết hợp đường và cột)
+            charts['topBlogsChart'] = new Chart(document.getElementById('topBlogsChart').getContext('2d'), {
+                type: 'bar',
                 data: {
                     labels: @json($topBlogTitles),
                     datasets: [{
-                        label: 'View Time (giây)',
-                        data: @json($topBlogViewTimes),
-                        fill: false,
-                        borderColor: 'rgba(75, 192, 192, 1)',
-                        tension: 0.1
-                    }]
+                            type: 'line', // Biểu đồ đường cho View Time
+                            label: 'View Time (giây)',
+                            data: @json($topBlogViewTimes),
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            fill: false,
+                            tension: 0.1,
+                            yAxisID: 'y-view-time'
+                        },
+                        {
+                            type: 'bar', // Biểu đồ cột cho Likes
+                            label: 'Số lượt Thích',
+                            data: @json($topBlogLikes),
+                            backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                            borderColor: 'rgba(255, 99, 132, 1)',
+                            borderWidth: 1,
+                            yAxisID: 'y-likes'
+                        }
+                    ]
                 },
                 options: {
                     scales: {
-                        y: {
+                        'y-view-time': {
+                            type: 'linear',
+                            position: 'left',
                             beginAtZero: true,
                             title: {
                                 display: true,
                                 text: 'Thời gian xem (giây)'
                             }
                         },
+                        'y-likes': {
+                            type: 'linear',
+                            position: 'right',
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Số lượt Thích'
+                            },
+                            grid: {
+                                drawOnChartArea: false
+                            }
+                        },
                         x: {
                             ticks: {
-                                maxRotation: 45, // Xoay nhãn nếu quá dài
+                                maxRotation: 45,
                                 autoSkip: true
                             },
                             title: {
