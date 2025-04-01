@@ -1,10 +1,10 @@
 @extends('footer.app')
 
-@section('title', 'Contact Us - HynesBlog')
+@section('title', $page->title . ' - HynesBlog')
 
 @section('content')
 <div class="container mt-5">
-    <h1>Contact Us</h1>
-    <p>You can contact us via email: <strong>support@hynesblog.com</strong></p>
+    <h1 class="font-semibold text-3xl text-gray-800 leading-tight mb-3">{{ $page->title }}</h1>
+    <p>{!! $page->content !!}</p>
 </div>
 @endsection

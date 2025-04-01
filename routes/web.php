@@ -19,11 +19,16 @@ use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\Admin\AdminCategoryController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\Admin\AdminBlogStatsController;
+use App\Http\Controllers\Admin\PageController;
 
 Route::middleware(['auth', 'verified', AdminMiddleware::class])->prefix('admin')->group(function () {
     Route::get('/', function () {
         return redirect('/admin/dashboard');
     });
+    Route::get('/pages', [PageController::class, 'index'])->name('admin.pages.index');
+    Route::get('/pages/{page}', [PageController::class, 'edit'])->name('admin.pages.edit');
+    Route::patch('/pages/{page}', [PageController::class, 'update'])->name('admin.pages.update');
+
     Route::get('/statiscal', [StatisticalController::class, 'index'])->name('admin.blog-stats');
     // Route::get('/statiscal', [StatisticalController::class, 'index'])->name('admin.statiscal.index');
     Route::get('/blog-stats', [AdminBlogStatsController::class, 'index'])->name('blog-stats');
@@ -67,9 +72,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/search', [SearchController::class, 'index'])->name('search');
     // Route::get('/search', [SearchController::class, 'admin_index'])->name('admin.search');
 
-    Route::view('/about', 'footer.about')->name('about');
-    Route::view('/contact', 'footer.contact')->name('contact');
-    Route::view('/privacy', 'footer.privacy')->name('privacy');
+    Route::get('/page/about-us', [PageController::class, 'about'])->name('about');
+    Route::get('/page/contact-us', [PageController::class, 'contact'])->name('contact');
+    Route::get('/page/privacy', [PageController::class, 'privacy'])->name('privacy');
 });
 
 Route::get('auth/google', [SocialAuthController::class, 'redirectToGoogle'])->name('auth.google');

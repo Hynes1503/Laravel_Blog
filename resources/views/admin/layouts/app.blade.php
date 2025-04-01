@@ -79,6 +79,10 @@
                         class="nav-link block px-3 py-2 rounded-md text-white hover:text-gray-200">
                         Categories
                     </a>
+                    <a href="{{ route('admin.pages.index') }}"
+                        class="nav-link block px-3 py-2 rounded-md text-white hover:text-gray-200">
+                        Pages
+                    </a>
                 </div>
 
                 <!-- Settings Dropdown -->
