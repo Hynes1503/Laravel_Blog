@@ -43,6 +43,11 @@
                                     class="px-3 py-1 rounded-md item text-white bg-green-600">
                                     <i class="fa-solid fa-eye"></i>View
                                 </a>
+                                
+                                <a href="{{ route('admin.user.edit', $User->id) }}"
+                                    class="px-3 py-1 rounded-md item text-white bg-blue-600">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                    Edit</a>
                                 <!-- Nút Delete -->
                                 <form action="{{ route('admin.user.destroy', $User) }}" method="POST"
                                     onsubmit="return confirm('Are you sure you want to delete this user?');" class="flex">

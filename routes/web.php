@@ -38,6 +38,8 @@ Route::middleware(['auth', 'verified', AdminMiddleware::class])->prefix('admin')
     Route::get('/user', [UserController::class, 'index'])->name('admin.user.index');
     Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('admin.user.destroy');
     Route::get('/user/{user_id}', [UserController::class, 'index_author'])->name('admin.user.show');
+    Route::get('/user/{user}/edit', [UserController::class, 'edit'])->name('admin.user.edit');
+    Route::put('/user/{user}', [UserController::class, 'update'])->name('admin.user.update');
 });
 
 

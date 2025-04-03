@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Blog;
 use App\Models\User;
 use Illuminate\Container\Attributes\Storage;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -29,11 +30,32 @@ class UserController extends Controller
         ]);
     }
 
-    public function edit(User $User)
+    public function edit(User $user)
     {
-        return view('admin.user.edit', ["User" => $User]);
+        return view('admin.user.edit', ['user' => $user]);
     }
 
+    public function update(Request $request, User $user)
+    {
+        try {
+            $validatedData = $request->validate([
+                'name' => 'required|string|max:255',
+                'email' => 'required|email|unique:users,email,' . $user->id,
+                'password' => 'nullable|min:6',
+            ]);
+
+            $user->name = $validatedData['name'];
+            $user->email = $validatedData['email'];
+            if (!empty($validatedData['password'])) {
+                $user->password = Hash::make($validatedData['password']);
+            }
+            $user->save();
+
+            return to_route('admin.user.index')->with('success', 'User updated successfully');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
 
     public function destroy($id)
     {

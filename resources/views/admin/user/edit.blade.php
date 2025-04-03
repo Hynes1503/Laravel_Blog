@@ -7,9 +7,6 @@
                 <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                     {{ __('Users') }}
                 </h2>
-                <div class="hidden sm:flex sm:items-center mx-auto">
-                    <x-search-bar />
-                </div>
             </div>
         </div>
     </header>
@@ -19,7 +16,7 @@
     <div class="container mx-auto px-4 py-8">
         <!-- Page Heading -->
         <div class="flex justify-between items-center mb-6">
-            <h2 class="text-2xl font-bold text-gray-800"><i class="fa-solid fa-pen-to-square"></i> Update Blog</h2>
+            <h2 class="text-2xl font-bold text-gray-800"><i class="fa-solid fa-pen-to-square"></i> Update User</h2>
             <a href="{{ url()->previous() }}"
                 class="px-4 py-2 bg-gray-600 text-white text-sm font-semibold rounded-lg shadow-md hover:bg-gray-700 transition">
                 <i class="fa-solid fa-arrow-left"></i> Back
@@ -28,59 +25,43 @@
 
         <!-- Form Container -->
         <div class="bg-white shadow-lg rounded-lg p-6 max-w-2xl mx-auto">
-            <form action="{{ route('admin.user.update', $User) }}" method="post" enctype="multipart/form-data">
+            <form action="{{ route('admin.user.update', $user->id) }}" method="post" enctype="multipart/form-data">
                 @csrf
-                @method('patch')
-                <!-- Title Field -->
+                @method('put')
                 <div class="mb-4">
-                    <label for="title" class="block text-sm font-medium text-gray-700">Title:</label>
-                    <input type="text" id="title" name="title" value="{{ $User->title }}"
+                    <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+                    <input type="text" id="name" name="name" value="{{ $user->name }}"
                         class="mt-1 p-3 w-full border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-200"
-                        placeholder="Enter title">
-                    @error('title')
+                        placeholder="Enter new name">
+                    @error('name')
                         <div class="error">{{ $message }}</div>
                     @enderror
                 </div>
 
-                <!-- Description Field -->
                 <div class="mb-4">
-                    <label for="description" class="block text-sm font-medium text-gray-700">Description:</label>
-                    <textarea id="description" name="description" rows="4"
+                    <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                    <input type="email" id="email" name="email" value="{{ $user->email }}"
                         class="mt-1 p-3 w-full border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-200"
-                        placeholder="Enter description">{{ $User->description }}</textarea>
-                    @error('description')
+                        placeholder="Enter new email">
+                    @error('email')
                         <div class="error">{{ $message }}</div>
                     @enderror
                 </div>
 
-                <!-- Banner Image Preview -->
-                <label class="block text-sm font-medium text-gray-700">Current Banner Image:</label>
-                <div class="mb-6 bg-black rounded-lg min-w-[600px]">
+                <div class="mb-4">
+                    <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+                    <input type="password" id="password" name="password"
+                        class="mt-1 p-3 w-full border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-200"
+                        placeholder="Enter new password">
+                    @error('password')
+                        <div class="error">{{ $message }}</div>
+                    @enderror
+                </div>
 
-                    <img src="{{ asset('storage/' . $User->banner_image) }}" alt="Banner Image"
-                        class="w-full h-60 object-contain rounded-lg shadow-md">
-                </div>
-                <!-- Banner Image Upload -->
-                <div class="mb-4">
-                    <label for="banner_image" class="block text-sm font-medium text-gray-700">Upload New Banner
-                        Image:</label>
-                    <input type="file" id="banner_image" name="banner_image"
-                        class="mt-1 p-2 w-full border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-200">
-                </div>
-                <div class="mb-4">
-                    <label for="status" class="block text-sm font-medium text-gray-700">Status:</label>
-                    <select id="status" name="status"
-                        class="mt-1 p-3 w-full border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-200">
-                        <option value="public" {{ $User->status === 'public' ? 'selected' : '' }}>Public</option>
-                        <option value="private" {{ $User->status === 'private' ? 'selected' : '' }}>Private</option>
-                        {{-- <option value="must-paid" {{ $User->status === 'must-paid' ? 'selected' : '' }}>Must Paid</option> --}}
-                    </select>
-                </div>
-                <!-- Submit Button -->
                 <div class="mt-6">
                     <button type="submit"
                         class="w-full border border-black text-black py-3 rounded-lg font-semibold shadow-md hover:bg-gray-300 hover:text-white transition bg-white">
-                        <i class="fa-solid fa-check"></i> Update Blog
+                        <i class="fa-solid fa-check"></i> Update User
                     </button>
                 </div>
             </form>
