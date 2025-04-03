@@ -74,4 +74,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Blog::class)->count();
     }
+
+    public function blogs()
+    {
+        return $this->hasMany(Blog::class, 'user_id', 'id');
+    }
 }

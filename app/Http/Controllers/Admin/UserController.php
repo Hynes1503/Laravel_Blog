@@ -41,17 +41,20 @@ class UserController extends Controller
             // Tìm user theo id
             $user = User::findOrFail($id);
 
-            // Kiểm tra nếu là admin
+            // Không cho phép xóa admin
             if ($user->is_admin) {
                 return redirect()->back()->with('error', 'Can not delete admin account');
             }
+
+            // Xóa tất cả blog của user
+            $user->blogs()->delete();
 
             // Xóa user
             $user->delete();
 
             return redirect()->back()->with('success', 'Delete successful');
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Failed');
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
 }

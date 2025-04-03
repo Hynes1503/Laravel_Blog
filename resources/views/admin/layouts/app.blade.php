@@ -137,6 +137,16 @@
 
         <!-- Nội dung chính -->
         <div class="transition-all duration-300" :class="{ 'ml-64': sidebarOpen, 'ml-0': !sidebarOpen }">
+            @if (session('error'))
+                <div class="alert alert-danger" id="error-alert">
+                    {{ session('error') }}
+                </div>
+                <script>
+                    setTimeout(function() {
+                        document.getElementById('error-alert').style.display = 'none';
+                    }, 5500); // 2000ms = 2 giây
+                </script>
+            @endif
             @section('success')
                 <div class="success-message">{{ session('success') }}</div>
             @endsection

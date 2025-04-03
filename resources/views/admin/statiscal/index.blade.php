@@ -14,13 +14,61 @@
 
 @section('content')
     <div class="container mt-5">
+
+        <div class="card mb-4">
+            <div class="card-body flex justify-center gap-4">
+                <a href="{{ route('admin.user.index') }}" class="block flex-1 max-w-xs">
+                    <div class="card shadow-lg rounded-lg overflow-hidden w-full h-full border-1 border-black"
+                        style="background-image: url('{{ asset('image/User_Icon.png') }}'); background-size: cover; background-position: center;">
+                        <div class="card-body bg-white bg-opacity-75 p-4 rounded h-full flex items-center justify-center">
+                            <h5 class="card-title text-xl font-semibold text-gray-800">
+                                <i class="fa-solid fa-circle-user"></i> User
+                            </h5>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="{{ route('admin.blog.index') }}" class="block flex-1 max-w-xs">
+                    <div class="card shadow-lg rounded-lg overflow-hidden w-full h-full border-1 border-black"
+                        style="background-image: url('{{ asset('image/Blog_Icon.png') }}'); background-size: cover; background-position: center;">
+                        <div class="card-body bg-white bg-opacity-75 p-4 rounded h-full flex items-center justify-center">
+                            <h5 class="card-title text-xl font-semibold text-gray-800">
+                                <i class="fa-solid fa-blog"></i> Blogs
+                            </h5>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="{{ route('categories.index') }}" class="block flex-1 max-w-xs">
+                    <div class="card shadow-lg rounded-lg overflow-hidden w-full h-full border-1 border-black"
+                        style="background-image: url('{{ asset('image/category_icon.png') }}'); background-size: cover; background-position: center;">
+                        <div class="card-body bg-white bg-opacity-75 p-4 rounded h-full flex items-center justify-center">
+                            <h5 class="card-title text-xl font-semibold text-gray-800">
+                                <i class="fa-solid fa-icons"></i> Categories
+                            </h5>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="{{ route('admin.pages.index') }}" class="block flex-1 max-w-xs">
+                    <div class="card shadow-lg rounded-lg overflow-hidden w-full h-full border-1 border-black"
+                        style="background-image: url('{{ asset('image/page_icon.png') }}'); background-size: cover; background-position: center;">
+                        <div class="card-body bg-white bg-opacity-75 p-4 rounded h-full flex items-center justify-center">
+                            <h5 class="card-title text-xl font-semibold text-gray-800">
+                                <i class="fa-solid fa-file"></i> Pages
+                            </h5>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
         <!-- Tổng thời gian xem -->
         <div class="card mb-4">
             <div class="card-body">
                 <h3 class="font-semibold text-xl text-gray-800 leading-tight">
                     Tổng thời gian xem tất cả blog: {{ number_format($totalViewTime) }} giây
                 </h3>
-
             </div>
         </div>
 
@@ -28,14 +76,16 @@
         <div class="card mb-4">
             <div class="card-body">
                 <h3 class="font-semibold text-xl text-gray-800 leading-tight">View Time theo Danh mục</h3>
-                <canvas id="categoryChart" width="600" height="400"></canvas>
+                <canvas id="categoryChart" width="300" height="400"></canvas>
             </div>
         </div>
 
         <!-- Top 10 Blog (kết hợp đường và cột) -->
         <div class="card mb-4">
             <div class="card-body">
-                <h3 class="font-semibold text-xl text-gray-800 leading-tight">Top 10 Blog: View Time (Đường) và Lượt Thích (Cột)</h3>
+                <h3 class="font-semibold text-xl text-gray-800 leading-tight">
+                    Top 10 Blog: View Time và Lượt Thích
+                </h3>
                 <canvas id="topBlogsChart" width="600" height="400"></canvas>
             </div>
         </div>
@@ -50,7 +100,8 @@
                     <li class="ml-2">- Các danh mục phổ biến:
                         <ul>
                             @foreach ($commonTraits['popular_categories'] as $catId => $count)
-                                <li class="ml-6">+ {{ \App\Models\Category::find($catId)->name ?? 'Không xác định' }}: {{ $count }}
+                                <li class="ml-6">+ {{ \App\Models\Category::find($catId)->name ?? 'Không xác định' }}:
+                                    {{ $count }}
                                     blog</li>
                             @endforeach
                         </ul>
