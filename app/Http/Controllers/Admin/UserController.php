@@ -30,6 +30,28 @@ class UserController extends Controller
         ]);
     }
 
+    public function create()
+    {
+        return view('admin.user.create');
+    }
+
+    public function store(Request $request)
+    {
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|min:6',
+        ]);
+
+        User::create([
+            'name' => $validatedData['name'],
+            'email' => $validatedData['email'],
+            'password' => Hash::make($validatedData['password']),
+        ]);
+
+        return redirect()->route('admin.user.index')->with('success', 'User added successfully');
+    }
+
     public function edit(User $user)
     {
         return view('admin.user.edit', ['user' => $user]);

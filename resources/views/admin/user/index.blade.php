@@ -13,9 +13,15 @@
 @endsection
 
 @section('content')
-    <div class="container mx-auto px-4">
+    <div class="container mx-auto px-4 py-8">
         <div class="flex justify-between items-center mb-6">
-            <h2 class="text-2xl font-bold text-gray-800"><i class="fa-solid fa-user"></i> All Users</h2>
+            <h2 class="text-2xl font-bold text-gray-800">
+                <i class="fa-solid fa-user"></i> All Users
+            </h2>
+            <a href="{{ route('admin.user.create') }}"
+                class="px-4 py-2 bg-blue-600 text-white text-sm font-semibold rounded-lg shadow-md hover:bg-blue-700 transition bg-black">
+                <i class="fa-solid fa-plus"></i> Create New User
+            </a>
         </div>
         <table class="table">
             <thead class="thead-dark">
@@ -43,7 +49,7 @@
                                     class="px-3 py-1 rounded-md item text-white bg-green-600">
                                     <i class="fa-solid fa-eye"></i>View
                                 </a>
-                                
+
                                 <a href="{{ route('admin.user.edit', $User->id) }}"
                                     class="px-3 py-1 rounded-md item text-white bg-blue-600">
                                     <i class="fa-solid fa-pen-to-square"></i>

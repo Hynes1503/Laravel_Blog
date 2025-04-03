@@ -40,6 +40,10 @@ Route::middleware(['auth', 'verified', AdminMiddleware::class])->prefix('admin')
     Route::get('/user/{user_id}', [UserController::class, 'index_author'])->name('admin.user.show');
     Route::get('/user/{user}/edit', [UserController::class, 'edit'])->name('admin.user.edit');
     Route::put('/user/{user}', [UserController::class, 'update'])->name('admin.user.update');
+    Route::get('/user/create', [UserController::class, 'create'])->name('admin.user.create');
+    Route::post('/user', [UserController::class, 'store'])->name('admin.user.store');
+    Route::get('/register-user', [UserController::class, 'create'])->name('admin.user.create');
+
 });
 
 
