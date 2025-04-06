@@ -8,6 +8,7 @@
     "require": {
         "php": "^8.2",
         "facebook/graph-sdk": "^5.1",
+        "guzzlehttp/guzzle": "^7.9",
         "laravel/breeze": "^2.3",
         "laravel/framework": "^12.0",
         "laravel/socialite": "^5.18",

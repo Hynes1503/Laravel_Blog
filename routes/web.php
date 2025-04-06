@@ -99,4 +99,9 @@ Route::fallback(function () {
     return response()->view('errors.404', [], 404);
 });
 
+use App\Http\Controllers\GeminiController;
+
+Route::get('/gemini', [GeminiController::class, 'index'])->name('gemini.index');
+Route::post('/gemini/chat', [GeminiController::class, 'chat'])->name('gemini.chat');
+
 require __DIR__ . '/auth.php';
