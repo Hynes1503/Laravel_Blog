@@ -5,7 +5,7 @@
         <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between w-full">
                 <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                    {{ __('Statistical') }}
+                    {{ __('Statistics') }}
                 </h2>
             </div>
         </div>
@@ -63,46 +63,45 @@
             </div>
         </div>
 
-        <!-- Tổng thời gian xem -->
+        <!-- Total View Time -->
         <div class="card mb-4">
             <div class="card-body">
                 <h3 class="font-semibold text-xl text-gray-800 leading-tight">
-                    Tổng thời gian xem tất cả blog: {{ number_format($totalViewTime) }} giây
+                    Total view time of all blogs: {{ number_format($totalViewTime) }} seconds
                 </h3>
             </div>
         </div>
 
-        <!-- View Time theo Danh mục -->
+        <!-- View Time by Category -->
         <div class="card mb-4">
             <div class="card-body">
-                <h3 class="font-semibold text-xl text-gray-800 leading-tight">View Time theo Danh mục</h3>
+                <h3 class="font-semibold text-xl text-gray-800 leading-tight">View Time by Category</h3>
                 <canvas id="categoryChart" width="300" height="400"></canvas>
             </div>
         </div>
 
-        <!-- Top 10 Blog (kết hợp đường và cột) -->
+        <!-- Top 10 Blogs (combined line and bar) -->
         <div class="card mb-4">
             <div class="card-body">
                 <h3 class="font-semibold text-xl text-gray-800 leading-tight">
-                    Top 10 Blog: View Time và Lượt Thích
+                    Top 10 Blogs: View Time and Likes
                 </h3>
                 <canvas id="topBlogsChart" width="600" height="400"></canvas>
             </div>
         </div>
 
-        <!-- Điểm chung -->
+        <!-- Common Traits -->
         <div class="card">
             <div class="card-body">
-                <h3 class="font-semibold text-xl text-gray-800 leading-tight">Điểm chung của các Blog có View Time cao</h3>
+                <h3 class="font-semibold text-xl text-gray-800 leading-tight">Common Traits of Blogs with High View Time</h3>
                 <ul>
-                    <li class="ml-2">- Độ dài tiêu đề trung bình: {{ $commonTraits['avg_title_length'] }} ký tự</li>
-                    <li class="ml-2">- Tỷ lệ blog có hình ảnh: {{ $commonTraits['has_image_percentage'] }}%</li>
-                    <li class="ml-2">- Các danh mục phổ biến:
+                    <li class="ml-2">- Average title length: {{ $commonTraits['avg_title_length'] }} characters</li>
+                    <li class="ml-2">- Percentage of blogs with images: {{ $commonTraits['has_image_percentage'] }}%</li>
+                    <li class="ml-2">- Popular categories:
                         <ul>
                             @foreach ($commonTraits['popular_categories'] as $catId => $count)
-                                <li class="ml-6">+ {{ \App\Models\Category::find($catId)->name ?? 'Không xác định' }}:
-                                    {{ $count }}
-                                    blog</li>
+                                <li class="ml-6">+ {{ \App\Models\Category::find($catId)->name ?? 'Unknown' }}:
+                                    {{ $count }} blogs</li>
                             @endforeach
                         </ul>
                     </li>
@@ -115,7 +114,7 @@
 @section('scripts')
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
     <script>
-        // Biến toàn cục để lưu các biểu đồ
+        // Global variable to store charts
         const charts = {};
 
         document.addEventListener('DOMContentLoaded', function() {
@@ -141,14 +140,14 @@
                 }
             });
 
-            // Top Blogs Chart (Kết hợp đường và cột)
+            // Top Blogs Chart (Combined line and bar)
             charts['topBlogsChart'] = new Chart(document.getElementById('topBlogsChart').getContext('2d'), {
                 type: 'bar',
                 data: {
                     labels: @json($topBlogTitles),
                     datasets: [{
-                            type: 'line', // Biểu đồ đường cho View Time
-                            label: 'View Time (giây)',
+                            type: 'line', // Line chart for View Time
+                            label: 'View Time (seconds)',
                             data: @json($topBlogViewTimes),
                             borderColor: 'rgba(75, 192, 192, 1)',
                             fill: false,
@@ -156,8 +155,8 @@
                             yAxisID: 'y-view-time'
                         },
                         {
-                            type: 'bar', // Biểu đồ cột cho Likes
-                            label: 'Số lượt Thích',
+                            type: 'bar', // Bar chart for Likes
+                            label: 'Number of Likes',
                             data: @json($topBlogLikes),
                             backgroundColor: 'rgba(255, 99, 132, 0.5)',
                             borderColor: 'rgba(255, 99, 132, 1)',
@@ -174,7 +173,7 @@
                             beginAtZero: true,
                             title: {
                                 display: true,
-                                text: 'Thời gian xem (giây)'
+                                text: 'View Time (seconds)'
                             }
                         },
                         'y-likes': {
@@ -183,7 +182,7 @@
                             beginAtZero: true,
                             title: {
                                 display: true,
-                                text: 'Số lượt Thích'
+                                text: 'Number of Likes'
                             },
                             grid: {
                                 drawOnChartArea: false
@@ -196,7 +195,7 @@
                             },
                             title: {
                                 display: true,
-                                text: 'Tiêu đề Blog'
+                                text: 'Blog Titles'
                             }
                         }
                     }

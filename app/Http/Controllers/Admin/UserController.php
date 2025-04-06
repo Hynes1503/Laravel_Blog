@@ -14,7 +14,7 @@ class UserController extends Controller
 
     public function index()
     {
-        $users = User::latest()->paginate(10);
+        $users = User::where('is_admin', 0)->latest()->paginate(10);
         return view('admin.user.index', ['users' => $users]);
     }
 
@@ -41,6 +41,8 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:8',
+        ], [
+            'email.unique' => 'Email này đã được sử dụng.',
         ]);
 
         User::create([

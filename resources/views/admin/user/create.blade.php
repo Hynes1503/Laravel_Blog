@@ -45,6 +45,9 @@
                         class="mt-1 p-3 w-full border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-200"
                         placeholder="Enter email">
                 </div>
+                @error('email')
+                    <div class="error text-red-500">{{ $message }}</div>
+                @enderror
 
                 <!-- Description Field -->
                 <div class="mb-4">
@@ -53,6 +56,9 @@
                         class="mt-1 p-3 w-full border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-200"
                         placeholder="Enter password">
                 </div>
+                @error('password')
+                    <div class="error text-red-500">{{ $message }}</div>
+                @enderror
 
                 <!-- Submit Button -->
                 <div class="mt-6">
