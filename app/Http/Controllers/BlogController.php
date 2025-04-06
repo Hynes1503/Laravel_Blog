@@ -96,7 +96,8 @@ class BlogController extends Controller
      */
     public function edit(Blog $blog)
     {
-        return view('blog.edit', ["blog" => $blog]);
+        $categories = Category::all();
+        return view('blog.edit', compact('blog', 'categories'));
     }
 
     /**
@@ -107,7 +108,8 @@ class BlogController extends Controller
         $data = $request->validate([
             "title" => "required|string",
             "description" => "required|string",
-            "status" => "required|in:public,private"
+            "status" => "required|in:public,private",
+            "category_id" => "required|exists:categories,id", // kiểm tra category tồn tại
         ]);
 
         if ($request->hasFile("banner_image")) {
@@ -119,8 +121,9 @@ class BlogController extends Controller
 
         $blog->update($data);
 
-        return to_route("blog.show", $blog)->with("success", "Update successfully");
+        return to_route("blog.show", $blog)->with("success", "Cập nhật thành công.");
     }
+
 
     /**
      * Remove the specified resource from storage.

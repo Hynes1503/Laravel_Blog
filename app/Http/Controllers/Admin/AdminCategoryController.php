@@ -37,6 +37,13 @@ class AdminCategoryController extends Controller
             'description' => 'nullable|string',
         ]);
 
+        // Kiểm tra xem name đã tồn tại chưa
+        if (Category::where('name', $request->name)->exists()) {
+            return back()
+                ->withInput()
+                ->withErrors(['name' => 'Tên danh mục đã tồn tại.']);
+        }
+
         Category::create($request->all());
 
         return redirect()->route('categories.index')->with('success', 'Danh mục đã được tạo.');
@@ -87,6 +94,13 @@ class AdminCategoryController extends Controller
      */
     public function destroy(Category $category)
     {
+        // Kiểm tra xem danh mục có blog nào không
+        if ($category->blogs()->exists()) {
+            return redirect()->route('categories.index')
+                ->with('error', 'Không thể xóa danh mục vì đang được sử dụng trong các blog.');
+        }
+
+        // Nếu không có blog nào liên kết, thì xóa
         $category->delete();
 
         return redirect()->route('categories.index')->with('success', 'Danh mục đã bị xóa.');

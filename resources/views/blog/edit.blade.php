@@ -55,6 +55,23 @@
                     <input type="file" id="banner_image" name="banner_image"
                         class="mt-1 p-2 w-full border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-200">
                 </div>
+
+                <div class="mb-4">
+                    <label for="category_id" class="block text-sm font-medium text-gray-700">Category</label>
+                    <select id="category_id" name="category_id"
+                        class="mt-1 p-3 w-full border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-200">
+                        @foreach ($categories as $category)
+                            <option value="{{ $category->id }}"
+                                {{ $blog->category_id == $category->id ? 'selected' : '' }}>
+                                {{ $category->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                    @error('category_id')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
                 <div class="mb-4">
                     <label for="status" class="block text-sm font-medium text-gray-700">Status:</label>
                     <select id="status" name="status"
