@@ -9,6 +9,29 @@ use App\Notifications\NewCommentNotification;
 
 class CommentController extends Controller
 {
+
+    public function index(Request $request)
+    {
+        $query = $request->input('query');
+        $reportedFilter = $request->input('reported_filter');
+
+        $commentsQuery = Comment::with('user', 'blog');
+
+        // Tìm kiếm theo nội dung bình luận nếu có query
+        if ($query) {
+            $commentsQuery->where('content', 'like', "%{$query}%");
+        }
+
+        // Lọc theo trạng thái reported
+        if ($reportedFilter === 'reported') {
+            $commentsQuery->where('reported', true);
+        }
+
+        $comments = $commentsQuery->paginate(10); // Phân trang 10 bình luận mỗi trang
+
+        return view('admin.comment.index', compact('comments'));
+    }
+
     public function store(Request $request, Blog $blog)
     {
         $data = $request->validate([
@@ -19,10 +42,6 @@ class CommentController extends Controller
         $data['blog_id'] = $blog->id;
 
         $comment = Comment::create($data);
-
-        if ($blog->user_id !== $request->user()->id) {
-            $blog->user->notify(new NewCommentNotification($comment));
-        }
 
         return back()->with('success', 'Bình luận đã được thêm thành công.');
     }
@@ -54,4 +73,13 @@ class CommentController extends Controller
 
         return back()->with('success', 'Bình luận đã được xóa.');
     }
+
+    public function report(Request $request, Comment $comment)
+    {
+
+        $comment->update(['reported' => true]);
+
+        return redirect()->back()->with('success', 'Comment has been reported successfully!');
+    }
+
 }

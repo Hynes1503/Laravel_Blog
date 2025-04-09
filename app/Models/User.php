@@ -26,6 +26,7 @@ class User extends Authenticatable
         'is_admin',
         'facebook_id',
         'facebook_access_token',
+        'reported',
     ];
 
     /**
@@ -48,6 +49,7 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'reported' => 'boolean',
         ];
     }
 

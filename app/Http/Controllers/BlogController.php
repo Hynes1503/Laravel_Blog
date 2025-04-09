@@ -154,4 +154,12 @@ class BlogController extends Controller
 
         return response()->json(['success' => true]);
     }
+
+    public function report(Request $request, Blog $blog)
+    {
+        $blog->update(['reported' => true]);
+
+        return redirect()->back()->with('success', 'Blog has been reported successfully!');
+    }
+
 }

@@ -43,11 +43,15 @@ Route::middleware(['auth', 'verified', AdminMiddleware::class])->prefix('admin')
     Route::get('/user/create', [UserController::class, 'create'])->name('admin.user.create');
     Route::post('/user', [UserController::class, 'store'])->name('admin.user.store');
     Route::get('/register-user', [UserController::class, 'create'])->name('admin.user.create');
-
+    Route::get('/search-blog', [SearchController::class, 'admin_blog_index'])->name('admin.blog.search');
+    Route::get('/search-category', [SearchController::class, 'admin_category_index'])->name('admin.category.search');
+    Route::get('/search-user', [SearchController::class, 'admin_user_index'])->name('admin.user.search');
+    Route::get('/comments', [CommentController::class, 'index'])->name('admin.comment.index');
 });
 
 
 Route::middleware(['auth', 'verified'])->group(function () {
+    Route::post('/user/{user}/report', [UserController::class, 'report'])->name('user.report');
     Route::get('/category/{id}', [CategoryController::class, 'index'])->name('user.category.index');
     Route::get('/discover', [DiscoverController::class, 'index'])->name('discover.index');
     Route::get('/dashboard', [BlogController::class, 'index_dashboard'])->name('dashboard');
@@ -55,6 +59,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('blog/{blog}/edit', [BlogController::class, 'edit'])->name('blog.edit')->middleware(BlogOwnerMiddleware::class);
     Route::put('blog/{blog}', [BlogController::class, 'update'])->name('blog.update')->middleware(BlogOwnerMiddleware::class);
     Route::delete('blog/{blog}', [BlogController::class, 'destroy'])->name('blog.destroy')->middleware(BlogOwnerMiddleware::class);
+    Route::post('/blog/{blog}/report', [BlogController::class, 'report'])->name('blog.report');
 });
 
 
@@ -70,13 +75,13 @@ Route::middleware('auth')->group(function () {
     Route::post('/blog/{blog}/comment', [CommentController::class, 'store'])->name('comment.store');
     Route::put('/comment/{comment}', [CommentController::class, 'update'])->name('comment.update');
     Route::delete('/comment/{comment}', [CommentController::class, 'destroy'])->name('comment.destroy');
+    Route::post('/comment/{comment}/report', [CommentController::class, 'report'])->name('comment.report');
     Route::post('/blog/{blog}/favorite', [FavoriteController::class, 'toggleFavorite'])->name('blog.favorite');
     Route::post('/blog/{blog}/share', [SocialAuthController::class, 'shareOnFacebook'])->name('blog.share');
 
     Route::get('/profile/{user_id}', [AuthorController::class, 'index'])->name('author.index');
 
     Route::get('/search', [SearchController::class, 'index'])->name('search');
-    // Route::get('/search', [SearchController::class, 'admin_index'])->name('admin.search');
 
     Route::get('/page/about-us', [PageController::class, 'about'])->name('about');
     Route::get('/page/contact-us', [PageController::class, 'contact'])->name('contact');

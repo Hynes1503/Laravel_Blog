@@ -15,9 +15,14 @@ class Blog extends Model
         "facebook_post_id",
         "category_id",
         "view_time",
+        'reported',
     ];
 
     protected $withCount = ['favoritedByUsers']; // Tự động đếm số lượt thích
+
+    protected $casts = [
+        'reported' => 'boolean', // Cast reported thành boolean
+    ];
 
     public function user()
     {
@@ -67,7 +72,7 @@ class Blog extends Model
             ->with('category')
             ->get();
     }
-    
+
     // Tìm các blog có view_time cao nhất
     public static function getTopViewTimeBlogs($limit = 10)
     {

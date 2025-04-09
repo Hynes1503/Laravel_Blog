@@ -19,7 +19,7 @@
             <h2 class="text-2xl font-bold text-gray-800"><i class="fa-solid fa-pen-to-square"></i> Update Page</h2>
             <a href="{{ route('admin.pages.index') }}"
                 class="px-4 py-2 bg-gray-600 text-white text-sm font-semibold rounded-lg shadow-md hover:bg-gray-700 transition">
-                <i class="fa-solid fa-arrow-left"></i> Back
+                <i class="fa-solid fa-arrow-left"></i>Back
             </a>
         </div>
 

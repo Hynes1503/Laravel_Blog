@@ -35,8 +35,25 @@
 
             <!-- Blog Details Card -->
             <div class="bg-white shadow-lg rounded-lg p-6 max-w-2xl mx-auto">
-                <a href="{{ route('author.index', $blog->user->id) }}"><i class="fa-solid fa-user"></i>
-                    {{ $blog->user->name }}</a>
+                <div class="flex justify-between items-center">
+                    <a href="{{ route('author.index', $blog->user->id) }}">
+                        <i class="fa-solid fa-user"></i> {{ $blog->user->name }}
+                    </a>
+                    <!-- Nút Report Blog -->
+                    @auth
+                        @if (auth()->id() !== $blog->user_id && !$blog->reported)
+                            <form action="{{ route('blog.report', $blog->id) }}" method="POST" class="inline">
+                                @csrf
+                                <button type="submit" class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+                                    onclick="return confirm('Are you sure you want to report this post?');">
+                                    Report
+                                </button>
+                            </form>
+                        @elseif ($blog->reported)
+                            <span class="ml-4 text-red-500">Đã báo cáo</span>
+                        @endif
+                    @endauth
+                </div>
                 <h2 class="text-gray-900">{{ $blog->title }}</h2>
                 <p class="text-xs ">{{ $blog->created_at->format('d M, Y') }}</p>
                 <p class="break-words">
@@ -112,7 +129,24 @@
                     <div x-data="{ showAll: false }">
                         @foreach ($blog->comments->take(2) as $comment)
                             <div class="mt-4 p-4 bg-gray-100 rounded-lg" x-data="{ editMode: null }">
-                                <h3 class="text-gray-700">{{ $comment->user->name }}</h3>
+                                <div class="flex justify-between items-center">
+                                    <h3 class="text-gray-700">{{ $comment->user->name }}</h3>
+                                    @auth
+                                        @if (auth()->id() !== $comment->user_id && !$comment->reported)
+                                            <form action="{{ route('comment.report', $comment->id) }}" method="POST"
+                                                class="inline">
+                                                @csrf
+                                                <button type="submit"
+                                                    class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+                                                    onclick="return confirm('Are you sure you want to report this comment?');">
+                                                    Report
+                                                </button>
+                                            </form>
+                                        @elseif ($comment->reported)
+                                            <span class="ml-4 text-red-500">Đã báo cáo</span>
+                                        @endif
+                                    @endauth
+                                </div>
 
                                 <p class="text-gray-700" x-show="editMode !== {{ $comment->id }}">
                                     <span x-data="{ expanded: false }">
@@ -192,8 +226,8 @@
                     <div class="max-w-2xl mx-auto mt-6 bg-white p-4 rounded-lg shadow">
                         <form action="{{ route('comments.store', $blog) }}" method="POST">
                             @csrf
-                            <textarea name="content" class="w-full p-2 border rounded-lg" placeholder="Comment as user {{ auth()->user()->name }}"
-                                required></textarea>
+                            <textarea name="content" class="w-full p-2 border rounded-lg"
+                                placeholder="Comment as user {{ auth()->user()->name }}" required></textarea>
                             <button type="submit"
                                 class="px-4 py-2 border border-black text-black text-sm font-semibold rounded-lg shadow-md hover:bg-transparent hover:text-black transition bg-white">
                                 Comment
@@ -205,7 +239,7 @@
             <div class="max-w-2xl mx-auto mt-4">
                 <a href="{{ url()->previous() }}"
                     class="px-2 py-2 bg-gray-600 text-white text-sm font-semibold rounded-lg hover:bg-gray-700 transition">
-                    <i class="fa-solid fa-arrow-left"></i> Back
+                    <i class="fa-solid fa-arrow-left"></i>Back
                 </a>
             </div>
         </div>

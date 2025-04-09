@@ -195,7 +195,7 @@
             <div class="max-w-2xl mx-auto mt-4">
                 <a href="{{ route('admin.blog.index') }}"
                     class="px-2 py-2 bg-gray-600 text-white text-sm font-semibold rounded-lg hover:bg-gray-700 transition">
-                    <i class="fa-solid fa-arrow-left"></i> Back
+                    <i class="fa-solid fa-arrow-left"></i>Back
                 </a>
             </div>
         </div>

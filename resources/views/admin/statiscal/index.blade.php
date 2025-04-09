@@ -50,12 +50,12 @@
                     </div>
                 </a>
 
-                <a href="{{ route('admin.pages.index') }}" class="block flex-1 max-w-xs">
+                <a href="{{ route('admin.comment.index') }}" class="block flex-1 max-w-xs">
                     <div class="card shadow-lg rounded-lg overflow-hidden w-full h-full border-1 border-black"
-                        style="background-image: url('{{ asset('image/page_icon.png') }}'); background-size: cover; background-position: center;">
+                        style="background-image: url('{{ asset('image/comment_icon.png') }}'); background-size: cover; background-position: center;">
                         <div class="card-body bg-white bg-opacity-75 p-4 rounded h-full flex items-center justify-center">
                             <h5 class="card-title text-xl font-semibold text-gray-800">
-                                <i class="fa-solid fa-file"></i> Pages
+                                <i class="fa-solid fa-comment"></i> Comments
                             </h5>
                         </div>
                     </div>

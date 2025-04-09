@@ -9,7 +9,11 @@ class Comment extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'blog_id', 'content'];
+    protected $fillable = ['user_id', 'blog_id', 'content', 'reported'];
+    
+    protected $casts = [
+        'reported' => 'boolean', // Cast reported thành boolean
+    ];
 
     public function user()
     {

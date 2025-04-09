@@ -25,6 +25,9 @@
 </head>
 
 <body class="font-sans antialiased">
+    <script>
+        const userId = @json(auth()->check() ? auth()->id() : 'guest'); // Lấy ID người dùng hoặc dùng 'guest' nếu chưa đăng nhập
+    </script>
     <div class="min-h-screen bg-gray-100">
         @include('layouts.navigation')
 
@@ -86,6 +89,7 @@
             </style>
 
             <!-- JavaScript -->
+            <!-- JavaScript -->
             <script>
                 const chatWidget = document.getElementById('chat-widget');
                 const chatbox = document.getElementById('chatbox');
@@ -94,6 +98,14 @@
                 const closeChat = document.getElementById('close-chat');
                 const sendMessage = document.getElementById('send-message');
                 let isChatOpen = false;
+
+                // Khôi phục tin nhắn từ localStorage dựa trên userId
+                window.addEventListener('DOMContentLoaded', () => {
+                    const savedChat = localStorage.getItem(`chatHistory_${userId}`);
+                    if (savedChat) {
+                        chatbox.innerHTML = savedChat;
+                    }
+                });
 
                 // Toggle chatbot visibility
                 toggleChat.addEventListener('click', () => {
@@ -107,6 +119,11 @@
                     chatWidget.style.display = 'none';
                 });
 
+                // Hàm lưu tin nhắn vào localStorage dựa trên userId
+                function saveChatHistory() {
+                    localStorage.setItem(`chatHistory_${userId}`, chatbox.innerHTML);
+                }
+
                 // Handle message sending
                 sendMessage.addEventListener('click', async (e) => {
                     e.preventDefault();
@@ -117,6 +134,14 @@
                     chatbox.innerHTML +=
                         `<div class="message user text-blue-600 text-right bg-gray-200 p-2 rounded-lg mb-2">${message}</div>`;
                     chatInput.value = '';
+                    chatbox.scrollTop = chatbox.scrollHeight;
+                    saveChatHistory(); // Lưu vào localStorage
+
+                    // Hiển thị "..." trong khi chờ phản hồi
+                    const loadingMessage = document.createElement('div');
+                    loadingMessage.className = 'message bot text-gray-700 bg-gray-200 p-2 rounded-lg mb-2';
+                    loadingMessage.textContent = '...';
+                    chatbox.appendChild(loadingMessage);
                     chatbox.scrollTop = chatbox.scrollHeight;
 
                     try {
@@ -136,13 +161,23 @@
                         }
 
                         const data = await response.json();
+
+                        // Xóa "..." khi nhận được phản hồi
+                        chatbox.removeChild(loadingMessage);
+
+                        // Hiển thị phản hồi từ bot
                         chatbox.innerHTML +=
                             `<div class="message bot text-gray-700 bg-gray-200 p-2 rounded-lg mb-2">${data.reply}</div>`;
                         chatbox.scrollTop = chatbox.scrollHeight;
+                        saveChatHistory(); // Lưu vào localStorage sau khi thêm phản hồi
                     } catch (error) {
                         console.error('Fetch Error:', error);
+                        // Xóa "..." ngay cả khi có lỗi
+                        chatbox.removeChild(loadingMessage);
                         chatbox.innerHTML +=
                             `<div class="message bot text-red-500 bg-gray-200 p-2 rounded-lg mb-2">Có lỗi xảy ra: ${error.message}</div>`;
+                        chatbox.scrollTop = chatbox.scrollHeight;
+                        saveChatHistory(); // Lưu vào localStorage ngay cả khi có lỗi
                     }
                 });
             </script>

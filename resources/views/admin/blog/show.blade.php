@@ -1,4 +1,5 @@
 @extends('admin.layouts.app')
+
 @section('header')
     <header class="bg-white shadow">
         <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
@@ -6,9 +7,6 @@
                 <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                     {{ __('Blogs') }}
                 </h2>
-                {{-- <div class="hidden sm:flex sm:items-center mx-auto">
-                    <x-search-bar />
-                </div> --}}
             </div>
         </div>
     </header>
@@ -40,16 +38,16 @@
                         </button>
                     </form>
                 </div>
-
             </div>
-
 
             <!-- Blog Details Card -->
             <div class="bg-white shadow-lg rounded-lg p-6 max-w-2xl mx-auto">
-                <a href="{{ route('author.index', $blog->user->id) }}"><i class="fa-solid fa-user"></i>
-                    {{ $blog->user->name }}</a>
-                <h2 class="text-gray-900">{{ $blog->title }}</h2>
-                <p class="text-xs ">{{ $blog->created_at->format('d M, Y') }}</p>
+                <a href="{{ route('author.index', $blog->user->id) }}"
+                    class="{{ $blog->user->reported ? 'text-red-500' : 'text-black' }}">
+                    <i class="fa-solid fa-user"></i> {{ $blog->user->name }}
+                </a>
+                <h2 class="{{ $blog->reported ? 'text-red-500' : 'text-gray-900' }}">{{ $blog->title }}</h2>
+                <p class="text-xs">{{ $blog->created_at->format('d M, Y') }}</p>
                 <p class="break-words">
                     <span class="short-text">
                         {{ Str::limit($blog->description, 140, '...') }}
@@ -59,8 +57,8 @@
                     </span>
                     @if (strlen($blog->description) > 140)
                         <button
-                            class="toggle-btn text-black text-sm mt-2 bg-transparent border-none outline-none underline"><span
-                                x-show="!expanded">View more</span>
+                            class="toggle-btn text-black text-sm mt-2 bg-transparent border-none outline-none underline">
+                            <span x-show="!expanded">View more</span>
                         </button>
                     @endif
                 </p>
@@ -106,19 +104,17 @@
                         <p class="m-0">{{ $blog->favoritesCount() }}</p>
                     </div>
                 </form>
-                {{-- <div class="fb-share-button" data-href="{{ url()->route('blog.show', $blog->id) }}"
-                    data-layout="button_count" data-size="small">
-                </div> --}}
-                {{-- 💬 Danh sách bình luận --}}
                 <div class="max-w-2xl mx-auto mt-6">
                     <h3 class="text-lg font-semibold text-gray-800">Comments ({{ $blog->comments->count() }})</h3>
 
                     <div x-data="{ showAll: false }">
                         @foreach ($blog->comments->take(2) as $comment)
                             <div class="mt-4 p-4 bg-gray-100 rounded-lg" x-data="{ editMode: null }">
-                                <h3 class="text-gray-700">{{ $comment->user->name }}</h3>
-
-                                <p class="text-gray-700" x-show="editMode !== {{ $comment->id }}">
+                                <h3 class="{{ $comment->reported ? 'text-red-500' : 'text-gray-700' }}">
+                                    {{ $comment->user->name }}
+                                </h3>
+                                <p class="{{ $comment->reported ? 'text-red-500' : 'text-gray-700' }}"
+                                    x-show="editMode !== {{ $comment->id }}">
                                     <span x-data="{ expanded: false }">
                                         <span x-show="!expanded">
                                             {{ Str::limit($comment->content, 100, '...') }}
@@ -135,10 +131,7 @@
                                         @endif
                                     </span>
                                 </p>
-
-                                <p class="text-sm text-gray-500 text-right">{{ $comment->created_at->diffForHumans() }}
-                                </p>
-
+                                <p class="text-sm text-gray-500 text-right">{{ $comment->created_at->diffForHumans() }}</p>
 
                                 <div x-show="editMode !== {{ $comment->id }}">
                                     <button @click="editMode = {{ $comment->id }}"
@@ -165,17 +158,21 @@
                                             class="px-2 py-1 bg-transparent text-black text-xs hover:underline">Cancel</button>
                                     </div>
                                 </form>
-
                             </div>
                         @endforeach
                         <template x-if="showAll">
                             <div>
                                 @foreach ($blog->comments->skip(2) as $comment)
                                     <div class="mt-4 p-4 bg-gray-100 rounded-lg">
-                                        <h3 class="text-gray-700">{{ $comment->user->name }}</h3>
-                                        <p class="text-gray-700">{{ $comment->content }}</p>
+                                        <h3 class="{{ $comment->reported ? 'text-red-500' : 'text-gray-700' }}">
+                                            {{ $comment->user->name }}
+                                        </h3>
+                                        <p class="{{ $comment->reported ? 'text-red-500' : 'text-gray-700' }}">
+                                            {{ $comment->content }}
+                                        </p>
                                         <p class="text-sm text-gray-500 text-right">
-                                            {{ $comment->created_at->diffForHumans() }}</p>
+                                            {{ $comment->created_at->diffForHumans() }}
+                                        </p>
                                     </div>
                                 @endforeach
                             </div>
@@ -184,22 +181,19 @@
                         @if ($blog->comments->count() > 2)
                             <button @click="showAll = !showAll"
                                 class="text-black text-sm mt-2 bg-transparent border-none outline-none">
-                                <span x-show="!showAll">Viewmore<span>
+                                <span x-show="!showAll">View more</span>
                                 <span x-show="showAll">Collapse</span>
                             </button>
                         @endif
                     </div>
-
                 </div>
             </div>
             <div class="max-w-2xl mx-auto mt-4">
                 <a href="{{ route('admin.blog.index') }}"
                     class="px-2 py-2 bg-gray-600 text-white text-sm font-semibold rounded-lg hover:bg-gray-700 transition">
-                    <i class="fa-solid fa-arrow-left"></i> Back
+                    <i class="fa-solid fa-arrow-left"></i>Back
                 </a>
             </div>
         </div>
-
-
     </div>
 @endsection

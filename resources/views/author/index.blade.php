@@ -8,10 +8,25 @@
         <!-- Create Blog Button -->
         <div class="flex justify-between items-center mb-6">
             <h2 class="text-2xl font-bold text-gray-800"><i class="fa-solid fa-user"></i> Profile</h2>
+            <!-- Nút Report -->
+            @auth
+                @if (auth()->id() !== $author->id && !$author->reported)
+                    <form action="{{ route('user.report', $author->id) }}" method="POST" class="ml-4">
+                        @csrf
+                        <button type="submit" class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+                            onclick="return confirm('Bạn có chắc chắn muốn báo cáo tác giả này không?');">
+                            Report
+                        </button>
+                    </form>
+                @elseif ($author->reported)
+                    <span class="ml-4 text-red-500">Đã báo cáo</span>
+                @endif
+            @endauth
         </div>
-        <div>
+        <div class="flex items-center">
             <h2 class="text-2xl font-bold text-gray-800">{{ $author->name }} - {{ $author->publicBlogsCount() }} Posts
             </h2>
+
         </div>
     </div>
 
@@ -44,7 +59,6 @@
                                 alt="Blog Image">
                         </a>
                     @endif
-
                 </div>
             @endforeach
         </div>

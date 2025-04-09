@@ -61,24 +61,23 @@ class UserController extends Controller
 
     public function update(Request $request, User $user)
     {
-        try {
-            $validatedData = $request->validate([
-                'name' => 'required|string|max:255',
-                'email' => 'required|email|unique:users,email,' . $user->id,
-                'password' => 'nullable|min:6',
-            ]);
+        $data = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
+            'password' => 'nullable|string|min:8',
+            'reported' => 'required|boolean' // Thêm trường reported
+        ]);
 
-            $user->name = $validatedData['name'];
-            $user->email = $validatedData['email'];
-            if (!empty($validatedData['password'])) {
-                $user->password = Hash::make($validatedData['password']);
-            }
-            $user->save();
-
-            return to_route('admin.user.index')->with('success', 'User updated successfully');
-        } catch (\Exception $e) {
-            return redirect()->back()->with('error', $e->getMessage());
+        // Nếu không có password mới, loại bỏ khỏi $data
+        if (empty($data['password'])) {
+            unset($data['password']);
+        } else {
+            $data['password'] = bcrypt($data['password']);
         }
+
+        $user->update($data);
+
+        return back()->with('success', 'User updated successfully');
     }
 
     public function destroy($id)
@@ -102,5 +101,12 @@ class UserController extends Controller
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
+    }
+
+    public function report(Request $request, User $user)
+    {
+        $user->update(['reported' => true]);
+
+        return redirect()->back()->with('success', 'User has been reported successfully!');
     }
 }

@@ -86,7 +86,8 @@ class BlogController extends Controller
         $data = $request->validate([
             "title" => "required|string",
             "description" => "required|string",
-            "status" => "required|in:public,private"
+            "status" => "required|in:public,private",
+            "reported" => "nullable|boolean" // Thêm trường reported
         ]);
 
         if ($request->hasFile("banner_image")) {

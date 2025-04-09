@@ -19,7 +19,7 @@
             <h2 class="text-2xl font-bold text-gray-800"><i class="fa-solid fa-pen-to-square"></i> Update User</h2>
             <a href="{{ url()->previous() }}"
                 class="px-4 py-2 bg-gray-600 text-white text-sm font-semibold rounded-lg shadow-md hover:bg-gray-700 transition">
-                <i class="fa-solid fa-arrow-left"></i> Back
+                <i class="fa-solid fa-arrow-left"></i>Back
             </a>
         </div>
 
@@ -30,7 +30,7 @@
                 @method('put')
                 <div class="mb-4">
                     <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
-                    <input type="text" id="name" name="name" value="{{ $user->name }}"
+                    <input type="text" id="name" name="name" value="{{ old('name', $user->name) }}"
                         class="mt-1 p-3 w-full border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-200"
                         placeholder="Enter new name">
                     @error('name')
@@ -40,7 +40,7 @@
 
                 <div class="mb-4">
                     <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-                    <input type="email" id="email" name="email" value="{{ $user->email }}"
+                    <input type="email" id="email" name="email" value="{{ old('email', $user->email) }}"
                         class="mt-1 p-3 w-full border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-200"
                         placeholder="Enter new email">
                     @error('email')
@@ -54,6 +54,19 @@
                         class="mt-1 p-3 w-full border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-200"
                         placeholder="Enter new password">
                     @error('password')
+                        <div class="error">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <!-- Reported Field -->
+                <div class="mb-4">
+                    <label for="reported" class="block text-sm font-medium text-gray-700">Reported Status:</label>
+                    <select id="reported" name="reported"
+                        class="mt-1 p-3 w-full border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-200">
+                        <option value="0" {{ $user->reported == 0 ? 'selected' : '' }}>Unreported</option>
+                        <option value="1" {{ $user->reported == 1 ? 'selected' : '' }}>Reported</option>
+                    </select>
+                    @error('reported')
                         <div class="error">{{ $message }}</div>
                     @enderror
                 </div>

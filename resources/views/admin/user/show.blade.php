@@ -16,7 +16,9 @@
     <div class="container mx-auto px-4">
         <!-- Create Blog Button -->
         <div class="flex justify-between items-center mb-6">
-            <h2 class="text-2xl font-bold text-gray-800"><i class="fa-solid fa-user"></i> Profile</h2>
+            <h2 class="text-2xl font-bold {{ $author->reported ? 'text-red-500' : 'text-gray-800' }}">
+                <i class="fa-solid fa-user"></i> Profile
+            </h2>
         </div>
         <div>
             <h2 class="text-2xl font-bold text-gray-800">{{ $author->name }} - {{ $author->BlogsCount() }} Posts
@@ -52,7 +54,6 @@
                                 class="card-img-bottom h-48 w-full object-cover rounded-lg cursor-pointer" alt="Blog Image">
                         </a>
                     @endif
-
                 </div>
             @endforeach
         </div>

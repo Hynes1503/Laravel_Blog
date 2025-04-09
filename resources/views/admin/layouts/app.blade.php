@@ -75,6 +75,10 @@
                         class="nav-link block px-3 py-2 rounded-md text-white hover:text-gray-200">
                         Blogs
                     </a>
+                    <a href="{{ route('admin.comment.index') }}"
+                        class="nav-link block px-3 py-2 rounded-md text-white hover:text-gray-200">
+                        Comments
+                    </a>
                     <a href="{{ route('categories.index') }}"
                         class="nav-link block px-3 py-2 rounded-md text-white hover:text-gray-200">
                         Categories
