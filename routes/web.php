@@ -20,6 +20,7 @@ use App\Http\Controllers\Admin\AdminCategoryController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\Admin\AdminBlogStatsController;
 use App\Http\Controllers\Admin\PageController;
+use App\Http\Controllers\Admin\NotificationController;
 
 Route::middleware(['auth', 'verified', AdminMiddleware::class])->prefix('admin')->group(function () {
     Route::get('/', function () {
@@ -47,6 +48,9 @@ Route::middleware(['auth', 'verified', AdminMiddleware::class])->prefix('admin')
     Route::get('/search-category', [SearchController::class, 'admin_category_index'])->name('admin.category.search');
     Route::get('/search-user', [SearchController::class, 'admin_user_index'])->name('admin.user.search');
     Route::get('/comments', [CommentController::class, 'index'])->name('admin.comment.index');
+    Route::get('/notifications', [NotificationController::class, 'index'])->name('admin.notification.index');
+    Route::post('/notifications/{notification}/mark-as-read', [NotificationController::class, 'markAsRead'])->name('admin.notification.markAsRead');
+    Route::delete('/notifications/{notification}', [NotificationController::class, 'destroy'])->name('admin.notification.destroy');
 });
 
 
@@ -108,5 +112,10 @@ use App\Http\Controllers\GeminiController;
 
 Route::get('/gemini', [GeminiController::class, 'index'])->name('gemini.index');
 Route::post('/gemini/chat', [GeminiController::class, 'chat'])->name('gemini.chat');
+Route::post('/notifications/{notification}/mark-as-read', function (Request $request, $notificationId) {
+    $user = $request->user(); // Thay auth()->user()
+    $user->notifications()->find($notificationId)->markAsRead();
+    return back();
+})->name('notifications.markAsRead');
 
 require __DIR__ . '/auth.php';

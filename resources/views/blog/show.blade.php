@@ -49,8 +49,8 @@
                                     Report
                                 </button>
                             </form>
-                        @elseif ($blog->reported)
-                            <span class="ml-4 text-red-500">Đã báo cáo</span>
+                        {{-- @elseif ($blog->reported)
+                            <span class="ml-4 text-red-500">Đã báo cáo</span> --}}
                         @endif
                     @endauth
                 </div>
@@ -142,8 +142,8 @@
                                                     Report
                                                 </button>
                                             </form>
-                                        @elseif ($comment->reported)
-                                            <span class="ml-4 text-red-500">Đã báo cáo</span>
+                                        {{-- @elseif ($comment->reported)
+                                            <span class="ml-4 text-red-500">Đã báo cáo</span> --}}
                                         @endif
                                     @endauth
                                 </div>

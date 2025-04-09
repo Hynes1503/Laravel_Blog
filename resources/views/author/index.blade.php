@@ -18,8 +18,8 @@
                             Report
                         </button>
                     </form>
-                @elseif ($author->reported)
-                    <span class="ml-4 text-red-500">Đã báo cáo</span>
+                {{-- @elseif ($author->reported)
+                    <span class="ml-4 text-red-500">Đã báo cáo</span> --}}
                 @endif
             @endauth
         </div>

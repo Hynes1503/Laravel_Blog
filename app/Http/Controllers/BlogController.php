@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Blog;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Category;
+use App\Models\User;
+use App\Notifications\BlogReported;
 
 class BlogController extends Controller
 {
@@ -119,6 +121,13 @@ class BlogController extends Controller
             $data["banner_image"] = $request->file("banner_image")->store("blogs", "public");
         }
 
+        if (!$blog->reported && $data['reported']) {
+            // Gửi thông báo cho user sở hữu blog
+            $blog->user->notify(new BlogReported($blog));
+            // Gửi thông báo cho admin
+            User::where('is_admin', true)->get()->each->notify(new BlogReported($blog));
+        }
+
         $blog->update($data);
 
         return to_route("blog.show", $blog)->with("success", "Cập nhật thành công.");
@@ -157,9 +166,22 @@ class BlogController extends Controller
 
     public function report(Request $request, Blog $blog)
     {
-        $blog->update(['reported' => true]);
+        // Kiểm tra nếu blog chưa bị báo cáo
+        if (!$blog->reported) {
+            $blog->update(['reported' => true]);
 
-        return redirect()->back()->with('success', 'Blog has been reported successfully!');
+            // Gửi thông báo cho tác giả blog
+            $blog->user->notify(new BlogReported($blog));
+
+            // Gửi thông báo cho tất cả admin
+            $admins = User::where('is_admin', true)->get();
+            foreach ($admins as $admin) {
+                $admin->notify(new BlogReported($blog));
+            }
+
+            return redirect()->back()->with('success', 'Blog has been reported successfully!');
+        }
+
+        return redirect()->back()->with('error', 'This blog has already been reported!');
     }
-
 }

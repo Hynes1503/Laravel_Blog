@@ -8,6 +8,7 @@ use App\Models\Blog;
 use App\Models\User;
 use Illuminate\Container\Attributes\Storage;
 use Illuminate\Support\Facades\Hash;
+use App\Notifications\UserReported;
 
 class UserController extends Controller
 {
@@ -75,9 +76,14 @@ class UserController extends Controller
             $data['password'] = bcrypt($data['password']);
         }
 
+        if (!$user->reported && $data['reported']) {
+            // Gửi thông báo cho admin
+            User::where('is_admin', true)->get()->each->notify(new UserReported($user));
+        }
+
         $user->update($data);
 
-        return back()->with('success', 'User updated successfully');
+        return redirect()->route('admin.user.index')->with('success', 'User updated successfully');
     }
 
     public function destroy($id)
@@ -105,8 +111,21 @@ class UserController extends Controller
 
     public function report(Request $request, User $user)
     {
-        $user->update(['reported' => true]);
+        $reporter = $request->user(); // Người báo cáo
 
-        return redirect()->back()->with('success', 'User has been reported successfully!');
+        // Kiểm tra nếu user chưa bị báo cáo
+        if (!$user->reported) {
+            $user->update(['reported' => true]);
+
+            // Gửi thông báo cho tất cả admin
+            $admins = User::where('is_admin', true)->get();
+            foreach ($admins as $admin) {
+                $admin->notify(new UserReported($user));
+            }
+
+            return back()->with('success', 'User has been reported successfully');
+        }
+
+        return back()->with('error', 'This user has already been reported');
     }
 }

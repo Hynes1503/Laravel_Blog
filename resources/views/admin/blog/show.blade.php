@@ -42,7 +42,7 @@
 
             <!-- Blog Details Card -->
             <div class="bg-white shadow-lg rounded-lg p-6 max-w-2xl mx-auto">
-                <a href="{{ route('author.index', $blog->user->id) }}"
+                <a href="{{ route('admin.user.show', $blog->user->id) }}"
                     class="{{ $blog->user->reported ? 'text-red-500' : 'text-black' }}">
                     <i class="fa-solid fa-user"></i> {{ $blog->user->name }}
                 </a>
@@ -151,6 +151,19 @@
                                     @csrf
                                     @method('PUT')
                                     <textarea name="content" class="w-full p-2 border rounded">{{ $comment->content }}</textarea>
+                                    <!-- Thêm trường Reported -->
+                                    <div class="mt-2">
+                                        <label for="reported-{{ $comment->id }}"
+                                            class="block text-sm font-medium text-gray-700">Reported Status:</label>
+                                        <select id="reported-{{ $comment->id }}" name="reported"
+                                            class="w-full p-2 border rounded">
+                                            <option value="0" {{ $comment->reported == 0 ? 'selected' : '' }}>Unreported</option>
+                                            <option value="1" {{ $comment->reported == 1 ? 'selected' : '' }}>Reported</option>
+                                        </select>
+                                        @error('reported')
+                                            <div class="text-red-500 text-sm">{{ $message }}</div>
+                                        @enderror
+                                    </div>
                                     <div class="mt-2">
                                         <button type="submit"
                                             class="px-2 py-1 bg-transparent text-black text-xs hover:underline">Update</button>

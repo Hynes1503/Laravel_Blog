@@ -6,12 +6,16 @@ use Illuminate\Http\Request;
 use App\Models\Comment;
 use App\Models\Blog;
 use App\Notifications\NewCommentNotification;
+use App\Notifications\BlogCommented;
+use App\Notifications\CommentReported;
+use App\Models\User;
 
 class CommentController extends Controller
 {
 
     public function index(Request $request)
     {
+
         $query = $request->input('query');
         $reportedFilter = $request->input('reported_filter');
 
@@ -34,6 +38,7 @@ class CommentController extends Controller
 
     public function store(Request $request, Blog $blog)
     {
+        $user = $request->user();
         $data = $request->validate([
             'content' => 'required|string',
         ]);
@@ -42,6 +47,7 @@ class CommentController extends Controller
         $data['blog_id'] = $blog->id;
 
         $comment = Comment::create($data);
+        $blog->user->notify(new BlogCommented($blog, $user, $comment));
 
         return back()->with('success', 'Bình luận đã được thêm thành công.');
     }
@@ -53,6 +59,7 @@ class CommentController extends Controller
     {
         $data = $request->validate([
             'content' => 'required|string',
+            "reported" => "nullable|boolean",
         ]);
 
         $comment->update($data);
@@ -76,10 +83,19 @@ class CommentController extends Controller
 
     public function report(Request $request, Comment $comment)
     {
+        // Kiểm tra nếu comment chưa bị báo cáo
+        if (!$comment->reported) {
+            $comment->update(['reported' => true]);
 
-        $comment->update(['reported' => true]);
+            // Gửi thông báo cho tất cả admin
+            $admins = User::where('is_admin', true)->get();
+            foreach ($admins as $admin) {
+                $admin->notify(new CommentReported($comment));
+            }
 
-        return redirect()->back()->with('success', 'Comment has been reported successfully!');
+            return redirect()->back()->with('success', 'Comment has been reported successfully!');
+        }
+
+        return redirect()->back()->with('error', 'This comment has already been reported!');
     }
-
 }

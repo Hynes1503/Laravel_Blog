@@ -25,6 +25,96 @@
 </head>
 
 <body class="font-sans antialiased">
+    <!-- Notification Bell -->
+    <div class="fixed top-4 right-4 z-100">
+        @if (auth()->check())
+            <div class="relative">
+                <!-- Bell Icon -->
+                <span id="notificationToggle" class="notification-bell cursor-pointer text-gray-800 text-2xl relative">
+                    <i class="fa-solid fa-bell"></i>
+                    @if (auth()->user()->unreadNotifications->count() > 0)
+                        <span class="notification-count">{{ auth()->user()->unreadNotifications->count() }}</span>
+                    @endif
+                </span>
+
+                <!-- Notification Dropdown -->
+                <div id="notificationDropdown" class="notification-dropdown">
+                    <div class="p-4">
+                        <h3 class="text-lg font-semibold text-gray-800">Notifications</h3>
+                        @if (auth()->user()->unreadNotifications->isEmpty())
+                            <p class="text-gray-500">No new notifications</p>
+                        @else
+                            @foreach (auth()->user()->unreadNotifications as $notification)
+                                <div class="p-2 bg-gray-50 rounded-lg mb-2">
+                                    <p class="text-sm text-gray-700">{{ $notification->data['message'] }}</p>
+                                    <form action="{{ route('notifications.markAsRead', $notification->id) }}"
+                                        method="POST" class="inline">
+                                        @csrf
+                                        <button type="submit" class="bg-transparent text-black text-xs hover:underline">Mark as
+                                            read</button>
+                                    </form>
+                                </div>
+                            @endforeach
+                        @endif
+                    </div>
+                </div>
+            </div>
+        @endif
+    </div>
+
+    <!-- Styles -->
+    <style>
+        .notification-dropdown {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 100%;
+            width: 300px;
+            max-height: 400px;
+            overflow-y: auto;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        .notification-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: red;
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            text-align: center;
+            font-size: 12px;
+            line-height: 18px;
+        }
+    </style>
+
+    <!-- JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const toggle = document.getElementById('notificationToggle');
+            const dropdown = document.getElementById('notificationDropdown');
+
+            toggle.addEventListener('click', function(e) {
+                e.stopPropagation();
+                dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+            });
+
+            document.addEventListener('click', function() {
+                dropdown.style.display = 'none';
+            });
+
+            dropdown.addEventListener('click', function(e) {
+                e.stopPropagation();
+            });
+        });
+    </script>
+
     <script>
         const userId = @json(auth()->check() ? auth()->id() : 'guest'); // Lấy ID người dùng hoặc dùng 'guest' nếu chưa đăng nhập
     </script>

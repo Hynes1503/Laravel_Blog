@@ -7,13 +7,15 @@ use App\Models\User;
 use App\Models\Favorite;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-
+use App\Notifications\BlogLiked;
 
 
 class FavoriteController extends Controller
 {
-    public function toggleFavorite(Blog $blog)
+    public function toggleFavorite(Request $request, Blog $blog)
     {
+        $user = $request->user();
+
         $favoriteCount = $blog->favoritesCount();
         if (!Auth::check()) {
             return response()->json(['message' => 'Bạn cần đăng nhập để thực hiện thao tác này'], 401);
@@ -26,6 +28,7 @@ class FavoriteController extends Controller
             return back()->with('success', 'Đã bỏ yêu thích');
         } else {
             $blog->favoritedByUsers()->attach($user->id);
+            $blog->user->notify(new BlogLiked($blog, $user));
             return back()->with('success', 'Đã thêm vào yêu thích');
         }
     }
