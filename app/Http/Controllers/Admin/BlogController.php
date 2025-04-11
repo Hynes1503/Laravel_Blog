@@ -45,10 +45,8 @@ class BlogController extends Controller
             "category_ids.*" => "exists:categories,id" // Mỗi ID phải tồn tại trong bảng categories
         ]);
 
-        // Gán user_id từ người dùng đăng nhập
         $data["user_id"] = $request->user()->id;
 
-        // Xử lý upload hình ảnh
         if ($request->hasFile("banner_image")) {
             $data["banner_image"] = $request->file("banner_image")->store("blog", "public");
         }
@@ -56,7 +54,6 @@ class BlogController extends Controller
         // Tạo blog
         $blog = Blog::create($data);
 
-        // Gán danh mục cho blog
         $blog->categories()->attach($data["category_ids"]);
 
         return to_route('blog.index')->with("success", "Blog created successfully");
@@ -87,7 +84,7 @@ class BlogController extends Controller
             "title" => "required|string",
             "description" => "required|string",
             "status" => "required|in:public,private",
-            "reported" => "nullable|boolean" // Thêm trường reported
+            "reported" => "nullable|boolean" 
         ]);
 
         if ($request->hasFile("banner_image")) {

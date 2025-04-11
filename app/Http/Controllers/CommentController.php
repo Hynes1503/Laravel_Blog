@@ -21,17 +21,15 @@ class CommentController extends Controller
 
         $commentsQuery = Comment::with('user', 'blog');
 
-        // Tìm kiếm theo nội dung bình luận nếu có query
         if ($query) {
             $commentsQuery->where('content', 'like', "%{$query}%");
         }
 
-        // Lọc theo trạng thái reported
         if ($reportedFilter === 'reported') {
             $commentsQuery->where('reported', true);
         }
 
-        $comments = $commentsQuery->paginate(10); // Phân trang 10 bình luận mỗi trang
+        $comments = $commentsQuery->paginate(10); 
 
         return view('admin.comment.index', compact('comments'));
     }
@@ -83,11 +81,9 @@ class CommentController extends Controller
 
     public function report(Request $request, Comment $comment)
     {
-        // Kiểm tra nếu comment chưa bị báo cáo
         if (!$comment->reported) {
             $comment->update(['reported' => true]);
 
-            // Gửi thông báo cho tất cả admin
             $admins = User::where('is_admin', true)->get();
             foreach ($admins as $admin) {
                 $admin->notify(new CommentReported($comment));

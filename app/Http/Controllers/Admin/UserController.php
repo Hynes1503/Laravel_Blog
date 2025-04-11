@@ -69,7 +69,6 @@ class UserController extends Controller
             'reported' => 'required|boolean' // Thêm trường reported
         ]);
 
-        // Nếu không có password mới, loại bỏ khỏi $data
         if (empty($data['password'])) {
             unset($data['password']);
         } else {
@@ -77,7 +76,6 @@ class UserController extends Controller
         }
 
         if (!$user->reported && $data['reported']) {
-            // Gửi thông báo cho admin
             User::where('is_admin', true)->get()->each->notify(new UserReported($user));
         }
 
@@ -111,13 +109,11 @@ class UserController extends Controller
 
     public function report(Request $request, User $user)
     {
-        $reporter = $request->user(); // Người báo cáo
+        $reporter = $request->user(); 
 
-        // Kiểm tra nếu user chưa bị báo cáo
         if (!$user->reported) {
             $user->update(['reported' => true]);
 
-            // Gửi thông báo cho tất cả admin
             $admins = User::where('is_admin', true)->get();
             foreach ($admins as $admin) {
                 $admin->notify(new UserReported($user));

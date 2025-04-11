@@ -45,13 +45,10 @@ class CategoryController extends Controller
      */
     public function show($slug)
     {
-        // Tìm category theo slug
         $category = Category::where('slug', $slug)->firstOrFail();
 
-        // Lấy danh sách blog thuộc category đó
         $blogs = $category->blogs()->where('status', 'public')->latest()->paginate(10);
 
-        // Trả về view hiển thị danh sách blog
         return view('categories.show', compact('category', 'blogs'));
     }
 

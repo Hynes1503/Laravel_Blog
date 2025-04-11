@@ -10,28 +10,22 @@ class PageController extends Controller
 {
     public function about()
     {
-        // Lấy trang "About Us" từ database, chỉ lấy trang có status = 'published'
         $page = Page::where('slug', 'about-us')->published()->firstOrFail();
 
-        // Truyền dữ liệu vào view
         return view('footer.about', compact('page'));
     }
 
     public function contact()
     {
-        // Lấy trang "About Us" từ database, chỉ lấy trang có status = 'published'
         $page = Page::where('slug', 'contact-us')->published()->firstOrFail();
 
-        // Truyền dữ liệu vào view
         return view('footer.contact', compact('page'));
     }
 
     public function privacy()
     {
-        // Lấy trang "About Us" từ database, chỉ lấy trang có status = 'published'
         $page = Page::where('slug', 'privacy')->published()->firstOrFail();
 
-        // Truyền dữ liệu vào view
         return view('footer.privacy', compact('page'));
     }
 

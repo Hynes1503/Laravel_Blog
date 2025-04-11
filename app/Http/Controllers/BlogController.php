@@ -16,17 +16,14 @@ class BlogController extends Controller
     {
         $categories = Category::all();
 
-        // Lấy 3 bài viết có trạng thái public hoặc must paid, sắp xếp theo ID giảm dần
         $blogs = Blog::whereIn('status', ['public'])
             ->paginate(6);
 
-        // Lấy 3 bài viết mới update có trạng thái public hoặc must paid
         $recentBlogs = Blog::whereIn('status', ['public'])
             ->orderByDesc('updated_at')
             ->limit(3)
             ->get();
 
-        // Lấy 3 bài viết có nhiều lượt yêu thích nhất, chỉ lấy bài viết public hoặc must paid
         $topFavoritedBlogs = Blog::whereIn('status', ['public'])
             ->withCount('favoritedByUsers')
             ->orderByDesc('favorited_by_users_count')
@@ -65,15 +62,12 @@ class BlogController extends Controller
             "category_id" => "required|exists:categories,id" // Đảm bảo category_id tồn tại
         ]);
 
-        // Gán user_id từ người dùng đăng nhập
         $data["user_id"] = $request->user()->id;
 
-        // Xử lý upload hình ảnh
         if ($request->hasFile("banner_image")) {
             $data["banner_image"] = $request->file("banner_image")->store("blog", "public");
         }
 
-        // Tạo blog với category_id
         Blog::create($data);
 
         return to_route('blog.index')->with("success", "Blog created successfully");
@@ -111,7 +105,7 @@ class BlogController extends Controller
             "title" => "required|string",
             "description" => "required|string",
             "status" => "required|in:public,private",
-            "category_id" => "required|exists:categories,id", // kiểm tra category tồn tại
+            "category_id" => "required|exists:categories,id",
         ]);
 
         if ($request->hasFile("banner_image")) {
@@ -122,9 +116,9 @@ class BlogController extends Controller
         }
 
         if (!$blog->reported && $data['reported']) {
-            // Gửi thông báo cho user sở hữu blog
+
             $blog->user->notify(new BlogReported($blog));
-            // Gửi thông báo cho admin
+
             User::where('is_admin', true)->get()->each->notify(new BlogReported($blog));
         }
 
@@ -148,16 +142,13 @@ class BlogController extends Controller
 
     public function trackViewTime(Request $request, Blog $blog)
     {
-        // Lấy thời gian bắt đầu từ session
         $startTime = session('blog_view_start_time_' . $blog->id);
         if ($startTime) {
             $endTime = now()->timestamp;
-            $timeSpent = $endTime - $startTime; // Thời gian đọc (giây)
+            $timeSpent = $endTime - $startTime; 
 
-            // Cộng dồn thời gian vào view_time
             $blog->increment('view_time', $timeSpent);
 
-            // Xóa session sau khi lưu
             $request->session()->forget('blog_view_start_time_' . $blog->id);
         }
 
@@ -166,14 +157,11 @@ class BlogController extends Controller
 
     public function report(Request $request, Blog $blog)
     {
-        // Kiểm tra nếu blog chưa bị báo cáo
         if (!$blog->reported) {
             $blog->update(['reported' => true]);
 
-            // Gửi thông báo cho tác giả blog
             $blog->user->notify(new BlogReported($blog));
 
-            // Gửi thông báo cho tất cả admin
             $admins = User::where('is_admin', true)->get();
             foreach ($admins as $admin) {
                 $admin->notify(new BlogReported($blog));
