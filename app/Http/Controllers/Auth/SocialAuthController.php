@@ -12,23 +12,23 @@ use App\Models\Blog;
 use Illuminate\Support\Facades\Log;
 class SocialAuthController extends Controller
 {
-    // Chuyển hướng người dùng đến trang xác thực của Google
+
     public function redirectToGoogle()
     {
         return Socialite::driver('google')->redirect();
     }
 
-    // Xử lý dữ liệu từ Google
+
     public function handleGoogleCallback()
     {
         try {
             $googleUser = Socialite::driver('google')->user();
 
-            // Kiểm tra xem user đã tồn tại chưa
+
             $user = User::where('email', $googleUser->getEmail())->first();
 
             if (!$user) {
-                // Nếu chưa có, tạo user mới
+
                 $user = User::create([
                     'name' => $googleUser->getName(),
                     'email' => $googleUser->getEmail(),
@@ -36,7 +36,7 @@ class SocialAuthController extends Controller
                 ]);
             }
 
-            // Đăng nhập user
+
             Auth::login($user);
 
             return redirect()->route('home')->with('success', 'Đăng nhập thành công!');
@@ -50,17 +50,16 @@ class SocialAuthController extends Controller
         return Socialite::driver('facebook')->redirect();
     }
 
-    // Xử lý callback từ Facebook
+
     public function handleFacebookCallback()
     {
         try {
             $facebookUser = Socialite::driver('facebook')->user();
 
-            // Kiểm tra xem user đã tồn tại chưa
             $user = User::where('email', $facebookUser->getEmail())->first();
 
             if (!$user) {
-                // Tạo tài khoản mới nếu chưa tồn tại
+
                 $user = User::create([
                     'name' => $facebookUser->getName(),
                     'email' => $facebookUser->getEmail(),
@@ -69,7 +68,7 @@ class SocialAuthController extends Controller
                 ]);
             }
 
-            // Đăng nhập user
+
             Auth::login($user);
 
             return redirect('/dashboard')->with('success', 'Đăng nhập thành công!');

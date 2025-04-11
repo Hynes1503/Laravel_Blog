@@ -51,6 +51,8 @@ Route::middleware(['auth', 'verified', AdminMiddleware::class])->prefix('admin')
     Route::get('/notifications', [NotificationController::class, 'index'])->name('admin.notification.index');
     Route::post('/notifications/{notification}/mark-as-read', [NotificationController::class, 'markAsRead'])->name('admin.notification.markAsRead');
     Route::delete('/notifications/{notification}', [NotificationController::class, 'destroy'])->name('admin.notification.destroy');
+    Route::post('/notifications/mark-all-as-read', [NotificationController::class, 'markAllAsRead'])->name('admin.notification.markAllAsRead');
+    Route::delete('/destroy-all-noti', [NotificationController::class, 'destroyAll'])->name('admin.notification.destroyAll');
 });
 
 

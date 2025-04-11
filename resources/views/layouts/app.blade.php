@@ -46,11 +46,14 @@
                         @else
                             @foreach (auth()->user()->unreadNotifications as $notification)
                                 <div class="p-2 bg-gray-50 rounded-lg mb-2">
-                                    <p class="text-sm text-gray-700">{{ $notification->data['message'] }}</p>
+                                    <a href="{{ $notification->data['blog_id'] ?? null ? route('blog.show', $notification->data['blog_id']) : ($notification->data['user_id'] ?? null ? route('user.show', $notification->data['user_id']) : '#') }}" class="hover:underline">
+                                        <p class="text-sm text-gray-700">{{ $notification->data['message'] }}</p>
+                                    </a>
                                     <form action="{{ route('notifications.markAsRead', $notification->id) }}"
                                         method="POST" class="inline">
                                         @csrf
-                                        <button type="submit" class="bg-transparent text-black text-xs hover:underline">Mark as
+                                        <button type="submit"
+                                            class="bg-transparent text-black text-xs hover:underline">Mark as
                                             read</button>
                                     </form>
                                 </div>
@@ -178,7 +181,6 @@
                 }
             </style>
 
-            <!-- JavaScript -->
             <!-- JavaScript -->
             <script>
                 const chatWidget = document.getElementById('chat-widget');

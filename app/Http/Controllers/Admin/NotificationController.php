@@ -32,4 +32,22 @@ class NotificationController extends Controller
 
         return redirect()->route('admin.notification.index')->with('success', 'Notification deleted successfully');
     }
+
+    // Thêm: Đánh dấu tất cả đã đọc
+    public function markAllAsRead(Request $request)
+    {
+        $user = $request->user();
+        $user->unreadNotifications()->update(['read_at' => now()]);
+
+        return redirect()->route('admin.notification.index')->with('success', 'All notifications marked as read');
+    }
+
+    // Thêm: Xóa tất cả
+    public function destroyAll(Request $request)
+    {
+        $user = $request->user();
+        $user->notifications()->delete();
+
+        return redirect()->route('admin.notification.index')->with('success', 'All notifications deleted successfully');
+    }
 }

@@ -18,6 +18,28 @@
             <h2 class="text-2xl font-bold text-gray-800">
                 <i class="fa-solid fa-bell"></i> All Notifications
             </h2>
+            <div class="flex space-x-4">
+                <!-- Nút đánh dấu tất cả đã đọc -->
+                <form action="{{ route('admin.notification.markAllAsRead') }}" method="POST">
+                    @csrf
+                    <button type="submit"
+                        class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 flex items-center space-x-2">
+                        <i class="fa-solid fa-check-double"></i>
+                        <span>Mark All as Read</span>
+                    </button>
+                </form>
+                <!-- Nút xóa tất cả -->
+                <form action="{{ route('admin.notification.destroyAll') }}" method="POST"
+                    onsubmit="return confirm('Are you sure you want to delete all notifications?');">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit"
+                        class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 flex items-center space-x-2">
+                        <i class="fa-solid fa-trash-alt"></i>
+                        <span>Delete All</span>
+                    </button>
+                </form>
+            </div>
         </div>
 
         <table class="table w-full">
@@ -68,21 +90,22 @@
                                     <button type="submit"
                                         class="px-3 py-1 bg-red-600 rounded-md text-white hover:bg-red-700">
                                         <i class="fa-solid fa-trash"></i> Delete
-                                    </button>
-                                </form>
-                            </div>
-                        </td>
-                    </tr>
-                @empty
-                    <tr>
-                        <td colspan="5" class="text-center py-4 text-gray-500">No notifications found</td>
-                    </tr>
-                @endforelse
-            </tbody>
-        </table>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="5" class="text-center py-4 text-gray-500">No notifications found</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
 
-        <div class="mt-4">
-            {{ $notifications->links() }}
+            <div class="mt-4">
+                {{ $notifications->links() }}
+            </div>
         </div>
     </div>
 @endsection
