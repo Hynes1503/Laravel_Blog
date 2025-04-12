@@ -80,4 +80,9 @@ class Blog extends Model
             ->limit($limit)
             ->get();
     }
+    
+    public function sharedByUsers()
+    {
+        return $this->belongsToMany(User::class, 'blog_shares', 'blog_id', 'user_id')->withTimestamps();
+    }
 }

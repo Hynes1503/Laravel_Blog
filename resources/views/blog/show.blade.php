@@ -49,7 +49,7 @@
                                     Report
                                 </button>
                             </form>
-                        {{-- @elseif ($blog->reported)
+                            {{-- @elseif ($blog->reported)
                             <span class="ml-4 text-red-500">Đã báo cáo</span> --}}
                         @endif
                     @endauth
@@ -107,18 +107,30 @@
                     @csrf
                     <div class="flex items-center space-x-4 justify-between">
                         <div class="flex items-center space-x-4">
-                            <button type="submit" class="px-2 py-1 bg-transparent text-black hover:underline">
-                                @if ($blog->isFavoritedBy(auth()->user()))
-                                    <i class="fa-solid fa-heart"></i> Dislike
-                                @else
-                                    <i class="fa-regular fa-heart"></i> Like
-                                @endif
-                            </button>
-                            <p class="m-0">{{ $blog->favoritesCount() }}</p>
+                            @auth
+                                <form method="POST" action="{{ route('blog.favorite', $blog->id) }}">
+                                    @csrf
+                                    <button type="submit" class="px-2 py-1 bg-transparent text-black hover:underline">
+                                        @if ($blog->isFavoritedBy(auth()->user()))
+                                            <i class="fa-solid fa-heart"></i> Bỏ thích
+                                        @else
+                                            <i class="fa-regular fa-heart"></i> Thích
+                                        @endif
+                                    </button>
+                                </form>
+                                <p class="m-0">{{ $blog->favoritesCount() }}</p>
+                            @endauth
                         </div>
-                        {{-- <div class="fb-share-button " data-href="{{ url()->route('blog.show', $blog->id) }}"
-                            data-layout="button_count" data-size="small">
-                        </div> --}}
+                        @auth
+                            @if (auth()->id() !== $blog->user_id)
+                                <form method="POST" action="{{ route('blog.share', $blog->id) }}">
+                                    @csrf
+                                    <button type="submit" class="px-2 py-1 bg-transparent text-black hover:underline">
+                                        <i class="fa-solid fa-share"></i> Chia sẻ
+                                    </button>
+                                </form>
+                            @endif
+                        @endauth
                     </div>
                 </form>
 
@@ -141,7 +153,7 @@
                                                     Report
                                                 </button>
                                             </form>
-                                        {{-- @elseif ($comment->reported)
+                                            {{-- @elseif ($comment->reported)
                                             <span class="ml-4 text-red-500">Đã báo cáo</span> --}}
                                         @endif
                                     @endauth

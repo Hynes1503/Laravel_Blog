@@ -20,7 +20,7 @@ class User extends Authenticatable
      * @var list<string>
      */
 
-     use Notifiable;
+    use Notifiable;
 
     protected $fillable = [
         'name',
@@ -83,5 +83,10 @@ class User extends Authenticatable
     public function blogs()
     {
         return $this->hasMany(Blog::class, 'user_id', 'id');
+    }
+
+    public function sharedBlogs()
+    {
+        return $this->belongsToMany(Blog::class, 'blog_shares', 'user_id', 'blog_id')->withTimestamps();
     }
 }

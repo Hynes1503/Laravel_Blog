@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\Blog;
 use Illuminate\Support\Facades\Storage;
@@ -36,8 +37,20 @@ class BlogController extends Controller
 
     public function index()
     {
-        $blogs = Blog::where("user_id", request()->user()->id)->orderby("id", "DESC")->paginate(9);
-        return view('blog.index', ["blogs" => $blogs]);
+        $user = request()->user();
+
+        // Lấy bài viết gốc của người dùng
+        $blogs = Blog::where("user_id", $user->id)->orderBy("id", "DESC")->get();
+
+        // Lấy bài viết được chia sẻ
+        $sharedBlogs = $user->sharedBlogs()->orderBy('blog_shares.created_at', 'DESC')->get();
+
+        // Gộp và phân trang
+        $allBlogs = $blogs->merge($sharedBlogs)->sortByDesc(function ($blog) {
+            return $blog->pivot ? $blog->pivot->created_at : $blog->created_at;
+        });
+
+        return view('blog.index', ['allBlogs' => $allBlogs]);
     }
 
     /**
@@ -145,7 +158,7 @@ class BlogController extends Controller
         $startTime = session('blog_view_start_time_' . $blog->id);
         if ($startTime) {
             $endTime = now()->timestamp;
-            $timeSpent = $endTime - $startTime; 
+            $timeSpent = $endTime - $startTime;
 
             $blog->increment('view_time', $timeSpent);
 
@@ -171,5 +184,18 @@ class BlogController extends Controller
         }
 
         return redirect()->back()->with('error', 'This blog has already been reported!');
+    }
+
+    public function share(Request $request, Blog $blog)
+    {
+        $user = Auth::user();
+
+        if (!$user->sharedBlogs()->where('blog_id', $blog->id)->exists()) {
+            
+            $user->sharedBlogs()->attach($blog->id);
+            return redirect()->back()->with('success', 'Blog shared successfully!');
+        }
+
+        return redirect()->back()->with('info', 'You have already shared this blog.');
     }
 }

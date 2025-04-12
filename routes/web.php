@@ -86,8 +86,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/comment/{comment}', [CommentController::class, 'destroy'])->name('comment.destroy');
     Route::post('/comment/{comment}/report', [CommentController::class, 'report'])->name('comment.report');
     Route::post('/blog/{blog}/favorite', [FavoriteController::class, 'toggleFavorite'])->name('blog.favorite');
-    Route::post('/blog/{blog}/share', [SocialAuthController::class, 'shareOnFacebook'])->name('blog.share');
-
+    Route::post('/blogs/{blog}/share', [BlogController::class, 'share'])->name('blog.share');
     Route::get('/profile/{user_id}', [AuthorController::class, 'index'])->name('author.index');
 
     Route::get('/search', [SearchController::class, 'index'])->name('search');
