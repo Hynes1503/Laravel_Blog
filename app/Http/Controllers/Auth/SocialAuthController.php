@@ -91,7 +91,6 @@ class SocialAuthController extends Controller
     //     ]);
 
     //     if ($response->successful()) {
-    //         // Lưu ID bài đăng trên Facebook vào database (nếu cần lấy thống kê sau này)
     //         $blog->facebook_post_id = $response->json()['id'];
     //         $blog->save();
     //     } else {

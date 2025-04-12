@@ -61,12 +61,12 @@
                         </td>
                         <td>
                             <div class="flex justify-center items-center space-x-2 p-2">
-                                <!-- Nút Show -->
+
                                 <a href="{{ route('admin.blog.show', $comment->blog) }}"
                                     class="px-3 py-1 rounded-md text-white bg-green-600 hover:bg-green-700">
                                     <i class="fa-solid fa-eye"></i> Show
                                 </a>
-                                <!-- Nút Delete -->
+
                                 <form action="{{ route('comment.destroy', $comment->id) }}" method="POST"
                                     onsubmit="return confirm('Are you sure you want to delete this comment?');" class="flex">
                                     @csrf

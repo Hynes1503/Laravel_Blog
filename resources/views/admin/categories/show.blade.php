@@ -37,18 +37,17 @@
                             <td>{{ $blog->user->name }}</td>
                             <td>
                                 <div class="flex justify-center items-center space-x-2 p-2">
-                                    <!-- Nút View -->
+
                                     <a href="{{ route('admin.blog.show', $blog) }}"
                                         class="px-3 py-1 rounded-md item text-white bg-green-600">
                                         <i class="fa-solid fa-eye"></i>View</a>
 
-                                    <!-- Nút Edit -->
                                     <a href="{{ route('admin.blog.edit', $blog) }}"
                                         class="px-3 py-1 rounded-md item text-white bg-blue-600">
                                         <i class="fa-solid fa-pen-to-square"></i>
                                         Edit</a>
 
-                                    <!-- Nút Delete -->
+
                                     <form action="{{ route('admin.blog.destroy', $blog) }}" method="POST"
                                         onsubmit="return confirm('Are you sure you want to delete this blog?');"
                                         class="flex">

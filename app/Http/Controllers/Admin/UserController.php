@@ -66,7 +66,7 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
             'password' => 'nullable|string|min:8',
-            'reported' => 'required|boolean' // Thêm trường reported
+            'reported' => 'required|boolean' 
         ]);
 
         if (empty($data['password'])) {
@@ -87,18 +87,17 @@ class UserController extends Controller
     public function destroy($id)
     {
         try {
-            // Tìm user theo id
+
             $user = User::findOrFail($id);
 
-            // Không cho phép xóa admin
+
             if ($user->is_admin) {
                 return redirect()->back()->with('error', 'Can not delete admin account');
             }
 
-            // Xóa tất cả blog của user
+
             $user->blogs()->delete();
 
-            // Xóa user
             $user->delete();
 
             return redirect()->back()->with('success', 'Delete successful');

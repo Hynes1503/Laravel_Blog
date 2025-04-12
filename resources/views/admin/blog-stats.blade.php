@@ -8,8 +8,6 @@
 <body>
     <div class="container mt-5">
         <h1>Thống kê Xu hướng Người dùng Dựa trên View Time</h1>
-
-        <!-- Tổng thời gian xem -->
         <div class="card mb-4">
             <div class="card-body">
                 <h3>Tổng thời gian xem tất cả blog</h3>
@@ -17,7 +15,7 @@
             </div>
         </div>
 
-        <!-- Biểu đồ View Time theo Danh mục -->
+
         <div class="card mb-4">
             <div class="card-body">
                 <h3>View Time theo Danh mục</h3>
@@ -25,7 +23,7 @@
             </div>
         </div>
 
-        <!-- Biểu đồ Top 10 Blog -->
+
         <div class="card mb-4">
             <div class="card-body">
                 <h3>Top 10 Blog có View Time cao nhất</h3>
@@ -33,7 +31,7 @@
             </div>
         </div>
 
-        <!-- Điểm chung -->
+
         <div class="card">
             <div class="card-body">
                 <h3>Điểm chung của các Blog có View Time cao</h3>
@@ -52,9 +50,9 @@
         </div>
     </div>
 
-    <!-- Script để vẽ biểu đồ -->
+
     <script>
-        // Biểu đồ View Time theo Danh mục
+
         const categoryCtx = document.getElementById('categoryChart').getContext('2d');
         new Chart(categoryCtx, {
             type: 'bar',
@@ -77,7 +75,7 @@
             }
         });
 
-        // Biểu đồ Top 10 Blog
+
         const topBlogsCtx = document.getElementById('topBlogsChart').getContext('2d');
         new Chart(topBlogsCtx, {
             type: 'bar',

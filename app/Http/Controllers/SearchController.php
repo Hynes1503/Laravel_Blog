@@ -13,8 +13,8 @@ class SearchController extends Controller
     {
         $query = $request->input('query');
 
-        // Tìm kiếm blog theo tiêu đề hoặc mô tả
-        $blogs = Blog::where('status', 'public') // Lọc bài viết có status là 'public'
+
+        $blogs = Blog::where('status', 'public') 
             ->where(function ($queryBuilder) use ($query) {
                 $queryBuilder->where('title', 'like', "%{$query}%")
                     ->orWhere('description', 'like', "%{$query}%");
@@ -31,7 +31,7 @@ class SearchController extends Controller
 
         $blogsQuery = Blog::query();
 
-        // Tìm kiếm theo tiêu đề hoặc mô tả nếu có query
+
         if ($query) {
             $blogsQuery->where(function ($queryBuilder) use ($query) {
                 $queryBuilder->where('title', 'like', "%{$query}%")
@@ -39,7 +39,7 @@ class SearchController extends Controller
             });
         }
 
-        // Lọc theo trạng thái reported
+
         switch ($reportedFilter) {
             case 'blog':
                 $blogsQuery->where('reported', true);
@@ -55,7 +55,7 @@ class SearchController extends Controller
                 });
                 break;
             default:
-                // Không lọc nếu không có giá trị hoặc giá trị là 'all'
+
                 break;
         }
 
@@ -71,7 +71,7 @@ class SearchController extends Controller
 
         $usersQuery = User::query();
 
-        // Tìm kiếm theo tên hoặc email nếu có query
+
         if ($query) {
             $usersQuery->where(function ($queryBuilder) use ($query) {
                 $queryBuilder->where('name', 'like', "%{$query}%")
@@ -79,12 +79,12 @@ class SearchController extends Controller
             });
         }
 
-        // Lọc theo trạng thái reported
+
         if ($reportedFilter === 'reported') {
             $usersQuery->where('reported', true);
         }
 
-        $users = $usersQuery->paginate(10); // Phân trang 10 user mỗi trang
+        $users = $usersQuery->paginate(10); 
 
         return view('admin.user.index', ['users' => $users]);
     }

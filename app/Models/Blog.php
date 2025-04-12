@@ -18,10 +18,10 @@ class Blog extends Model
         'reported',
     ];
 
-    protected $withCount = ['favoritedByUsers']; // Tự động đếm số lượt thích
+    protected $withCount = ['favoritedByUsers'];
 
     protected $casts = [
-        'reported' => 'boolean', // Cast reported thành boolean
+        'reported' => 'boolean',
     ];
 
     public function user()
@@ -73,7 +73,7 @@ class Blog extends Model
             ->get();
     }
 
-    // Tìm các blog có view_time cao nhất
+
     public static function getTopViewTimeBlogs($limit = 10)
     {
         return self::orderBy('view_time', 'desc')

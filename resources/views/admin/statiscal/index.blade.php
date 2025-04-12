@@ -63,7 +63,7 @@
             </div>
         </div>
 
-        <!-- Total View Time -->
+
         <div class="card mb-4">
             <div class="card-body">
                 <h3 class="font-semibold text-xl text-gray-800 leading-tight">
@@ -72,7 +72,7 @@
             </div>
         </div>
 
-        <!-- View Time by Category -->
+
         <div class="card mb-4">
             <div class="card-body">
                 <h3 class="font-semibold text-xl text-gray-800 leading-tight">View Time by Category</h3>
@@ -80,7 +80,7 @@
             </div>
         </div>
 
-        <!-- Top 10 Blogs (combined line and bar) -->
+
         <div class="card mb-4">
             <div class="card-body">
                 <h3 class="font-semibold text-xl text-gray-800 leading-tight">
@@ -90,7 +90,7 @@
             </div>
         </div>
 
-        <!-- Common Traits -->
+
         <div class="card">
             <div class="card-body">
                 <h3 class="font-semibold text-xl text-gray-800 leading-tight">Common Traits of Blogs with High View Time</h3>
@@ -114,11 +114,11 @@
 @section('scripts')
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
     <script>
-        // Global variable to store charts
+
         const charts = {};
 
         document.addEventListener('DOMContentLoaded', function() {
-            // Category Chart
+
             charts['categoryChart'] = new Chart(document.getElementById('categoryChart').getContext('2d'), {
                 type: 'line',
                 data: {
@@ -140,13 +140,13 @@
                 }
             });
 
-            // Top Blogs Chart (Combined line and bar)
+
             charts['topBlogsChart'] = new Chart(document.getElementById('topBlogsChart').getContext('2d'), {
                 type: 'bar',
                 data: {
                     labels: @json($topBlogTitles),
                     datasets: [{
-                            type: 'line', // Line chart for View Time
+                            type: 'line',
                             label: 'View Time (seconds)',
                             data: @json($topBlogViewTimes),
                             borderColor: 'rgba(75, 192, 192, 1)',
@@ -155,7 +155,7 @@
                             yAxisID: 'y-view-time'
                         },
                         {
-                            type: 'bar', // Bar chart for Likes
+                            type: 'bar', 
                             label: 'Number of Likes',
                             data: @json($topBlogLikes),
                             backgroundColor: 'rgba(255, 99, 132, 0.5)',

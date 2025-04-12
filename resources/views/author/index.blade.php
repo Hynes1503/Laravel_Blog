@@ -8,7 +8,7 @@
         <!-- Create Blog Button -->
         <div class="flex justify-between items-center mb-6">
             <h2 class="text-2xl font-bold text-gray-800"><i class="fa-solid fa-user"></i> Profile</h2>
-            <!-- Nút Report -->
+
             @auth
                 @if (auth()->id() !== $author->id && !$author->reported)
                     <form action="{{ route('user.report', $author->id) }}" method="POST" class="ml-4">

@@ -152,7 +152,7 @@
                                     </form>
                                 </div>
 
-                                <!-- Form chỉnh sửa bình luận -->
+
                                 <form action="{{ route('comment.update', $comment->id) }}" method="POST"
                                     x-show="editMode === {{ $comment->id }}" class="mt-2">
                                     @csrf

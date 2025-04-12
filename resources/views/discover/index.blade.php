@@ -35,7 +35,6 @@
                                 class="card-img-bottom h-48 w-full object-cover" alt="Blog Image"></a>
                     @endif
                     <div class="flex justify-center items-center space-x-2 bg-black p-2">
-                        <!-- Nút tim // đang lỗi-->
                         <form method="POST" action="{{ route('blog.favorite', $blog->id) }}">
                             @csrf
                             <div class="flex items-center space-x-4">
@@ -48,7 +47,6 @@
                                 </button>
                             </div>
                         </form>
-                        <!-- Nút cmt -->
                         <a href="{{ route('blog.show', $blog) }}" class="px-3 py-1 text-white rounded-md item">
                             <i class="fa-regular fa-comment"></i> {{ $blog->comments->count() }}
                         </a>

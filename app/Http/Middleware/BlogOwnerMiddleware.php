@@ -10,13 +10,7 @@ use Illuminate\Support\Facades\Auth;
 
 class BlogOwnerMiddleware
 {
-    /**
-     * Xử lý một yêu cầu đến.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
+
     public function handle(Request $request, Closure $next): Response
     {
         $blog = $request->route('blog');

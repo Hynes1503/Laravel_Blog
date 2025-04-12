@@ -41,8 +41,8 @@ class BlogController extends Controller
             "description" => "nullable|string",
             "banner_image" => "required|image",
             "status" => "required|in:public,private",
-            "category_ids" => "required|array", // Nhận mảng ID danh mục
-            "category_ids.*" => "exists:categories,id" // Mỗi ID phải tồn tại trong bảng categories
+            "category_ids" => "required|array", 
+            "category_ids.*" => "exists:categories,id" 
         ]);
 
         $data["user_id"] = $request->user()->id;
@@ -51,7 +51,7 @@ class BlogController extends Controller
             $data["banner_image"] = $request->file("banner_image")->store("blog", "public");
         }
 
-        // Tạo blog
+
         $blog = Blog::create($data);
 
         $blog->categories()->attach($data["category_ids"]);

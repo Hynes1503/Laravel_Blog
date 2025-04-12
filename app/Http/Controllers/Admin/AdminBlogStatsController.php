@@ -15,7 +15,6 @@ class AdminBlogStatsController extends Controller
         $topBlogs = Blog::getTopViewTimeBlogs(10);
         $commonTraits = $this->analyzeCommonTraits($topBlogs);
 
-        // Chuẩn bị dữ liệu cho biểu đồ
         $categoryLabels = $viewTimeByCategory->pluck('category.name')->toArray();
         $categoryData = $viewTimeByCategory->pluck('total_view_time')->toArray();
 

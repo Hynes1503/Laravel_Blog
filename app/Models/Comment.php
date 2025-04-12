@@ -12,7 +12,7 @@ class Comment extends Model
     protected $fillable = ['user_id', 'blog_id', 'content', 'reported'];
     
     protected $casts = [
-        'reported' => 'boolean', // Cast reported thành boolean
+        'reported' => 'boolean', 
     ];
 
     public function user()

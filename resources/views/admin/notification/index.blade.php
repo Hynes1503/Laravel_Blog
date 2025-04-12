@@ -19,7 +19,7 @@
                 <i class="fa-solid fa-bell"></i> All Notifications
             </h2>
             <div class="flex space-x-4">
-                <!-- Nút đánh dấu tất cả đã đọc -->
+
                 <form action="{{ route('admin.notification.markAllAsRead') }}" method="POST">
                     @csrf
                     <button type="submit"
@@ -28,7 +28,7 @@
                         <span>Mark All as Read</span>
                     </button>
                 </form>
-                <!-- Nút xóa tất cả -->
+
                 <form action="{{ route('admin.notification.destroyAll') }}" method="POST"
                     onsubmit="return confirm('Are you sure you want to delete all notifications?');">
                     @csrf

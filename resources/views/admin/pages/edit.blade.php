@@ -29,7 +29,6 @@
                 @csrf
                 @method('patch')
 
-                <!-- Title Field (Hiển thị nhưng không chỉnh sửa) -->
                 <div class="mb-4">
                     <label for="title" class="block text-sm font-medium text-gray-700">Title:</label>
                     <input type="text" id="title" name="title" value="{{ $page->title }}"
@@ -37,7 +36,7 @@
                         placeholder="Enter title" readonly>
                 </div>
 
-                <!-- Slug Field (Hiển thị nhưng không chỉnh sửa) -->
+
                 <div class="mb-4">
                     <label for="slug" class="block text-sm font-medium text-gray-700">Slug:</label>
                     <input type="text" id="slug" name="slug" value="{{ $page->slug }}"

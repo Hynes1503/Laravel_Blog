@@ -1,9 +1,14 @@
 <?php
 
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+
+use App\Http\Middleware\AdminMiddleware;
+use App\Http\Middleware\BlogOwnerMiddleware;
+
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\DiscoverController;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\SocialAuthController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\SearchController;
@@ -11,9 +16,6 @@ use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\Admin\StatisticalController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\BlogController as AdminBlogController;
-use Illuminate\Http\Request;
-use App\Http\Middleware\AdminMiddleware;
-use App\Http\Middleware\BlogOwnerMiddleware;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\Admin\AdminCategoryController;
@@ -21,6 +23,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\Admin\AdminBlogStatsController;
 use App\Http\Controllers\Admin\PageController;
 use App\Http\Controllers\Admin\NotificationController;
+use App\Http\Controllers\GeminiController;
 
 Route::middleware(['auth', 'verified', AdminMiddleware::class])->prefix('admin')->group(function () {
     Route::get('/', function () {
@@ -110,7 +113,6 @@ Route::fallback(function () {
     return response()->view('errors.404', [], 404);
 });
 
-use App\Http\Controllers\GeminiController;
 
 Route::get('/gemini', [GeminiController::class, 'index'])->name('gemini.index');
 Route::post('/gemini/chat', [GeminiController::class, 'chat'])->name('gemini.chat');

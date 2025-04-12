@@ -15,9 +15,9 @@ class PaymentController extends Controller
         $partnerCode = "YOUR_PARTNER_CODE";
         $accessKey = "YOUR_ACCESS_KEY";
         $secretKey = "YOUR_SECRET_KEY";
-        $orderId = time() . "_" . $blog->id; // Mã đơn hàng duy nhất
+        $orderId = time() . "_" . $blog->id;
         $orderInfo = "Thanh toán bài viết: " . $blog->title;
-        $amount = "10000"; // Số tiền (ví dụ: 10,000 VND)
+        $amount = "10000"; 
         $redirectUrl = route('payment.momo.callback');
         $ipnUrl = route('payment.momo.callback');
         $requestId = time() . "";
@@ -47,7 +47,7 @@ class PaymentController extends Controller
         $result = $response->json();
 
         if ($result['resultCode'] == 0) {
-            // Lưu orderId tạm thời trong session để kiểm tra callback
+
             session()->put('pending_payment_order_id', $orderId);
             return redirect($result['payUrl']);
         }
@@ -63,9 +63,9 @@ class PaymentController extends Controller
             $blogId = $extraData['blog_id'];
             $pendingOrderId = session('pending_payment_order_id');
 
-            // Kiểm tra orderId khớp với yêu cầu thanh toán
+
             if ($pendingOrderId === $data['orderId']) {
-                // Lưu blog đã thanh toán vào session
+
                 session()->put('purchased_blogs.' . $blogId, true);
                 session()->forget('pending_payment_order_id');
                 return redirect()->route('blog.show', $blogId)->with('success', 'Thanh toán thành công!');

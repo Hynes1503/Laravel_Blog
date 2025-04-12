@@ -50,7 +50,6 @@
                     </ul>
 
                     <style>
-                        /* Hiển thị dropdown khi hover */
                         .nav-item.dropdown:hover .dropdown-menu {
                             display: block;
                             position: absolute;
@@ -66,7 +65,7 @@
             </div>
         </nav>
     </header>
-    {{-- content --}}
+
     <div>
         <div id="carouselExample" class="carousel slide">
             <div class="carousel-inner">

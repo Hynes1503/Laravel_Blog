@@ -9,9 +9,9 @@
     <title>@yield('tilte', 'HynesBlog')</title>
     <link rel="icon" type="image/x-icon" href="{{ asset('image/favicon.ico') }}">
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Alpine.js CDN cho tính năng tương tác -->
+
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <!-- Fonts -->
+
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -48,7 +48,7 @@
 </head>
 
 <body class="bg-gray-100 font-sans">
-    <!-- Navbar dọc ở rìa trái -->
+
     <div x-data="{ sidebarOpen: true }">
         <nav class="bg-black border-r border-gray-100 fixed top-0 left-0 h-screen w-64 text-white sidebar"
             :class="{ 'sidebar-hidden': !sidebarOpen }">
@@ -122,7 +122,7 @@
                     </div>
                 </div>
 
-                <!-- Nút đóng sidebar (chỉ hiển thị trong sidebar) -->
+
                 <div class="mt-4">
                     <button @click="sidebarOpen = false"
                         class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
@@ -135,7 +135,7 @@
             </div>
         </nav>
 
-        <!-- Nút mở sidebar (hiển thị khi sidebar bị ẩn) -->
+
         <button @click="sidebarOpen = true" class="fixed top-4 left-4 p-2 bg-black text-white rounded-md z-50"
             :class="{ 'hidden': sidebarOpen }">
             <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
@@ -143,7 +143,7 @@
             </svg>
         </button>
 
-        <!-- Nội dung chính -->
+
         <div class="transition-all duration-300" :class="{ 'ml-64': sidebarOpen, 'ml-0': !sidebarOpen }">
             @if (session('error'))
                 <div class="alert alert-danger" id="error-alert">
@@ -152,7 +152,7 @@
                 <script>
                     setTimeout(function() {
                         document.getElementById('error-alert').style.display = 'none';
-                    }, 5500); // 2000ms = 2 giây
+                    }, 5500);
                 </script>
             @endif
             @section('success')

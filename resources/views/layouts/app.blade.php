@@ -174,14 +174,12 @@
                 </div>
             </div>
 
-            <!-- CSS để thêm font Dubai Regular -->
             <style>
                 #chatbox .message {
                     font-family: "Dubai Regular", sans-serif;
                 }
             </style>
 
-            <!-- JavaScript -->
             <script>
                 const chatWidget = document.getElementById('chat-widget');
                 const chatbox = document.getElementById('chatbox');

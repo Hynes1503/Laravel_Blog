@@ -122,7 +122,6 @@
                     </div>
                 </form>
 
-                {{-- 💬 Danh sách bình luận --}}
                 <div class="max-w-2xl mx-auto mt-6">
                     <h3 class="text-lg font-semibold text-gray-800">Comments ({{ $blog->comments->count() }})</h3>
 
@@ -248,7 +247,6 @@
     </div>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Khi người dùng rời khỏi trang
             window.onbeforeunload = function() {
                 fetch('/laravel/demo/public/blogs/{{ $blog->id }}/track-view-time', {
                     method: 'POST',

@@ -25,7 +25,7 @@
                         <div class="carousel-inner">
                             @foreach ($topFavoritedBlogs as $index => $topFavoritedBlog)
                                 <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
-                                    <div class="overlay"></div> <!-- Lớp phủ tối -->
+                                    <div class="overlay"></div>
                                     <a href="{{ route('blog.show', $topFavoritedBlog) }}">
                                         <img src="{{ asset('storage/' . $topFavoritedBlog->banner_image) }}"
                                             class="d-block w-100" alt="{{ $topFavoritedBlog->title }}">
@@ -103,7 +103,6 @@
                                             class="card-img-bottom h-48 w-full object-cover" alt="Blog Image"></a>
                                 @endif
                                 <div class="flex justify-center items-center space-x-2 bg-black p-2">
-                                    <!-- Nút tim // đang lỗi-->
                                     <form method="POST" action="{{ route('blog.favorite', $recentBlog->id) }}">
                                         @csrf
                                         <div class="flex items-center space-x-4">
@@ -119,7 +118,7 @@
                                             </button>
                                         </div>
                                     </form>
-                                    <!-- Nút cmt -->
+
                                     <a href="{{ route('blog.show', $recentBlog) }}"
                                         class="px-3 py-1 text-white rounded-md item">
                                         <i class="fa-regular fa-comment"></i> {{ $recentBlog->comments->count() }}
@@ -167,7 +166,6 @@
                                             class="card-img-bottom h-48 w-full object-cover" alt="Blog Image"></a>
                                 @endif
                                 <div class="flex justify-center items-center space-x-2 bg-black p-2">
-                                    <!-- Nút tim // đang lỗi-->
                                     <form method="POST" action="{{ route('blog.favorite', $blog->id) }}">
                                         @csrf
                                         <div class="flex items-center space-x-4">

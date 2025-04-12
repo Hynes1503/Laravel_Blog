@@ -49,7 +49,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($users as $user) <!-- Sửa $User thành $user cho đồng bộ -->
+                @foreach ($users as $user)
                     <tr>
                         <th scope="row">{{ $loop->iteration }}</th>
                         <td>
@@ -62,7 +62,7 @@
                         <td>{{ $user->BlogsCount() }}</td>
                         <td>
                             <div class="flex justify-center items-center space-x-2 p-2">
-                                <!-- Nút View -->
+
                                 <a href="{{ route('admin.user.show', $user->id) }}"
                                     class="px-3 py-1 rounded-md item text-white bg-green-600">
                                     <i class="fa-solid fa-eye"></i>View
@@ -72,7 +72,7 @@
                                     class="px-3 py-1 rounded-md item text-white bg-blue-600">
                                     <i class="fa-solid fa-pen-to-square"></i>Edit
                                 </a>
-                                <!-- Nút Delete -->
+ 
                                 <form action="{{ route('admin.user.destroy', $user) }}" method="POST"
                                     onsubmit="return confirm('Are you sure you want to delete this user?');" class="flex">
                                     @csrf

@@ -50,7 +50,7 @@
                 }
 
                 const data = await response.json();
-                console.log('API Response:', data); // Debug
+                console.log('API Response:', data);
 
                 chatbox.innerHTML += `<div class="message bot">${data.reply}</div>`;
                 chatbox.scrollTop = chatbox.scrollHeight;

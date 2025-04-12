@@ -21,7 +21,7 @@ class BlogLiked extends Notification
 
     public function via($notifiable)
     {
-        return ['database']; // Lưu vào database, có thể thêm 'mail' nếu muốn gửi email
+        return ['database']; 
     }
 
     public function toArray($notifiable)
